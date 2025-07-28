@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Segni Mekonnen - ML Engineer Portfolio</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #2E8B57;
+            --secondary-color: #20B2AA;
+            --accent-color: #FF6B6B;
+            --dark-color: #2C3E50;
+            --light-color: #ECF0F1;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--dark-color);
+        }
+        
+        .hero-section {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 100px 0;
+            text-align: center;
+        }
+        
+        .hero-section h1 {
+            font-size: 3.5rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        
+        .hero-section p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+        }
+        
+        .project-card {
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            margin-bottom: 30px;
+            overflow: hidden;
+        }
+        
+        .project-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        }
+        
+        .project-header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 20px;
+        }
+        
+        .project-body {
+            padding: 25px;
+        }
+        
+        .tech-badge {
+            background: var(--accent-color);
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            margin: 2px;
+            display: inline-block;
+        }
+        
+        .metric-badge {
+            background: var(--primary-color);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 25px;
+            font-size: 0.9rem;
+            margin: 5px;
+            display: inline-block;
+            font-weight: bold;
+        }
+        
+        .btn-custom {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            text-decoration: none;
+            display: inline-block;
+            margin: 5px;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-custom:hover {
+            background: var(--secondary-color);
+            color: white;
+            transform: translateY(-2px);
+        }
+        
+        .skills-section {
+            background: var(--light-color);
+            padding: 80px 0;
+        }
+        
+        .skill-category {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .achievement-card {
+            background: linear-gradient(135deg, var(--accent-color), #FF8E8E);
+            color: white;
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .achievement-number {
+            font-size: 3rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        .contact-section {
+            background: var(--dark-color);
+            color: white;
+            padding: 80px 0;
+        }
+        
+        .social-links a {
+            color: white;
+            font-size: 2rem;
+            margin: 0 15px;
+            transition: color 0.3s ease;
+        }
+        
+        .social-links a:hover {
+            color: var(--accent-color);
+        }
+    </style>
+</head>
+<body>
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="container">
+            <h1>Segni Mekonnen</h1>
+            <p class="lead">Machine Learning Engineer & Data Scientist</p>
+            <p>Building production-ready ML applications with 100% accuracy</p>
+            <div class="mt-4">
+                <a href="#projects" class="btn btn-light btn-lg me-3">View Projects</a>
+                <a href="#contact" class="btn btn-outline-light btn-lg">Contact Me</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects" class="py-5">
+        <div class="container">
+            <h2 class="text-center mb-5">🚀 Production-Ready ML Projects</h2>
+            
+            <!-- Sentiment Analyzer -->
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="project-card">
+                        <div class="project-header">
+                            <h3><i class="fas fa-brain"></i> Sentiment Analysis with Twitter Integration</h3>
+                            <div class="mt-3">
+                                <span class="metric-badge">100% Accuracy</span>
+                                <span class="metric-badge">97.6% CV Score</span>
+                                <span class="metric-badge">Live Demo</span>
+                            </div>
+                        </div>
+                        <div class="project-body">
+                            <p class="lead">Production-ready sentiment analysis system with real-time Twitter integration and REST API endpoints.</p>
+                            
+                            <h5>Key Features:</h5>
+                            <ul>
+                                <li>✅ 100% accuracy with robust cross-validation</li>
+                                <li>✅ Real-time Twitter sentiment analysis</li>
+                                <li>✅ REST API with batch processing</li>
+                                <li>✅ Advanced TF-IDF vectorization</li>
+                                <li>✅ Production deployment on Heroku</li>
+                            </ul>
+                            
+                            <div class="mb-3">
+                                <span class="tech-badge">Python</span>
+                                <span class="tech-badge">Flask</span>
+                                <span class="tech-badge">scikit-learn</span>
+                                <span class="tech-badge">TF-IDF</span>
+                                <span class="tech-badge">Logistic Regression</span>
+                                <span class="tech-badge">Twitter API</span>
+                                <span class="tech-badge">Docker</span>
+                                <span class="tech-badge">Heroku</span>
+                            </div>
+                            
+                            <div class="mt-4">
+                                <a href="https://your-sentiment-analyzer.herokuapp.com" class="btn-custom" target="_blank">
+                                    <i class="fas fa-external-link-alt"></i> Live Demo
+                                </a>
+                                <a href="https://github.com/yourusername/sentiment-analyzer" class="btn-custom" target="_blank">
+                                    <i class="fab fa-github"></i> View Code
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Plant Disease Classifier -->
+                <div class="col-lg-6">
+                    <div class="project-card">
+                        <div class="project-header">
+                            <h3><i class="fas fa-seedling"></i> Plant Disease Classification System</h3>
+                            <div class="mt-3">
+                                <span class="metric-badge">Transfer Learning</span>
+                                <span class="metric-badge">400+ Images</span>
+                                <span class="metric-badge">Real-time</span>
+                            </div>
+                        </div>
+                        <div class="project-body">
+                            <p class="lead">Computer vision system using transfer learning for agricultural disease detection.</p>
+                            
+                            <h5>Key Features:</h5>
+                            <ul>
+                                <li>✅ Transfer Learning with MobileNetV2/ResNet50</li>
+                                <li>✅ Realistic synthetic dataset generation</li>
+                                <li>✅ Advanced data augmentation techniques</li>
+                                <li>✅ Real-time image classification</li>
+                                <li>✅ Production deployment on Streamlit Cloud</li>
+                            </ul>
+                            
+                            <div class="mb-3">
+                                <span class="tech-badge">Python</span>
+                                <span class="tech-badge">TensorFlow</span>
+                                <span class="tech-badge">Keras</span>
+                                <span class="tech-badge">Transfer Learning</span>
+                                <span class="tech-badge">MobileNetV2</span>
+                                <span class="tech-badge">OpenCV</span>
+                                <span class="tech-badge">Streamlit</span>
+                            </div>
+                            
+                            <div class="mt-4">
+                                <a href="https://your-plant-classifier.streamlit.app" class="btn-custom" target="_blank">
+                                    <i class="fas fa-external-link-alt"></i> Live Demo
+                                </a>
+                                <a href="https://github.com/yourusername/plant-classifier" class="btn-custom" target="_blank">
+                                    <i class="fab fa-github"></i> View Code
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Internship Finder & Interview Prep -->
+            <div class="row mt-4">
+                <div class="col-lg-6">
+                    <div class="project-card">
+                        <div class="project-header">
+                            <h3><i class="fas fa-search"></i> ML-Powered Internship Recommendation System</h3>
+                            <div class="mt-3">
+                                <span class="metric-badge">Clustering</span>
+                                <span class="metric-badge">Topic Modeling</span>
+                                <span class="metric-badge">Personalized</span>
+                            </div>
+                        </div>
+                        <div class="project-body">
+                            <p class="lead">Intelligent job matching system using ML algorithms for personalized internship recommendations.</p>
+                            
+                            <h5>Key Features:</h5>
+                            <ul>
+                                <li>✅ K-means clustering for job categorization</li>
+                                <li>✅ LDA topic modeling for content analysis</li>
+                                <li>✅ Automatic skill extraction from job descriptions</li>
+                                <li>✅ Personalized recommendation scoring</li>
+                                <li>✅ Market insights and trends analysis</li>
+                            </ul>
+                            
+                            <div class="mb-3">
+                                <span class="tech-badge">Python</span>
+                                <span class="tech-badge">Flask</span>
+                                <span class="tech-badge">scikit-learn</span>
+                                <span class="tech-badge">K-means</span>
+                                <span class="tech-badge">LDA</span>
+                                <span class="tech-badge">Cosine Similarity</span>
+                                <span class="tech-badge">Heroku</span>
+                            </div>
+                            
+                            <div class="mt-4">
+                                <a href="https://your-internship-finder.herokuapp.com" class="btn-custom" target="_blank">
+                                    <i class="fas fa-external-link-alt"></i> Live Demo
+                                </a>
+                                <a href="https://github.com/yourusername/internship-finder" class="btn-custom" target="_blank">
+                                    <i class="fab fa-github"></i> View Code
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-6">
+                    <div class="project-card">
+                        <div class="project-header">
+                            <h3><i class="fas fa-graduation-cap"></i> ML Interview Preparation Platform</h3>
+                            <div class="mt-3">
+                                <span class="metric-badge">500+ Questions</span>
+                                <span class="metric-badge">Progress Tracking</span>
+                                <span class="metric-badge">Mock Interviews</span>
+                            </div>
+                        </div>
+                        <div class="project-body">
+                            <p class="lead">Comprehensive ML interview preparation platform with progress tracking and personalized recommendations.</p>
+                            
+                            <h5>Key Features:</h5>
+                            <ul>
+                                <li>✅ 500+ ML interview questions</li>
+                                <li>✅ Progress tracking and analytics</li>
+                                <li>✅ Mock interview simulations</li>
+                                <li>✅ Personalized study recommendations</li>
+                                <li>✅ Performance analytics dashboard</li>
+                            </ul>
+                            
+                            <div class="mb-3">
+                                <span class="tech-badge">Python</span>
+                                <span class="tech-badge">Streamlit</span>
+                                <span class="tech-badge">Pandas</span>
+                                <span class="tech-badge">Plotly</span>
+                                <span class="tech-badge">NLP</span>
+                                <span class="tech-badge">Analytics</span>
+                            </div>
+                            
+                            <div class="mt-4">
+                                <a href="https://your-interview-prep.streamlit.app" class="btn-custom" target="_blank">
+                                    <i class="fas fa-external-link-alt"></i> Live Demo
+                                </a>
+                                <a href="https://github.com/yourusername/interview-prep" class="btn-custom" target="_blank">
+                                    <i class="fab fa-github"></i> View Code
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Achievements Section -->
+    <section class="py-5" style="background: var(--light-color);">
+        <div class="container">
+            <h2 class="text-center mb-5">🏆 Technical Achievements</h2>
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="achievement-card">
+                        <div class="achievement-number">100%</div>
+                        <p>Sentiment Analysis Accuracy</p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="achievement-card">
+                        <div class="achievement-number">4</div>
+                        <p>Production ML Applications</p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="achievement-card">
+                        <div class="achievement-number">97.6%</div>
+                        <p>Cross-Validation Score</p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="achievement-card">
+                        <div class="achievement-number">500+</div>
+                        <p>Interview Questions</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section class="skills-section">
+        <div class="container">
+            <h2 class="text-center mb-5">🛠️ Technical Skills</h2>
+            <div class="row">
+                <div class="col-lg-4">
+                    <div class="skill-category">
+                        <h4><i class="fas fa-brain"></i> Machine Learning & AI</h4>
+                        <ul class="list-unstyled">
+                            <li>• Logistic Regression, Random Forest</li>
+                            <li>• K-means Clustering, LDA</li>
+                            <li>• Transfer Learning, CNN</li>
+                            <li>• TF-IDF, Sentiment Analysis</li>
+                            <li>• scikit-learn, TensorFlow, Keras</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="skill-category">
+                        <h4><i class="fas fa-code"></i> Programming & Web</h4>
+                        <ul class="list-unstyled">
+                            <li>• Python, JavaScript, HTML/CSS</li>
+                            <li>• Flask, Streamlit, REST APIs</li>
+                            <li>• Docker, Git, GitHub</li>
+                            <li>• Pandas, NumPy, Matplotlib</li>
+                            <li>• Bootstrap, Plotly</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="skill-category">
+                        <h4><i class="fas fa-cloud"></i> Deployment & DevOps</h4>
+                        <ul class="list-unstyled">
+                            <li>• Heroku, Streamlit Cloud</li>
+                            <li>• Docker Containerization</li>
+                            <li>• CI/CD Pipelines</li>
+                            <li>• Production Deployment</li>
+                            <li>• Error Handling & Monitoring</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact-section">
+        <div class="container text-center">
+            <h2 class="mb-4">Let's Connect!</h2>
+            <p class="lead mb-4">I'm passionate about building production-ready ML applications and solving real-world problems.</p>
+            
+            <div class="social-links mb-4">
+                <a href="https://linkedin.com/in/yourusername" target="_blank"><i class="fab fa-linkedin"></i></a>
+                <a href="https://github.com/yourusername" target="_blank"><i class="fab fa-github"></i></a>
+                <a href="mailto:your.email@example.com"><i class="fas fa-envelope"></i></a>
+                <a href="https://twitter.com/yourusername" target="_blank"><i class="fab fa-twitter"></i></a>
+            </div>
+            
+            <div class="row">
+                <div class="col-md-6 offset-md-3">
+                    <div class="card bg-dark text-white">
+                        <div class="card-body">
+                            <h5>Ready to collaborate?</h5>
+                            <p>I'm actively seeking ML internship opportunities and open to exciting projects.</p>
+                            <a href="mailto:your.email@example.com" class="btn btn-light">Get In Touch</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white text-center py-4">
+        <div class="container">
+            <p>&copy; 2024 Segni Mekonnen. All rights reserved.</p>
+            <p>Built with ❤️ for Machine Learning</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+        
+        // Add animation on scroll
+        window.addEventListener('scroll', function() {
+            const cards = document.querySelectorAll('.project-card');
+            cards.forEach(card => {
+                const cardTop = card.getBoundingClientRect().top;
+                if (cardTop < window.innerHeight - 100) {
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }
+            });
+        });
+    </script>
+</body>
+</html> 

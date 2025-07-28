@@ -1,0 +1,12 @@
+/Library/Frameworks/Python.framework/Versions/3.13/Resources/Python.app/Contents/MacOS/Python: can't open file '/Users/segnimekonnen/chatAI project/budget-buddy/fb_marketplace_monitor.py': [Errno 2] No such file or directory
+/Library/Frameworks/Python.framework/Versions/3.13/Resources/Python.app/Contents/MacOS/Python: can't open file '/Users/segnimekonnen/chatAI project/budget-buddy/fb_marketplace_headless_monitor.py': [Errno 2] No such file or directory
+/Library/Frameworks/Python.framework/Versions/3.13/Resources/Python.app/Contents/MacOS/Python: can't open file '/Users/segnimekonnen/chatAI project/budget-buddy/fb_marketplace_headless_monitor.py': [Errno 2] No such file or directory
+Starting headless Facebook Marketplace monitor...
+Traceback (most recent call last):
+  File "/Users/segnimekonnen/fb_housing_monitor/fb_marketplace_headless_monitor.py", line 106, in <module>
+    main() 
+    ^^^^^^
+  File "/Users/segnimekonnen/fb_housing_monitor/fb_marketplace_headless_monitor.py", line 67, in main
+    with open(COOKIES_FILE, 'rb') as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'fb_cookies.pkl'

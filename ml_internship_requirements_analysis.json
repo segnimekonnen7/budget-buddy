@@ -1,0 +1,83 @@
+{
+  "skills": {
+    "machine learning": 7,
+    "deep learning": 6,
+    "nlp": 5,
+    "computer vision": 5,
+    "artificial intelligence": 1,
+    "data science": 2,
+    "statistics": 1,
+    "reinforcement learning": 2,
+    "autonomous driving": 1,
+    "gpu computing": 1,
+    "research": 1
+  },
+  "education": {
+    "bachelor": 8,
+    "computer science": 9,
+    "engineering": 5,
+    "master": 4,
+    "statistics": 1,
+    "data science": 1,
+    "phd": 2
+  },
+  "experience": {
+    "project": 8,
+    "research": 5,
+    "github": 2,
+    "portfolio": 1,
+    "internship": 1,
+    "kaggle": 1,
+    "publication": 3,
+    "analysis": 1,
+    "visualization": 1,
+    "conference": 2,
+    "ios": 1,
+    "mobile": 1,
+    "robotics": 1,
+    "automotive": 1,
+    "gpu": 1,
+    "parallel computing": 1
+  },
+  "tools": {
+    "git": 10,
+    "github": 3,
+    "docker": 8,
+    "kubernetes": 1,
+    "azure": 1,
+    "visual studio": 1,
+    "aws": 2,
+    "jupyter": 1,
+    "tableau": 1,
+    "xcode": 1,
+    "nvidia tools": 1,
+    "cloud computing": 1
+  },
+  "frameworks": {
+    "tensorflow": 8,
+    "pytorch": 8,
+    "scikit-learn": 5,
+    "azure ml": 1,
+    "sagemaker": 1,
+    "pandas": 1,
+    "numpy": 1,
+    "jax": 2,
+    "core ml": 1,
+    "opencv": 1,
+    "cudnn": 1
+  },
+  "languages": {
+    "python": 10,
+    "c++": 6,
+    "java": 2,
+    "c#": 1,
+    "sql": 4,
+    "r": 1,
+    "julia": 1,
+    "swift": 1,
+    "matlab": 1,
+    "cuda": 1,
+    "jax": 1,
+    "tensorflow": 1
+  }
+}

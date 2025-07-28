@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ML Internship Finder - Find Your Dream Internship</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+            <a class="navbar-brand" href="/">
+                <i class="fas fa-search"></i> ML Internship Finder
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/jobs">Browse Jobs</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/applications">My Applications</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/profile">Profile</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <div class="hero-section">
+        <div class="container">
+            <div class="row align-items-center min-vh-100">
+                <div class="col-lg-6">
+                    <h1 class="display-4 fw-bold text-white mb-4">
+                        Find Your Dream ML Internship
+                    </h1>
+                    <p class="lead text-white-50 mb-4">
+                        Discover and apply to the best machine learning internships. 
+                        Get personalized recommendations based on your skills and preferences.
+                    </p>
+                    <div class="d-flex gap-3">
+                        <a href="#search-section" class="btn btn-light btn-lg">
+                            <i class="fas fa-search"></i> Start Searching
+                        </a>
+                        <a href="/jobs" class="btn btn-outline-light btn-lg">
+                            <i class="fas fa-list"></i> Browse All Jobs
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="hero-stats">
+                        <div class="row text-center">
+                            <div class="col-4">
+                                <div class="stat-card">
+                                    <h3 class="text-primary">500+</h3>
+                                    <p class="text-white-50">ML Internships</p>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="stat-card">
+                                    <h3 class="text-primary">50+</h3>
+                                    <p class="text-white-50">Companies</p>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="stat-card">
+                                    <h3 class="text-primary">95%</h3>
+                                    <p class="text-white-50">Match Rate</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Search Section -->
+    <section id="search-section" class="py-5">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="card shadow-lg">
+                        <div class="card-body p-4">
+                            <h3 class="card-title text-center mb-4">
+                                <i class="fas fa-search"></i> Find ML Internships
+                            </h3>
+                            
+                            <form id="searchForm">
+                                <div class="row g-3">
+                                    <div class="col-md-6">
+                                        <label for="keywords" class="form-label">Keywords</label>
+                                        <input type="text" class="form-control" id="keywords" 
+                                               value="machine learning intern" required>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="location" class="form-label">Location</label>
+                                        <select class="form-select" id="location">
+                                            <option value="remote">Remote</option>
+                                            <option value="san francisco">San Francisco</option>
+                                            <option value="new york">New York</option>
+                                            <option value="seattle">Seattle</option>
+                                            <option value="austin">Austin</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-12">
+                                        <button type="submit" class="btn btn-primary w-100">
+                                            <i class="fas fa-search"></i> Search Internships
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Results Section -->
+    <section id="results-section" class="py-5 bg-light" style="display: none;">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <h3 class="text-center mb-4">
+                        <i class="fas fa-list"></i> Search Results
+                    </h3>
+                    <div id="results-container">
+                        <!-- Results will be loaded here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="py-5">
+        <div class="container">
+            <div class="row text-center mb-5">
+                <div class="col-12">
+                    <h2 class="fw-bold">Why Choose Our Internship Finder?</h2>
+                    <p class="lead text-muted">Built specifically for ML students and professionals</p>
+                </div>
+            </div>
+            
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="feature-card text-center">
+                        <div class="feature-icon mb-3">
+                            <i class="fas fa-brain text-primary"></i>
+                        </div>
+                        <h4>Smart Matching</h4>
+                        <p class="text-muted">AI-powered job matching based on your skills, experience, and preferences.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature-card text-center">
+                        <div class="feature-icon mb-3">
+                            <i class="fas fa-chart-line text-primary"></i>
+                        </div>
+                        <h4>Application Tracking</h4>
+                        <p class="text-muted">Track your applications, interview status, and get insights on your job search.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature-card text-center">
+                        <div class="feature-icon mb-3">
+                            <i class="fas fa-lightbulb text-primary"></i>
+                        </div>
+                        <h4>Personalized Tips</h4>
+                        <p class="text-muted">Get customized application tips and interview preparation advice for each job.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white py-4">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <h5>ML Internship Finder</h5>
+                    <p class="text-muted">Find your dream machine learning internship with AI-powered matching.</p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <p class="text-muted">&copy; 2024 ML Internship Finder. Built for ML students.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html> 
