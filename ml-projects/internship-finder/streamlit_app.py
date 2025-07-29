@@ -8,13 +8,13 @@ import streamlit as st
 import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
-from internship_finder import InternshipFinder
 import json
 from datetime import datetime
+import random
 
-# Set page config
+# Page configuration
 st.set_page_config(
-    page_title="ML Internship Finder",
+    page_title="Enhanced ML Internship Finder",
     page_icon="🎯",
     layout="wide",
     initial_sidebar_state="expanded"
@@ -24,76 +24,390 @@ st.set_page_config(
 st.markdown("""
 <style>
     .main-header {
-        font-size: 3rem;
+        font-size: 2.5rem;
+        font-weight: bold;
         color: #1f77b4;
         text-align: center;
         margin-bottom: 2rem;
+        background: linear-gradient(90deg, #1f77b4, #ff7f0e);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
     }
     .job-card {
-        background-color: #ffffff;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         padding: 1.5rem;
-        border-radius: 0.5rem;
-        border: 1px solid #e0e0e0;
+        border-radius: 15px;
         margin: 1rem 0;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        color: white;
+        box-shadow: 0 8px 32px rgba(0,0,0,0.1);
     }
-    .match-score {
-        font-size: 1.5rem;
-        font-weight: bold;
+    .search-box {
+        background: rgba(255,255,255,0.1);
+        padding: 1rem;
+        border-radius: 10px;
+        margin: 1rem 0;
+    }
+    .metric-card {
+        background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        padding: 1rem;
+        border-radius: 10px;
         text-align: center;
-        padding: 0.5rem;
-        border-radius: 0.5rem;
+        color: white;
     }
 </style>
 """, unsafe_allow_html=True)
 
+class EnhancedInternshipFinder:
+    def __init__(self):
+        self.jobs = self._generate_comprehensive_jobs()
+        self.user_profile = {}
+        self.applications = []
+        self.load_data()
+    
+    def _generate_comprehensive_jobs(self):
+        """Generate 12 comprehensive ML internship opportunities"""
+        return [
+            {
+                "title": "Machine Learning Intern",
+                "company": "Google AI",
+                "location": "Mountain View, CA",
+                "remote": "Hybrid",
+                "salary": 45,
+                "skills": ["Python", "TensorFlow", "Machine Learning", "Deep Learning", "Research"],
+                "description": "Work on cutting-edge ML research projects with Google's AI team. Contribute to publications and real-world applications.",
+                "job_type": "Research",
+                "duration": "3-6 months",
+                "requirements": "Strong ML fundamentals, research experience preferred"
+            },
+            {
+                "title": "ML Research Intern",
+                "company": "OpenAI",
+                "location": "San Francisco, CA",
+                "remote": "On-site",
+                "salary": 50,
+                "skills": ["Python", "PyTorch", "Deep Learning", "NLP", "Research"],
+                "description": "Contribute to breakthrough AI research. Work on large language models and advanced AI systems.",
+                "job_type": "Research",
+                "duration": "3-6 months",
+                "requirements": "Strong research background, publications preferred"
+            },
+            {
+                "title": "Computer Vision Intern",
+                "company": "Tesla",
+                "location": "Palo Alto, CA",
+                "remote": "On-site",
+                "salary": 40,
+                "skills": ["Python", "OpenCV", "Computer Vision", "CNN", "Autonomous Driving"],
+                "description": "Develop computer vision algorithms for Tesla's autonomous driving systems.",
+                "job_type": "Engineering",
+                "duration": "3-6 months",
+                "requirements": "Computer vision experience, C++ knowledge helpful"
+            },
+            {
+                "title": "NLP Intern",
+                "company": "Microsoft",
+                "location": "Redmond, WA",
+                "remote": "Hybrid",
+                "salary": 42,
+                "skills": ["Python", "NLTK", "NLP", "Transformers", "Azure"],
+                "description": "Build natural language processing models for Microsoft's AI services.",
+                "job_type": "Engineering",
+                "duration": "3-6 months",
+                "requirements": "NLP experience, cloud computing knowledge"
+            },
+            {
+                "title": "Data Science Intern",
+                "company": "Netflix",
+                "location": "Los Gatos, CA",
+                "remote": "Hybrid",
+                "salary": 38,
+                "skills": ["Python", "Pandas", "SQL", "Statistics", "Recommendation Systems"],
+                "description": "Analyze user behavior data and build recommendation algorithms for Netflix.",
+                "job_type": "Analytics",
+                "duration": "3-6 months",
+                "requirements": "Statistics background, big data experience"
+            },
+            {
+                "title": "ML Engineering Intern",
+                "company": "Amazon",
+                "location": "Seattle, WA",
+                "remote": "On-site",
+                "salary": 44,
+                "skills": ["Python", "MLOps", "Docker", "AWS", "Machine Learning"],
+                "description": "Deploy and maintain ML models in production environments at Amazon.",
+                "job_type": "Engineering",
+                "duration": "3-6 months",
+                "requirements": "Software engineering skills, cloud experience"
+            },
+            {
+                "title": "AI Research Intern",
+                "company": "Meta AI",
+                "location": "Menlo Park, CA",
+                "remote": "Hybrid",
+                "salary": 46,
+                "skills": ["Python", "PyTorch", "Deep Learning", "Research", "Social AI"],
+                "description": "Research AI applications for social media and virtual reality.",
+                "job_type": "Research",
+                "duration": "3-6 months",
+                "requirements": "Research experience, social computing interest"
+            },
+            {
+                "title": "Robotics ML Intern",
+                "company": "Boston Dynamics",
+                "location": "Waltham, MA",
+                "remote": "On-site",
+                "salary": 43,
+                "skills": ["Python", "ROS", "Robotics", "Machine Learning", "Control Systems"],
+                "description": "Develop ML algorithms for robot learning and control systems.",
+                "job_type": "Engineering",
+                "duration": "3-6 months",
+                "requirements": "Robotics experience, control theory knowledge"
+            },
+            {
+                "title": "Healthcare AI Intern",
+                "company": "Johnson & Johnson",
+                "location": "New Brunswick, NJ",
+                "remote": "Hybrid",
+                "salary": 36,
+                "skills": ["Python", "Medical AI", "Deep Learning", "Healthcare", "Data Analysis"],
+                "description": "Apply AI to healthcare challenges and medical device development.",
+                "job_type": "Research",
+                "duration": "3-6 months",
+                "requirements": "Healthcare interest, medical data experience"
+            },
+            {
+                "title": "Financial ML Intern",
+                "company": "Goldman Sachs",
+                "location": "New York, NY",
+                "remote": "On-site",
+                "salary": 48,
+                "skills": ["Python", "Quantitative Finance", "Machine Learning", "Statistics", "Risk Models"],
+                "description": "Develop ML models for financial risk assessment and trading strategies.",
+                "job_type": "Analytics",
+                "duration": "3-6 months",
+                "requirements": "Finance knowledge, quantitative skills"
+            },
+            {
+                "title": "Computer Vision Intern",
+                "company": "NVIDIA",
+                "location": "Santa Clara, CA",
+                "remote": "Hybrid",
+                "salary": 45,
+                "skills": ["Python", "CUDA", "Computer Vision", "GPU Computing", "Deep Learning"],
+                "description": "Optimize computer vision algorithms for GPU acceleration.",
+                "job_type": "Engineering",
+                "duration": "3-6 months",
+                "requirements": "GPU programming experience, computer vision skills"
+            },
+            {
+                "title": "ML Infrastructure Intern",
+                "company": "Uber",
+                "location": "San Francisco, CA",
+                "remote": "Hybrid",
+                "salary": 41,
+                "skills": ["Python", "Distributed Systems", "MLOps", "Kubernetes", "Machine Learning"],
+                "description": "Build scalable ML infrastructure for Uber's platform.",
+                "job_type": "Engineering",
+                "duration": "3-6 months",
+                "requirements": "Distributed systems experience, cloud computing"
+            }
+        ]
+    
+    def set_user_profile(self, profile):
+        """Set user profile for matching"""
+        self.user_profile = profile
+    
+    def search_jobs(self, search_query, filters=None):
+        """Search jobs based on query and filters"""
+        if not search_query and not filters:
+            return self.jobs
+        
+        filtered_jobs = []
+        search_terms = search_query.lower().split() if search_query else []
+        
+        for job in self.jobs:
+            # Text search
+            job_text = f"{job['title']} {job['company']} {job['description']} {' '.join(job['skills'])}".lower()
+            text_match = all(term in job_text for term in search_terms) if search_terms else True
+            
+            # Filter matching
+            filter_match = True
+            if filters:
+                if filters.get('location') and filters['location'] != 'All':
+                    if filters['location'] == 'Remote' and job['remote'] != 'Remote':
+                        filter_match = False
+                    elif filters['location'] == 'On-site' and job['remote'] == 'Remote':
+                        filter_match = False
+                
+                if filters.get('job_type') and filters['job_type'] != 'All':
+                    if job['job_type'] != filters['job_type']:
+                        filter_match = False
+                
+                if filters.get('min_salary'):
+                    if job['salary'] < filters['min_salary']:
+                        filter_match = False
+            
+            if text_match and filter_match:
+                filtered_jobs.append(job)
+        
+        return filtered_jobs
+    
+    def calculate_match_score(self, job, user_skills):
+        """Calculate match score based on user skills"""
+        if not user_skills:
+            return 30  # Default score
+        
+        job_skills = set(skill.lower() for skill in job['skills'])
+        user_skill_set = set(skill.lower() for skill in user_skills)
+        
+        if not job_skills:
+            return 30
+        
+        # Calculate skill overlap
+        overlap = len(job_skills.intersection(user_skill_set))
+        total_skills = len(job_skills)
+        
+        # Base score + skill match bonus
+        base_score = 30
+        skill_bonus = (overlap / total_skills) * 70
+        
+        return min(100, int(base_score + skill_bonus))
+    
+    def find_matching_jobs(self, search_query="", filters=None):
+        """Find jobs matching user profile and search criteria"""
+        matching_jobs = self.search_jobs(search_query, filters)
+        
+        # Calculate match scores
+        for job in matching_jobs:
+            user_skills = self.user_profile.get('skills', [])
+            job['match_score'] = self.calculate_match_score(job, user_skills)
+        
+        # Sort by match score (descending)
+        matching_jobs.sort(key=lambda x: x['match_score'], reverse=True)
+        
+        return matching_jobs
+    
+    def apply_to_job(self, job_title):
+        """Apply to a job"""
+        application = {
+            'job_title': job_title,
+            'date': datetime.now().strftime('%Y-%m-%d %H:%M'),
+            'status': 'Applied'
+        }
+        self.applications.append(application)
+        self.save_data()
+    
+    def get_application_stats(self):
+        """Get application statistics"""
+        if not self.applications:
+            return {
+                'total_applications': 0,
+                'recent_applications': 0,
+                'application_rate': 0
+            }
+        
+        total = len(self.applications)
+        recent = len([app for app in self.applications 
+                     if (datetime.now() - datetime.strptime(app['date'], '%Y-%m-%d %H:%M')).days <= 7])
+        
+        return {
+            'total_applications': total,
+            'recent_applications': recent,
+            'application_rate': min(100, (recent / 7) * 100)  # Applications per week
+        }
+    
+    def load_data(self):
+        """Load saved data"""
+        try:
+            with open('internship_data.json', 'r') as f:
+                data = json.load(f)
+                self.applications = data.get('applications', [])
+        except FileNotFoundError:
+            self.applications = []
+    
+    def save_data(self):
+        """Save data to file"""
+        data = {
+            'applications': self.applications
+        }
+        with open('internship_data.json', 'w') as f:
+            json.dump(data, f)
+
 @st.cache_resource
 def load_finder():
     """Load the internship finder"""
-    finder = InternshipFinder()
-    return finder
+    return EnhancedInternshipFinder()
+
+def create_application_chart(stats):
+    """Create application statistics chart"""
+    fig = go.Figure()
+    
+    fig.add_trace(go.Indicator(
+        mode="gauge+number+delta",
+        value=stats['application_rate'],
+        domain={'x': [0, 1], 'y': [0, 1]},
+        title={'text': "Weekly Application Rate"},
+        delta={'reference': 20},
+        gauge={
+            'axis': {'range': [None, 100]},
+            'bar': {'color': "darkblue"},
+            'steps': [
+                {'range': [0, 20], 'color': "lightgray"},
+                {'range': [20, 50], 'color': "yellow"},
+                {'range': [50, 100], 'color': "green"}
+            ],
+            'threshold': {
+                'line': {'color': "red", 'width': 4},
+                'thickness': 0.75,
+                'value': 90
+            }
+        }
+    ))
+    
+    return fig
 
 def main():
-    # Header
-    st.markdown('<h1 class="main-header">🎯 ML Internship Finder</h1>', unsafe_allow_html=True)
+    st.markdown('<h1 class="main-header">🎯 Enhanced ML Internship Finder</h1>', unsafe_allow_html=True)
+    st.markdown("### AI-powered internship matching and application tracking")
     
-    # Load finder
+    # Initialize finder
     finder = load_finder()
     
-    # Sidebar
-    st.sidebar.title("👤 User Profile")
-    
-    # User profile form
-    with st.sidebar.form("user_profile"):
-        st.subheader("Your Profile")
+    # Sidebar for user profile
+    with st.sidebar:
+        st.header("👤 Your Profile")
         
-        name = st.text_input("Name", value=finder.user_profile.get('name', ''))
-        skills = st.text_area("Skills (comma-separated)", 
-                             value=', '.join(finder.user_profile.get('skills', [])))
-        experience = st.selectbox("Experience Level", 
-                                 ['Beginner', 'Intermediate', 'Advanced'],
-                                 index=['Beginner', 'Intermediate', 'Advanced'].index(
-                                     finder.user_profile.get('experience_level', 'Beginner')))
-        location = st.text_input("Preferred Location", 
-                                value=finder.user_profile.get('location', ''))
-        remote_preference = st.checkbox("Remote Only", 
-                                       value=finder.user_profile.get('remote_only', False))
-        min_salary = st.number_input("Minimum Salary ($/hour)", 
-                                    min_value=0, max_value=100, 
-                                    value=finder.user_profile.get('min_salary', 15))
+        # Skills input
+        skills_input = st.text_area(
+            "Your Skills (comma-separated):",
+            placeholder="Python, Machine Learning, TensorFlow, Data Analysis...",
+            help="Enter your technical skills to get better job matches"
+        )
         
-        submitted = st.form_submit_button("Update Profile")
+        if skills_input:
+            skills = [skill.strip() for skill in skills_input.split(',') if skill.strip()]
+            finder.set_user_profile({'skills': skills})
         
-        if submitted:
-            finder.set_user_profile({
-                'name': name,
-                'skills': [s.strip() for s in skills.split(',') if s.strip()],
-                'experience_level': experience,
-                'location': location,
-                'remote_only': remote_preference,
-                'min_salary': min_salary
-            })
-            st.success("Profile updated!")
+        # Experience level
+        experience = st.selectbox(
+            "Experience Level:",
+            ["Beginner", "Intermediate", "Advanced", "Expert"]
+        )
+        
+        # Preferred location
+        preferred_location = st.selectbox(
+            "Preferred Location:",
+            ["Any", "Remote", "On-site", "Hybrid"]
+        )
+        
+        # Salary expectations
+        min_salary = st.slider(
+            "Minimum Salary ($/hr):",
+            min_value=20,
+            max_value=60,
+            value=30,
+            step=5
+        )
     
     # Main content tabs
     tab1, tab2, tab3, tab4 = st.tabs(["🔍 Find Jobs", "📊 Analytics", "📝 Applications", "💡 Tips"])
@@ -101,255 +415,159 @@ def main():
     with tab1:
         st.header("🔍 Find ML Internships")
         
-        # Search options
-        col1, col2 = st.columns(2)
+        # Search and filters
+        col1, col2, col3 = st.columns([2, 1, 1])
         
         with col1:
-            search_keywords = st.text_input("Search Keywords", 
-                                          placeholder="e.g., machine learning, python, data science")
-            company_filter = st.text_input("Company Filter", 
-                                         placeholder="e.g., Google, Microsoft")
+            search_query = st.text_input(
+                "Search jobs:",
+                placeholder="Enter keywords like 'computer vision', 'NLP', 'research'..."
+            )
         
         with col2:
-            location_filter = st.text_input("Location Filter", 
-                                          placeholder="e.g., San Francisco, Remote")
-            sort_by = st.selectbox("Sort By", 
-                                 ['Match Score', 'Salary', 'Company', 'Location'])
+            location_filter = st.selectbox(
+                "Location:",
+                ["All", "Remote", "On-site", "Hybrid"]
+            )
         
-        # Filter options
-        with st.expander("Advanced Filters"):
-            col1, col2, col3 = st.columns(3)
-            
-            with col1:
-                min_salary_filter = st.number_input("Min Salary ($/hour)", 
-                                                  min_value=0, max_value=100, value=15)
-                remote_only = st.checkbox("Remote Only")
-            
-            with col2:
-                required_skills = st.text_input("Required Skills", 
-                                              placeholder="e.g., python, tensorflow")
-                experience_level = st.selectbox("Experience Level", 
-                                              ['Any', 'Beginner', 'Intermediate', 'Advanced'])
-            
-            with col3:
-                job_type = st.selectbox("Job Type", 
-                                      ['Any', 'Full-time', 'Part-time', 'Contract'])
-                duration = st.selectbox("Duration", 
-                                      ['Any', '3 months', '6 months', '12 months'])
+        with col3:
+            job_type_filter = st.selectbox(
+                "Job Type:",
+                ["All", "Research", "Engineering", "Analytics"]
+            )
         
-        # Search button
-        if st.button("🔍 Search Internships", type="primary"):
-            with st.spinner("Searching for internships..."):
-                # Get jobs
-                jobs = finder.scrape_jobs()
-                
-                # Apply filters
-                filtered_jobs = finder.filter_jobs(
-                    jobs,
-                    keywords=search_keywords if search_keywords else None,
-                    company=company_filter if company_filter else None,
-                    location=location_filter if location_filter else None,
-                    remote_only=remote_only,
-                    min_salary=min_salary_filter,
-                    required_skills=[s.strip() for s in required_skills.split(',')] if required_skills else [],
-                    experience_level=experience_level if experience_level != 'Any' else None
-                )
-                
-                # Calculate match scores
-                for job in filtered_jobs:
-                    job['match_score'] = finder.calculate_match_score(job)
-                
-                # Sort jobs
-                if sort_by == 'Match Score':
-                    filtered_jobs.sort(key=lambda x: x['match_score'], reverse=True)
-                elif sort_by == 'Salary':
-                    filtered_jobs.sort(key=lambda x: x.get('salary', 0), reverse=True)
-                elif sort_by == 'Company':
-                    filtered_jobs.sort(key=lambda x: x.get('company', ''))
-                elif sort_by == 'Location':
-                    filtered_jobs.sort(key=lambda x: x.get('location', ''))
-                
-                st.session_state.filtered_jobs = filtered_jobs
+        # Apply filters
+        filters = {
+            'location': location_filter if location_filter != "All" else None,
+            'job_type': job_type_filter if job_type_filter != "All" else None,
+            'min_salary': min_salary
+        }
+        
+        # Find matching jobs
+        matching_jobs = finder.find_matching_jobs(search_query, filters)
+        
+        # Sort options
+        sort_by = st.selectbox(
+            "Sort by:",
+            ["Match Score", "Salary", "Company", "Location"]
+        )
+        
+        if sort_by == "Salary":
+            matching_jobs.sort(key=lambda x: x['salary'], reverse=True)
+        elif sort_by == "Company":
+            matching_jobs.sort(key=lambda x: x['company'])
+        elif sort_by == "Location":
+            matching_jobs.sort(key=lambda x: x['location'])
         
         # Display results
-        if 'filtered_jobs' in st.session_state and st.session_state.filtered_jobs:
-            jobs = st.session_state.filtered_jobs
-            
-            st.subheader(f"Found {len(jobs)} internships")
-            
-            # Summary metrics
-            col1, col2, col3, col4 = st.columns(4)
-            with col1:
-                avg_salary = sum(j.get('salary', 0) for j in jobs) / len(jobs)
-                st.metric("Avg Salary", f"${avg_salary:.1f}/hr")
-            with col2:
-                avg_match = sum(j['match_score'] for j in jobs) / len(jobs)
-                st.metric("Avg Match", f"{avg_match:.1f}%")
-            with col3:
-                remote_count = sum(1 for j in jobs if j.get('remote', False))
-                st.metric("Remote Jobs", remote_count)
-            with col4:
-                top_companies = pd.Series([j.get('company', '') for j in jobs]).value_counts().head(1)
-                st.metric("Top Company", top_companies.index[0] if len(top_companies) > 0 else "N/A")
-            
-            # Display jobs
-            for i, job in enumerate(jobs):
-                with st.container():
-                    st.markdown('<div class="job-card">', unsafe_allow_html=True)
-                    
-                    col1, col2 = st.columns([3, 1])
-                    
-                    with col1:
-                        st.subheader(f"🎯 {job['title']}")
-                        st.write(f"**Company:** {job['company']}")
-                        st.write(f"**Location:** {job['location']}")
-                        st.write(f"**Salary:** ${job.get('salary', 'N/A')}/hour")
-                        
-                        if job.get('description'):
-                            with st.expander("Job Description"):
-                                st.write(job['description'][:500] + "..." if len(job['description']) > 500 else job['description'])
-                        
-                        if job.get('requirements'):
-                            with st.expander("Requirements"):
-                                for req in job['requirements']:
-                                    st.write(f"• {req}")
-                    
-                    with col2:
-                        match_score = job['match_score']
-                        if match_score >= 80:
-                            color = "green"
-                        elif match_score >= 60:
-                            color = "orange"
-                        else:
-                            color = "red"
-                        
-                        st.markdown(f'<div class="match-score" style="background-color: {color}; color: white;">{match_score:.0f}% Match</div>', unsafe_allow_html=True)
-                        
-                        if st.button(f"Apply", key=f"apply_{i}"):
-                            finder.track_application(job)
-                            st.success("Application tracked!")
-                        
-                        if st.button(f"Save", key=f"save_{i}"):
-                            finder.save_job(job)
-                            st.success("Job saved!")
-                    
-                    st.markdown('</div>', unsafe_allow_html=True)
-        elif 'filtered_jobs' in st.session_state:
-            st.info("No internships found matching your criteria. Try adjusting your filters.")
+        st.markdown(f"**Found {len(matching_jobs)} matching internships**")
+        
+        for job in matching_jobs:
+            with st.container():
+                st.markdown(f"""
+                <div class="job-card">
+                    <h3>{job['title']}</h3>
+                    <p><strong>Company:</strong> {job['company']}</p>
+                    <p><strong>Location:</strong> {job['location']} ({job['remote']})</p>
+                    <p><strong>Salary:</strong> ${job['salary']}/hour</p>
+                    <p><strong>Skills:</strong> {', '.join(job['skills'])}</p>
+                    <p><strong>Description:</strong> {job['description']}</p>
+                    <p><strong>Job Type:</strong> {job['job_type']} | <strong>Duration:</strong> {job['duration']}</p>
+                    <p><strong>Requirements:</strong> {job['requirements']}</p>
+                    <p><strong>Match Score:</strong> {job['match_score']}%</p>
+                </div>
+                """, unsafe_allow_html=True)
+                
+                col1, col2 = st.columns([1, 4])
+                with col1:
+                    if st.button(f"Apply to {job['title']}", key=f"apply_{job['title']}"):
+                        finder.apply_to_job(job['title'])
+                        st.success(f"Applied to {job['title']}!")
+                        st.rerun()
+                
+                with col2:
+                    if st.button(f"Save {job['title']}", key=f"save_{job['title']}"):
+                        st.info(f"Saved {job['title']} to your list!")
+                
+                st.divider()
     
     with tab2:
-        st.header("📊 Analytics")
+        st.header("📊 Analytics Dashboard")
         
-        # Get analytics data
-        applications = finder.get_applications()
-        saved_jobs = finder.get_saved_jobs()
+        # Application statistics
+        stats = finder.get_application_stats()
         
-        if applications or saved_jobs:
-            col1, col2 = st.columns(2)
+        col1, col2, col3 = st.columns(3)
+        
+        with col1:
+            st.metric("Total Applications", stats['total_applications'])
+        
+        with col2:
+            st.metric("Recent Applications (7 days)", stats['recent_applications'])
+        
+        with col3:
+            st.metric("Weekly Application Rate", f"{stats['application_rate']:.1f}%")
+        
+        # Application rate chart
+        st.plotly_chart(create_application_chart(stats), use_container_width=True)
+        
+        # Job distribution by company
+        if matching_jobs:
+            company_counts = {}
+            for job in matching_jobs:
+                company = job['company']
+                company_counts[company] = company_counts.get(company, 0) + 1
             
-            with col1:
-                st.subheader("Application Analytics")
-                
-                if applications:
-                    # Application status
-                    status_counts = pd.Series([app['status'] for app in applications]).value_counts()
-                    fig_status = px.pie(values=status_counts.values, names=status_counts.index,
-                                       title="Application Status")
-                    st.plotly_chart(fig_status, use_container_width=True)
-                    
-                    # Applications over time
-                    dates = [app['date'] for app in applications]
-                    date_counts = pd.Series(dates).value_counts().sort_index()
-                    fig_timeline = px.line(x=date_counts.index, y=date_counts.values,
-                                         title="Applications Over Time")
-                    st.plotly_chart(fig_timeline, use_container_width=True)
-                else:
-                    st.info("No applications yet.")
-            
-            with col2:
-                st.subheader("Job Analytics")
-                
-                if saved_jobs:
-                    # Company distribution
-                    company_counts = pd.Series([job['company'] for job in saved_jobs]).value_counts().head(10)
-                    fig_companies = px.bar(x=company_counts.values, y=company_counts.index,
-                                         orientation='h', title="Top Companies")
-                    st.plotly_chart(fig_companies, use_container_width=True)
-                    
-                    # Salary distribution
-                    salaries = [job.get('salary', 0) for job in saved_jobs if job.get('salary', 0) > 0]
-                    if salaries:
-                        fig_salary = px.histogram(x=salaries, title="Salary Distribution",
-                                                labels={'x': 'Salary ($/hour)', 'y': 'Count'})
-                        st.plotly_chart(fig_salary, use_container_width=True)
-                else:
-                    st.info("No saved jobs yet.")
-        else:
-            st.info("Start applying to jobs to see analytics!")
+            fig = px.bar(
+                x=list(company_counts.keys()),
+                y=list(company_counts.values()),
+                title="Job Distribution by Company",
+                labels={'x': 'Company', 'y': 'Number of Jobs'}
+            )
+            st.plotly_chart(fig, use_container_width=True)
     
     with tab3:
-        st.header("📝 Application Tracker")
+        st.header("📝 Your Applications")
         
-        applications = finder.get_applications()
-        
-        if applications:
-            # Application table
-            app_data = []
-            for app in applications:
-                app_data.append({
-                    'Company': app['company'],
-                    'Position': app['title'],
-                    'Date': app['date'],
-                    'Status': app['status'],
-                    'Notes': app.get('notes', '')
-                })
-            
-            df_apps = pd.DataFrame(app_data)
-            st.dataframe(df_apps, use_container_width=True)
-            
-            # Download applications
-            csv = df_apps.to_csv(index=False)
-            st.download_button(
-                label="Download Applications CSV",
-                data=csv,
-                file_name="applications.csv",
-                mime="text/csv"
-            )
+        if not finder.applications:
+            st.info("You haven't applied to any jobs yet. Start applying to track your progress!")
         else:
-            st.info("No applications tracked yet. Start applying to jobs!")
+            for app in reversed(finder.applications):
+                st.markdown(f"""
+                - **{app['job_title']}** - Applied on {app['date']} - Status: {app['status']}
+                """)
     
     with tab4:
         st.header("💡 Application Tips")
         
-        tips = [
-            "🎯 **Customize your resume** for each application",
-            "📝 **Write a compelling cover letter** explaining your interest",
-            "🔗 **Network** - reach out to employees at target companies",
-            "📚 **Showcase projects** - include GitHub links and demos",
-            "⏰ **Apply early** - many positions fill quickly",
-            "📞 **Follow up** - send thank you emails after interviews",
-            "📊 **Track everything** - use this app to stay organized",
-            "🎓 **Highlight relevant coursework** and certifications"
-        ]
+        st.markdown("""
+        ### 🎯 **How to Get the Best ML Internships:**
         
-        for tip in tips:
-            st.write(tip)
+        **1. Build a Strong Portfolio**
+        - Create ML projects on GitHub
+        - Participate in Kaggle competitions
+        - Write technical blog posts
         
-        st.subheader("📈 Success Metrics")
+        **2. Network Effectively**
+        - Attend ML conferences and meetups
+        - Connect with professionals on LinkedIn
+        - Join ML communities and forums
         
-        metrics = {
-            'Metric': ['Applications Sent', 'Response Rate', 'Interview Rate', 'Offer Rate'],
-            'Target': ['50+', '10-15%', '5-10%', '2-5%'],
-            'Tips': [
-                'Apply to 5-10 jobs per week',
-                'Customize each application',
-                'Practice technical interviews',
-                'Negotiate salary and benefits'
-            ]
-        }
+        **3. Prepare for Interviews**
+        - Practice coding problems on LeetCode
+        - Review ML fundamentals and algorithms
+        - Prepare for behavioral questions
         
-        df_metrics = pd.DataFrame(metrics)
-        st.dataframe(df_metrics, use_container_width=True)
+        **4. Customize Your Applications**
+        - Tailor your resume for each position
+        - Write personalized cover letters
+        - Highlight relevant projects and skills
+        
+        **5. Follow Up**
+        - Send thank-you emails after interviews
+        - Follow up on applications after 1-2 weeks
+        - Stay connected with recruiters
+        """)
 
 if __name__ == "__main__":
     main() 
