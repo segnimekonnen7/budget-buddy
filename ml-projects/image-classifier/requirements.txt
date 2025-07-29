@@ -1,2 +1,6 @@
 streamlit
-pillow 
+pillow
+numpy
+plotly
+pandas
+opencv-python 
