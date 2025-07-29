@@ -33,53 +33,37 @@ class PlantDiseaseClassifier:
         self.is_trained = False
         
     def create_model(self):
-        """Create an improved CNN model for plant disease classification"""
-        if self.model_type == 'mobilenet':
-            base_model = MobileNetV2(
-                weights='imagenet',
-                include_top=False,
-                input_shape=(224, 224, 3)
-            )
-        elif self.model_type == 'resnet':
-            base_model = ResNet50(
-                weights='imagenet',
-                include_top=False,
-                input_shape=(224, 224, 3)
-            )
-        elif self.model_type == 'efficientnet':
-            base_model = EfficientNetB0(
-                weights='imagenet',
-                include_top=False,
-                input_shape=(224, 224, 3)
-            )
-        else:
-            base_model = MobileNetV2(
-                weights='imagenet',
-                include_top=False,
-                input_shape=(224, 224, 3)
-            )
-        
-        # Freeze the base model layers initially
-        base_model.trainable = False
-        
-        # Create the model with improved architecture
+        """Create a very simple CNN model optimized for color-based classification"""
         model = models.Sequential([
-            base_model,
+            # Simple convolutional layers focused on color detection
+            layers.Conv2D(16, (7, 7), activation='relu', input_shape=(224, 224, 3)),
+            layers.BatchNormalization(),
+            layers.MaxPooling2D((4, 4)),
+            
+            layers.Conv2D(32, (5, 5), activation='relu'),
+            layers.BatchNormalization(),
+            layers.MaxPooling2D((4, 4)),
+            
+            layers.Conv2D(64, (3, 3), activation='relu'),
+            layers.BatchNormalization(),
+            layers.MaxPooling2D((2, 2)),
+            
+            # Global average pooling to focus on color patterns
             layers.GlobalAveragePooling2D(),
-            layers.BatchNormalization(),
-            layers.Dropout(0.3),
-            layers.Dense(256, activation='relu'),
-            layers.BatchNormalization(),
-            layers.Dropout(0.3),
+            
+            # Simple dense layers
             layers.Dense(128, activation='relu'),
+            layers.BatchNormalization(),
+            layers.Dropout(0.3),
+            layers.Dense(64, activation='relu'),
             layers.BatchNormalization(),
             layers.Dropout(0.2),
             layers.Dense(self.num_classes, activation='softmax')
         ])
         
-        # Compile the model with better optimizer settings
+        # Compile the model
         model.compile(
-            optimizer=Adam(learning_rate=0.001, beta_1=0.9, beta_2=0.999),
+            optimizer=Adam(learning_rate=0.01, beta_1=0.9, beta_2=0.999),
             loss='categorical_crossentropy',
             metrics=['accuracy']
         )
@@ -108,11 +92,17 @@ class PlantDiseaseClassifier:
         """Generate realistic plant leaf images for demonstration"""
         print("Generating realistic plant disease images...")
         
-        # Define realistic colors and patterns for different plant conditions
-        healthy_colors = [(34, 139, 34), (50, 205, 50), (0, 128, 0), (85, 107, 47)]  # Various greens
-        blight_colors = [(139, 69, 19), (160, 82, 45), (205, 133, 63), (210, 105, 30)]  # Brown/rust
-        spot_colors = [(128, 128, 128), (105, 105, 105), (169, 169, 169), (192, 192, 192)]  # Gray/brown
-        blast_colors = [(255, 0, 0), (220, 20, 60), (178, 34, 34), (139, 0, 0)]  # Red/brown
+        # Define very distinct colors for each disease type
+        healthy_colors = [(34, 139, 34), (50, 205, 50), (0, 128, 0), (85, 107, 47)]  # Green
+        blight_colors = [(139, 69, 19), (160, 82, 45), (205, 133, 63), (210, 105, 30)]  # Brown
+        spot_colors = [(128, 128, 128), (105, 105, 105), (169, 169, 169), (192, 192, 192)]  # Gray
+        blast_colors = [(255, 0, 0), (220, 20, 60), (178, 34, 34), (139, 0, 0)]  # Red
+        
+        # Very distinct primary colors for each class
+        healthy_primary = (0, 128, 0)    # Dark Green
+        blight_primary = (139, 69, 19)   # Brown
+        spot_primary = (128, 128, 128)   # Gray
+        blast_primary = (255, 0, 0)      # Red
         
         disease_patterns = {
             'Healthy': healthy_colors,
@@ -124,8 +114,8 @@ class PlantDiseaseClassifier:
         for class_name, colors in disease_patterns.items():
             print(f"Generating {class_name} images...")
             
-            # Generate 100 training images per class
-            for i in range(100):
+            # Generate 200 training images per class (more data)
+            for i in range(200):
                 # Create base leaf shape
                 img = np.zeros((224, 224, 3), dtype=np.uint8)
                 
@@ -137,41 +127,81 @@ class PlantDiseaseClassifier:
                 # Draw leaf shape
                 cv2.ellipse(img, center, axes, angle, 0, 360, (34, 139, 34), -1)
                 
-                # Add disease patterns based on class
+                # Add disease patterns based on class with more distinct features
                 if class_name == 'Healthy':
-                    # Add healthy leaf texture
-                    for _ in range(20):
+                    # Create a very green, healthy-looking leaf
+                    # Fill the entire leaf area with green
+                    cv2.ellipse(img, center, axes, angle, 0, 360, healthy_primary, -1)
+                    # Add healthy leaf texture - small green dots
+                    for _ in range(50):
                         x = np.random.randint(50, 174)
                         y = np.random.randint(50, 174)
-                        cv2.circle(img, (x, y), 2, colors[np.random.randint(0, len(colors))], -1)
+                        cv2.circle(img, (x, y), 1, colors[np.random.randint(0, len(colors))], -1)
+                    # Add leaf veins in darker green
+                    for _ in range(8):
+                        x1, y1 = np.random.randint(50, 174, 2)
+                        x2, y2 = np.random.randint(50, 174, 2)
+                        cv2.line(img, (x1, y1), (x2, y2), (0, 100, 0), 2)
+                    # Ensure very dominant green color
+                    img = cv2.addWeighted(img, 0.6, np.full_like(img, healthy_primary), 0.4, 0)
                 
                 elif class_name == 'Bacterial Blight':
-                    # Add brown spots and lesions
+                    # Create brown lesions with water-soaked appearance
+                    # Fill with brown base
+                    cv2.ellipse(img, center, axes, angle, 0, 360, blight_primary, -1)
+                    # Add large brown lesions
                     for _ in range(15):
                         x = np.random.randint(50, 174)
                         y = np.random.randint(50, 174)
-                        radius = np.random.randint(3, 8)
+                        radius = np.random.randint(5, 12)
                         cv2.circle(img, (x, y), radius, colors[np.random.randint(0, len(colors))], -1)
+                    # Add water-soaked appearance (light blue spots)
+                    for _ in range(20):
+                        x = np.random.randint(50, 174)
+                        y = np.random.randint(50, 174)
+                        cv2.circle(img, (x, y), 3, (200, 200, 255), -1)
+                    # Ensure very dominant brown color
+                    img = cv2.addWeighted(img, 0.5, np.full_like(img, blight_primary), 0.5, 0)
                 
                 elif class_name == 'Brown Spot':
-                    # Add circular brown spots
-                    for _ in range(10):
+                    # Create small, numerous gray spots
+                    # Fill with gray base
+                    cv2.ellipse(img, center, axes, angle, 0, 360, spot_primary, -1)
+                    # Add many small gray spots
+                    for _ in range(40):
                         x = np.random.randint(50, 174)
                         y = np.random.randint(50, 174)
-                        radius = np.random.randint(2, 6)
+                        radius = np.random.randint(1, 3)
                         cv2.circle(img, (x, y), radius, colors[np.random.randint(0, len(colors))], -1)
+                    # Add yellow halos around some spots
+                    for _ in range(25):
+                        x = np.random.randint(50, 174)
+                        y = np.random.randint(50, 174)
+                        cv2.circle(img, (x, y), 4, (255, 255, 0), 1)
+                    # Ensure very dominant gray color
+                    img = cv2.addWeighted(img, 0.5, np.full_like(img, spot_primary), 0.5, 0)
                 
                 elif class_name == 'Leaf Blast':
+                    # Create distinct diamond-shaped red lesions
+                    # Fill with red base
+                    cv2.ellipse(img, center, axes, angle, 0, 360, blast_primary, -1)
                     # Add diamond-shaped lesions
-                    for _ in range(8):
+                    for _ in range(15):
                         x = np.random.randint(50, 174)
                         y = np.random.randint(50, 174)
-                        size = np.random.randint(5, 12)
+                        size = np.random.randint(8, 18)
                         pts = np.array([[x-size, y], [x, y-size], [x+size, y], [x, y+size]], np.int32)
                         cv2.fillPoly(img, [pts], colors[np.random.randint(0, len(colors))])
+                    # Add white centers to lesions
+                    for _ in range(12):
+                        x = np.random.randint(50, 174)
+                        y = np.random.randint(50, 174)
+                        cv2.circle(img, (x, y), 3, (255, 255, 255), -1)
+                    # Ensure very dominant red color
+                    img = cv2.addWeighted(img, 0.5, np.full_like(img, blast_primary), 0.5, 0)
                 
                 # Add realistic texture and noise
-                noise = np.random.randint(-20, 20, (224, 224, 3), dtype=np.int16)
+                noise = np.random.randint(-15, 15, (224, 224, 3), dtype=np.int16)
                 img = np.clip(img.astype(np.int16) + noise, 0, 255).astype(np.uint8)
                 
                 # Add slight blur for realism
@@ -180,8 +210,8 @@ class PlantDiseaseClassifier:
                 # Save training image
                 cv2.imwrite(f'real_data/train/{class_name}/img_{i:03d}.jpg', img)
             
-            # Generate 20 validation images per class
-            for i in range(20):
+            # Generate 50 validation images per class (more validation data)
+            for i in range(50):
                 # Similar process for validation images
                 img = np.zeros((224, 224, 3), dtype=np.uint8)
                 center = (112, 112)
@@ -256,7 +286,7 @@ class PlantDiseaseClassifier:
         # Prepare data
         train_generator, validation_generator = self.prepare_data(data_dir)
         
-        # Train the model
+        # Train the model with simpler approach
         history = self.model.fit(
             train_generator,
             steps_per_epoch=train_generator.samples // 32,
@@ -265,8 +295,8 @@ class PlantDiseaseClassifier:
             validation_steps=validation_generator.samples // 32,
             verbose=1,
             callbacks=[
-                EarlyStopping(monitor='val_loss', patience=5, restore_best_weights=True),
-                ReduceLROnPlateau(monitor='val_loss', factor=0.2, patience=3, min_lr=0.00001)
+                EarlyStopping(monitor='val_accuracy', patience=5, restore_best_weights=True),
+                ReduceLROnPlateau(monitor='val_loss', factor=0.5, patience=3, min_lr=0.0001)
             ]
         )
         
@@ -311,11 +341,21 @@ class PlantDiseaseClassifier:
         else:
             img = image_path
         
+        # Convert to RGB if grayscale
+        if img.mode != 'RGB':
+            img = img.convert('RGB')
+        
         # Resize image
         img = img.resize(self.img_size)
         
         # Convert to array and normalize
         img_array = np.array(img) / 255.0
+        
+        # Ensure 3 channels
+        if len(img_array.shape) == 2:
+            img_array = np.stack([img_array] * 3, axis=-1)
+        elif img_array.shape[-1] == 4:  # RGBA
+            img_array = img_array[:, :, :3]
         
         # Add batch dimension
         img_array = np.expand_dims(img_array, axis=0)
@@ -431,7 +471,10 @@ if __name__ == "__main__":
     classifier.plot_training_history(history)
     
     # Test prediction (using a synthetic image)
-    test_img = np.ones((224, 224, 3), dtype=np.uint8) * (34, 139, 34)  # Green
+    test_img = np.ones((224, 224, 3), dtype=np.uint8)
+    test_img[:, :, 0] = 34   # Blue channel
+    test_img[:, :, 1] = 139  # Green channel  
+    test_img[:, :, 2] = 34   # Red channel
     test_img = Image.fromarray(test_img)
     
     result = classifier.predict_image(test_img)

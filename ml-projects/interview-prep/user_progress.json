@@ -1,0 +1,62 @@
+{
+  "test_user_001": {
+    "sessions": [
+      {
+        "user_id": "test_user_001",
+        "session_id": "test_session_001",
+        "date": "2025-07-28T19:10:07.636053",
+        "total_questions": 2,
+        "correct_answers": 1,
+        "average_score": 72.5,
+        "categories": [
+          "machine_learning"
+        ],
+        "results": [
+          {
+            "question": {
+              "question": "Explain cross-validation and its importance.",
+              "answer": "Cross-validation is a technique to assess model performance by splitting data into multiple folds. It helps prevent overfitting and provides a more reliable estimate of model performance on unseen data.",
+              "difficulty": "medium",
+              "tags": [
+                "validation",
+                "model_evaluation"
+              ],
+              "follow_up": "What are the different types of cross-validation?"
+            },
+            "answer": "Supervised learning uses labeled data to train models that can make predictions on new data. Unsupervised learning finds patterns in unlabeled data without predefined outputs.",
+            "score": 85.0,
+            "feedback": "Good answer",
+            "category": "machine_learning"
+          },
+          {
+            "question": {
+              "question": "Explain cross-validation and its importance.",
+              "answer": "Cross-validation is a technique to assess model performance by splitting data into multiple folds. It helps prevent overfitting and provides a more reliable estimate of model performance on unseen data.",
+              "difficulty": "medium",
+              "tags": [
+                "validation",
+                "model_evaluation"
+              ],
+              "follow_up": "What are the different types of cross-validation?"
+            },
+            "answer": "Supervised learning has labels, unsupervised doesn't. That's the main difference.",
+            "score": 60.0,
+            "feedback": "Fair answer",
+            "category": "machine_learning"
+          }
+        ]
+      }
+    ],
+    "stats": {
+      "total_sessions": 1,
+      "total_questions": 2,
+      "total_correct": 1,
+      "overall_accuracy": 50.0,
+      "average_score": 72.5,
+      "category_performance": {
+        "machine_learning": 72.5
+      },
+      "last_session": "2025-07-28T19:10:07.636053"
+    }
+  }
+}

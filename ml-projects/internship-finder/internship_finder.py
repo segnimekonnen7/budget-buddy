@@ -192,10 +192,10 @@ class InternshipFinder:
         """Filter jobs based on criteria"""
         if not filters:
             filters = {
-                'remote_only': True,
-                'min_salary': 20,
+                'remote_only': False,  # Changed to False to be less restrictive
+                'min_salary': 15,      # Lowered minimum salary
                 'max_salary': 50,
-                'required_skills': self.required_skills,
+                'required_skills': [],  # Made skills optional for filtering
                 'preferred_skills': self.preferred_skills,
                 'experience_level': 'Intern'
             }
@@ -219,11 +219,11 @@ class InternshipFinder:
     
     def _job_matches_filters(self, job: Dict, filters: Dict) -> bool:
         """Check if job matches given filters"""
-        # Remote filter
+        # Remote filter - only apply if remote_only is True
         if filters.get('remote_only') and not job.get('remote_friendly'):
             return False
         
-        # Salary filter
+        # Salary filter - only apply if salary is specified
         salary_range = job.get('salary', '')
         if 'min_salary' in filters or 'max_salary' in filters:
             # Extract numeric salary (simplified)
@@ -235,8 +235,8 @@ class InternshipFinder:
                 if 'max_salary' in filters and salary > filters['max_salary']:
                     return False
         
-        # Skills filter
-        if 'required_skills' in filters:
+        # Skills filter - only apply if required_skills is not empty
+        if filters.get('required_skills') and len(filters['required_skills']) > 0:
             job_skills = set(job.get('skills_required', []))
             required_skills = set(filters['required_skills'])
             if not required_skills.issubset(job_skills):

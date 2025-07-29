@@ -39,6 +39,7 @@ async function handleSentimentAnalysis(e) {
         const data = await response.json();
         
         if (data.success) {
+            console.log('API Response:', data); // Debug log
             displaySentimentResult(data.result);
         } else {
             showAlert(data.error || 'Analysis failed.', 'danger');
@@ -99,6 +100,7 @@ async function handleBatchAnalysis(e) {
 
 // Display single sentiment result
 function displaySentimentResult(result) {
+    console.log('Displaying result:', result); // Debug log
     const resultsDiv = document.getElementById('results');
     const sentimentIcon = document.getElementById('sentimentIcon');
     const sentimentLabel = document.getElementById('sentimentLabel');

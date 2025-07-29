@@ -1,0 +1,22 @@
+[
+  {
+    "job_id": "Machine Learning Intern_TechCorp AI",
+    "job_title": "Machine Learning Intern",
+    "company": "TechCorp AI",
+    "application_date": "2025-07-28",
+    "status": "applied",
+    "notes": "Test application 1",
+    "application_url": "https://linkedin.com/jobs/view/123",
+    "match_score": 80.0
+  },
+  {
+    "job_id": "Data Science Intern_Analytics Pro",
+    "job_title": "Data Science Intern",
+    "company": "Analytics Pro",
+    "application_date": "2025-07-28",
+    "status": "interviewing",
+    "notes": "Test application 2",
+    "application_url": "https://linkedin.com/jobs/view/125",
+    "match_score": 80.0
+  }
+]
