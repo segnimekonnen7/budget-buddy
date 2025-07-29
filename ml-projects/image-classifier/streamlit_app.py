@@ -53,13 +53,14 @@ def load_classifier():
     """Load the plant disease classifier"""
     classifier = PlantDiseaseClassifier()
     
-    # Check if model exists, if not train it
-    if not os.path.exists('plant_disease_model.h5'):
-        with st.spinner("Training model for the first time..."):
-            history = classifier.train_model(epochs=5)
-            classifier.save_model()
-    else:
+    try:
+        # Try to load existing model
         classifier.load_model()
+    except:
+        # If model doesn't exist, create a simple one for demo
+        st.info("Creating demo model...")
+        classifier.create_model()
+        classifier.save_model()
     
     return classifier
 
