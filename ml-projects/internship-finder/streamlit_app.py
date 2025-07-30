@@ -367,7 +367,7 @@ def create_application_chart(stats):
     return fig
 
 def main():
-    st.markdown('<h1 class="main-header">🎯 Enhanced ML Internship Finder</h1>', unsafe_allow_html=True)
+    st.markdown('<h1 class="main-header">🎯 Enhanced ML Internship Finder - UPDATED!</h1>', unsafe_allow_html=True)
     st.markdown("### AI-powered internship matching and application tracking")
     
     # Initialize finder
