@@ -1,43 +1,381 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#000000" />
-    <meta
-      name="description"
-      content="Web site created using create-react-app"
-    />
-    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
-    <!--
-      manifest.json provides metadata used when your web app is installed on a
-      user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
-    -->
-    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
-    <!--
-      Notice the use of %PUBLIC_URL% in the tags above.
-      It will be replaced with the URL of the `public` folder during the build.
-      Only files inside the `public` folder can be referenced from the HTML.
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎯 Segni Mekonnen - ML Portfolio Projects</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #667eea;
+            --secondary-color: #764ba2;
+            --accent-color: #f093fb;
+            --success-color: #4CAF50;
+            --warning-color: #ff9800;
+            --danger-color: #f44336;
+        }
 
-      Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
-      work correctly both with client-side routing and a non-root public URL.
-      Learn how to configure a non-root public URL by running `npm run build`.
-    -->
-    <title>React App</title>
-  </head>
-  <body>
-    <noscript>You need to enable JavaScript to run this app.</noscript>
-    <div id="root"></div>
-    <!--
-      This HTML file is a template.
-      If you open it directly in the browser, you will see an empty page.
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
 
-      You can add webfonts, meta tags, or analytics to this file.
-      The build step will place the bundled scripts into the <body> tag.
+        .main-header {
+            background: linear-gradient(90deg, #1f77b4, #ff7f0e);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: 3rem;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 1rem;
+        }
 
-      To begin the development, run `npm start` or `yarn start`.
-      To create a production bundle, use `npm run build` or `yarn build`.
-    -->
-  </body>
+        .sub-header {
+            color: white;
+            text-align: center;
+            font-size: 1.2rem;
+            margin-bottom: 3rem;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.95);
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            backdrop-filter: blur(10px);
+            margin-bottom: 2rem;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.2);
+        }
+
+        .project-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .project-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.2);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            border-radius: 25px;
+            padding: 0.75rem 2rem;
+            transition: all 0.3s ease;
+            font-weight: bold;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, #4CAF50, #45a049);
+            border: none;
+            border-radius: 25px;
+            padding: 0.75rem 2rem;
+            font-weight: bold;
+        }
+
+        .btn-info {
+            background: linear-gradient(135deg, #2196F3, #1976D2);
+            border: none;
+            border-radius: 25px;
+            padding: 0.75rem 2rem;
+            font-weight: bold;
+        }
+
+        .feature-badge {
+            background: rgba(255,255,255,0.2);
+            padding: 0.25rem 0.75rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
+            display: inline-block;
+        }
+
+        .stats-card {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 15px;
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+
+        .tech-stack {
+            background: rgba(255,255,255,0.1);
+            padding: 1rem;
+            border-radius: 10px;
+            margin: 1rem 0;
+        }
+
+        .tech-item {
+            background: rgba(255,255,255,0.2);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            margin: 0.25rem;
+            display: inline-block;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid py-5">
+        <!-- Header -->
+        <div class="row">
+            <div class="col-12">
+                <h1 class="main-header">🎯 Segni Mekonnen</h1>
+                <p class="sub-header">Machine Learning Engineer & Data Scientist</p>
+            </div>
+        </div>
+
+        <!-- Introduction -->
+        <div class="row mb-5">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body text-center">
+                        <h2 class="card-title">🚀 Enhanced ML Portfolio Projects</h2>
+                        <p class="card-text lead">
+                            Professional machine learning applications with advanced features, 
+                            modern UI/UX, and production-ready deployment. Each project showcases 
+                            cutting-edge ML techniques and best practices.
+                        </p>
+                        <div class="row mt-4">
+                            <div class="col-md-3">
+                                <div class="stats-card">
+                                    <h3>4</h3>
+                                    <p>ML Projects</p>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="stats-card">
+                                    <h3>12</h3>
+                                    <p>Premium Jobs</p>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="stats-card">
+                                    <h3>100%</h3>
+                                    <p>Enhanced</p>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="stats-card">
+                                    <h3>Live</h3>
+                                    <p>Demos</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Projects -->
+        <div class="row">
+            <!-- Enhanced Internship Finder -->
+            <div class="col-lg-6">
+                <div class="project-card">
+                    <h3><i class="fas fa-search"></i> Enhanced ML Internship Finder</h3>
+                    <p class="lead">AI-powered internship matching with 12 premium opportunities from top tech companies.</p>
+                    
+                    <div class="tech-stack">
+                        <strong>Tech Stack:</strong><br>
+                        <span class="tech-item">Flask</span>
+                        <span class="tech-item">Python</span>
+                        <span class="tech-item">Bootstrap</span>
+                        <span class="tech-item">JavaScript</span>
+                        <span class="tech-item">API</span>
+                    </div>
+
+                    <h5>🎯 Premium Features:</h5>
+                    <div class="mb-3">
+                        <span class="feature-badge">12 Premium Jobs</span>
+                        <span class="feature-badge">Advanced Search</span>
+                        <span class="feature-badge">Smart Matching</span>
+                        <span class="feature-badge">Analytics Dashboard</span>
+                        <span class="feature-badge">Application Tracking</span>
+                    </div>
+
+                    <h5>🏢 Featured Companies:</h5>
+                    <p>Google AI, OpenAI, Tesla, Microsoft, Netflix, Amazon, Meta AI, Boston Dynamics, NVIDIA, Uber, Goldman Sachs, Johnson & Johnson</p>
+
+                    <div class="mt-4">
+                        <a href="https://enhanced-internship-finder.onrender.com" class="btn btn-success me-2" target="_blank">
+                            <i class="fas fa-external-link-alt"></i> Live Demo
+                        </a>
+                        <a href="https://github.com/segnimekonnen7/budget-buddy/tree/master/ml-projects/internship-finder" class="btn btn-info" target="_blank">
+                            <i class="fab fa-github"></i> View Code
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Enhanced Sentiment Analyzer -->
+            <div class="col-lg-6">
+                <div class="project-card">
+                    <h3><i class="fas fa-brain"></i> Enhanced Sentiment Analyzer</h3>
+                    <p class="lead">Advanced NLP application with custom lexicon and batch processing capabilities.</p>
+                    
+                    <div class="tech-stack">
+                        <strong>Tech Stack:</strong><br>
+                        <span class="tech-item">Flask</span>
+                        <span class="tech-item">NLTK</span>
+                        <span class="tech-item">TextBlob</span>
+                        <span class="tech-item">Plotly</span>
+                        <span class="tech-item">Pandas</span>
+                    </div>
+
+                    <h5>🎯 Premium Features:</h5>
+                    <div class="mb-3">
+                        <span class="feature-badge">Advanced NLP</span>
+                        <span class="feature-badge">Batch Processing</span>
+                        <span class="feature-badge">Custom Lexicon</span>
+                        <span class="feature-badge">Analytics Dashboard</span>
+                        <span class="feature-badge">Real-time Analysis</span>
+                    </div>
+
+                    <h5>📊 Capabilities:</h5>
+                    <p>Single text analysis, batch processing, sentiment trends, confidence scoring, and detailed analytics</p>
+
+                    <div class="mt-4">
+                        <a href="https://enhanced-sentiment-analyzer.onrender.com" class="btn btn-success me-2" target="_blank">
+                            <i class="fas fa-external-link-alt"></i> Live Demo
+                        </a>
+                        <a href="https://github.com/segnimekonnen7/budget-buddy/tree/master/ml-projects/sentiment-analyzer" class="btn btn-info" target="_blank">
+                            <i class="fab fa-github"></i> View Code
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Enhanced Plant Disease Classifier -->
+            <div class="col-lg-6">
+                <div class="project-card">
+                    <h3><i class="fas fa-leaf"></i> Enhanced Plant Disease Classifier</h3>
+                    <p class="lead">Professional computer vision application for plant disease detection and analysis.</p>
+                    
+                    <div class="tech-stack">
+                        <strong>Tech Stack:</strong><br>
+                        <span class="tech-item">Flask</span>
+                        <span class="tech-item">OpenCV</span>
+                        <span class="tech-item">TensorFlow</span>
+                        <span class="tech-item">Pillow</span>
+                        <span class="tech-item">Plotly</span>
+                    </div>
+
+                    <h5>🎯 Premium Features:</h5>
+                    <div class="mb-3">
+                        <span class="feature-badge">Computer Vision</span>
+                        <span class="feature-badge">Feature Analysis</span>
+                        <span class="feature-badge">Performance Metrics</span>
+                        <span class="feature-badge">Advanced Classification</span>
+                        <span class="feature-badge">Real-time Processing</span>
+                    </div>
+
+                    <h5>🌱 Capabilities:</h5>
+                    <p>Image upload, disease classification, feature analysis, confidence scoring, and detailed reports</p>
+
+                    <div class="mt-4">
+                        <a href="https://enhanced-plant-classifier.onrender.com" class="btn btn-success me-2" target="_blank">
+                            <i class="fas fa-external-link-alt"></i> Live Demo
+                        </a>
+                        <a href="https://github.com/segnimekonnen7/budget-buddy/tree/master/ml-projects/image-classifier" class="btn btn-info" target="_blank">
+                            <i class="fab fa-github"></i> View Code
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Enhanced Interview Prep -->
+            <div class="col-lg-6">
+                <div class="project-card">
+                    <h3><i class="fas fa-graduation-cap"></i> Enhanced Interview Prep</h3>
+                    <p class="lead">Comprehensive interview preparation tool with personalized question generation.</p>
+                    
+                    <div class="tech-stack">
+                        <strong>Tech Stack:</strong><br>
+                        <span class="tech-item">Flask</span>
+                        <span class="tech-item">Python</span>
+                        <span class="tech-item">Bootstrap</span>
+                        <span class="tech-item">JavaScript</span>
+                        <span class="tech-item">JSON</span>
+                    </div>
+
+                    <h5>🎯 Premium Features:</h5>
+                    <div class="mb-3">
+                        <span class="feature-badge">Question Generator</span>
+                        <span class="feature-badge">Progress Tracking</span>
+                        <span class="feature-badge">Personalized Tips</span>
+                        <span class="feature-badge">Comprehensive Prep</span>
+                        <span class="feature-badge">Interactive UI</span>
+                    </div>
+
+                    <h5>💼 Capabilities:</h5>
+                    <p>ML interview questions, behavioral questions, technical challenges, progress tracking, and personalized guidance</p>
+
+                    <div class="mt-4">
+                        <a href="https://enhanced-interview-prep.onrender.com" class="btn btn-success me-2" target="_blank">
+                            <i class="fas fa-external-link-alt"></i> Live Demo
+                        </a>
+                        <a href="https://github.com/segnimekonnen7/budget-buddy/tree/master/ml-projects/interview-prep" class="btn btn-info" target="_blank">
+                            <i class="fab fa-github"></i> View Code
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contact & Links -->
+        <div class="row mt-5">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body text-center">
+                        <h3 class="card-title">🔗 Connect With Me</h3>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <a href="https://github.com/segnimekonnen7" class="btn btn-primary btn-lg" target="_blank">
+                                    <i class="fab fa-github"></i> GitHub
+                                </a>
+                            </div>
+                            <div class="col-md-4">
+                                <a href="https://linkedin.com/in/segnimekonnen" class="btn btn-primary btn-lg" target="_blank">
+                                    <i class="fab fa-linkedin"></i> LinkedIn
+                                </a>
+                            </div>
+                            <div class="col-md-4">
+                                <a href="mailto:segnimekonnen@example.com" class="btn btn-primary btn-lg">
+                                    <i class="fas fa-envelope"></i> Email
+                                </a>
+                            </div>
+                        </div>
+                        <p class="mt-3 text-muted">
+                            🚀 All projects are enhanced with premium features and ready for production deployment!
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
 </html>
