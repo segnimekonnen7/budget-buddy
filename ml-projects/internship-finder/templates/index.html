@@ -3,77 +3,433 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ML Internship Finder - Find Your Dream Internship</title>
+    <title>🎯 Enhanced ML Internship Finder</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #667eea;
+            --secondary-color: #764ba2;
+            --accent-color: #f093fb;
+            --success-color: #4CAF50;
+            --warning-color: #ff9800;
+            --danger-color: #f44336;
+        }
+
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .main-header {
+            background: linear-gradient(90deg, #1f77b4, #ff7f0e);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: 2.5rem;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.95);
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            backdrop-filter: blur(10px);
+            margin-bottom: 1.5rem;
+        }
+
+        .job-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .job-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.2);
+        }
+
+        .search-box {
+            background: rgba(255,255,255,0.1);
+            padding: 1rem;
+            border-radius: 10px;
+            margin: 1rem 0;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            border-radius: 25px;
+            padding: 0.5rem 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, #4CAF50, #45a049);
+            border: none;
+            border-radius: 25px;
+        }
+
+        .btn-info {
+            background: linear-gradient(135deg, #2196F3, #1976D2);
+            border: none;
+            border-radius: 25px;
+        }
+
+        .match-score {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-weight: bold;
+            display: inline-block;
+        }
+
+        .stats-card {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 1rem;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .nav-tabs .nav-link {
+            color: #667eea;
+            border: none;
+            border-radius: 25px 25px 0 0;
+            margin-right: 0.5rem;
+        }
+
+        .nav-tabs .nav-link.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+        }
+
+        .form-control, .form-select {
+            border-radius: 10px;
+            border: 2px solid #e9ecef;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-control:focus, .form-select:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .spinner-border {
+            color: #667eea;
+        }
+
+        .alert {
+            border-radius: 10px;
+            border: none;
+        }
+
+        .company-badge {
+            background: rgba(255,255,255,0.2);
+            padding: 0.25rem 0.5rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            margin-right: 0.5rem;
+        }
+
+        .salary-badge {
+            background: linear-gradient(135deg, #4CAF50, #45a049);
+            color: white;
+            padding: 0.25rem 0.5rem;
+            border-radius: 15px;
+            font-weight: bold;
+        }
+
+        .remote-badge {
+            background: linear-gradient(135deg, #2196F3, #1976D2);
+            color: white;
+            padding: 0.25rem 0.5rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+        }
+    </style>
 </head>
 <body>
-    <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-        <div class="container">
-            <a class="navbar-brand" href="/">
-                <i class="fas fa-search"></i> ML Internship Finder
-            </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="/jobs">Browse Jobs</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/applications">My Applications</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/profile">Profile</a>
-                    </li>
-                </ul>
+    <div class="container-fluid py-4">
+        <!-- Header -->
+        <div class="row">
+            <div class="col-12">
+                <h1 class="main-header">🎯 Enhanced ML Internship Finder</h1>
+                <p class="text-center text-white mb-4">AI-powered internship matching and application tracking - NOW WITH 12 PREMIUM JOBS!</p>
             </div>
         </div>
-    </nav>
 
-    <!-- Hero Section -->
-    <div class="hero-section">
-        <div class="container">
-            <div class="row align-items-center min-vh-100">
-                <div class="col-lg-6">
-                    <h1 class="display-4 fw-bold text-white mb-4">
-                        Find Your Dream ML Internship
-                    </h1>
-                    <p class="lead text-white-50 mb-4">
-                        Discover and apply to the best machine learning internships. 
-                        Get personalized recommendations based on your skills and preferences.
-                    </p>
-                    <div class="d-flex gap-3">
-                        <a href="#search-section" class="btn btn-light btn-lg">
-                            <i class="fas fa-search"></i> Start Searching
-                        </a>
-                        <a href="/jobs" class="btn btn-outline-light btn-lg">
-                            <i class="fas fa-list"></i> Browse All Jobs
-                        </a>
+        <!-- Main Content -->
+        <div class="row">
+            <!-- Sidebar -->
+            <div class="col-lg-3">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title"><i class="fas fa-user"></i> Your Profile</h5>
+                        
+                        <div class="mb-3">
+                            <label for="skills" class="form-label">Your Skills (comma-separated)</label>
+                            <textarea class="form-control" id="skills" rows="3" 
+                                placeholder="Python, Machine Learning, TensorFlow, Data Analysis..."></textarea>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="experience" class="form-label">Experience Level</label>
+                            <select class="form-select" id="experience">
+                                <option value="Beginner">Beginner</option>
+                                <option value="Intermediate">Intermediate</option>
+                                <option value="Advanced">Advanced</option>
+                                <option value="Expert">Expert</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="location" class="form-label">Preferred Location</label>
+                            <select class="form-select" id="location">
+                                <option value="Any">Any</option>
+                                <option value="Remote">Remote</option>
+                                <option value="On-site">On-site</option>
+                                <option value="Hybrid">Hybrid</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="minSalary" class="form-label">Minimum Salary ($/hr)</label>
+                            <input type="range" class="form-range" id="minSalary" min="20" max="60" value="30" step="5">
+                            <div class="text-center">
+                                <span id="salaryValue">$30</span>/hr
+                            </div>
+                        </div>
+
+                        <button class="btn btn-primary w-100" onclick="updateProfile()">
+                            <i class="fas fa-save"></i> Update Profile
+                        </button>
                     </div>
                 </div>
-                <div class="col-lg-6">
-                    <div class="hero-stats">
-                        <div class="row text-center">
-                            <div class="col-4">
-                                <div class="stat-card">
-                                    <h3 class="text-primary">500+</h3>
-                                    <p class="text-white-50">ML Internships</p>
+            </div>
+
+            <!-- Main Content -->
+            <div class="col-lg-9">
+                <!-- Navigation Tabs -->
+                <ul class="nav nav-tabs" id="myTab" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="jobs-tab" data-bs-toggle="tab" data-bs-target="#jobs" type="button" role="tab">
+                            <i class="fas fa-search"></i> Find Jobs
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="analytics-tab" data-bs-toggle="tab" data-bs-target="#analytics" type="button" role="tab">
+                            <i class="fas fa-chart-bar"></i> Analytics
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="applications-tab" data-bs-toggle="tab" data-bs-target="#applications" type="button" role="tab">
+                            <i class="fas fa-file-alt"></i> Applications
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="tips-tab" data-bs-toggle="tab" data-bs-target="#tips" type="button" role="tab">
+                            <i class="fas fa-lightbulb"></i> Tips
+                        </button>
+                    </li>
+                </ul>
+
+                <!-- Tab Content -->
+                <div class="tab-content" id="myTabContent">
+                    <!-- Jobs Tab -->
+                    <div class="tab-pane fade show active" id="jobs" role="tabpanel">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title"><i class="fas fa-search"></i> Find ML Internships</h5>
+                                
+                                <!-- Search and Filters -->
+                                <div class="row mb-3">
+                                    <div class="col-md-6">
+                                        <input type="text" class="form-control" id="searchQuery" 
+                                            placeholder="Search jobs: computer vision, NLP, research...">
+                                    </div>
+                                    <div class="col-md-3">
+                                        <select class="form-select" id="locationFilter">
+                                            <option value="All">All Locations</option>
+                                            <option value="Remote">Remote</option>
+                                            <option value="On-site">On-site</option>
+                                            <option value="Hybrid">Hybrid</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <select class="form-select" id="jobTypeFilter">
+                                            <option value="All">All Types</option>
+                                            <option value="Research">Research</option>
+                                            <option value="Engineering">Engineering</option>
+                                            <option value="Analytics">Analytics</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="row mb-3">
+                                    <div class="col-md-6">
+                                        <select class="form-select" id="sortBy">
+                                            <option value="Match Score">Sort by Match Score</option>
+                                            <option value="Salary">Sort by Salary</option>
+                                            <option value="Company">Sort by Company</option>
+                                            <option value="Location">Sort by Location</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <button class="btn btn-primary w-100" onclick="searchJobs()">
+                                            <i class="fas fa-search"></i> Search Jobs
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <!-- Loading -->
+                                <div class="loading" id="loading">
+                                    <div class="spinner-border" role="status">
+                                        <span class="visually-hidden">Loading...</span>
+                                    </div>
+                                    <p class="mt-2">Searching for internships...</p>
+                                </div>
+
+                                <!-- Results -->
+                                <div id="results">
+                                    <div class="alert alert-info">
+                                        <i class="fas fa-info-circle"></i> 
+                                        Enter your skills and click "Search Jobs" to find matching internships!
+                                    </div>
                                 </div>
                             </div>
-                            <div class="col-4">
-                                <div class="stat-card">
-                                    <h3 class="text-primary">50+</h3>
-                                    <p class="text-white-50">Companies</p>
+                        </div>
+                    </div>
+
+                    <!-- Analytics Tab -->
+                    <div class="tab-pane fade" id="analytics" role="tabpanel">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title"><i class="fas fa-chart-bar"></i> Analytics Dashboard</h5>
+                                
+                                <div class="row" id="statsContainer">
+                                    <div class="col-md-4">
+                                        <div class="stats-card">
+                                            <h3 id="totalApplications">0</h3>
+                                            <p>Total Applications</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="stats-card">
+                                            <h3 id="recentApplications">0</h3>
+                                            <p>Recent Applications (7 days)</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="stats-card">
+                                            <h3 id="applicationRate">0%</h3>
+                                            <p>Weekly Application Rate</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="mt-4">
+                                    <div class="alert alert-info">
+                                        <i class="fas fa-info-circle"></i> 
+                                        Start applying to jobs to see your analytics!
+                                    </div>
                                 </div>
                             </div>
-                            <div class="col-4">
-                                <div class="stat-card">
-                                    <h3 class="text-primary">95%</h3>
-                                    <p class="text-white-50">Match Rate</p>
+                        </div>
+                    </div>
+
+                    <!-- Applications Tab -->
+                    <div class="tab-pane fade" id="applications" role="tabpanel">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title"><i class="fas fa-file-alt"></i> Your Applications</h5>
+                                
+                                <div id="applicationsList">
+                                    <div class="alert alert-info">
+                                        <i class="fas fa-info-circle"></i> 
+                                        You haven't applied to any jobs yet. Start applying to track your progress!
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tips Tab -->
+                    <div class="tab-pane fade" id="tips" role="tabpanel">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title"><i class="fas fa-lightbulb"></i> Application Tips</h5>
+                                
+                                <h6>🎯 How to Get the Best ML Internships:</h6>
+                                
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <h6>1. Build a Strong Portfolio</h6>
+                                        <ul>
+                                            <li>Create ML projects on GitHub</li>
+                                            <li>Participate in Kaggle competitions</li>
+                                            <li>Write technical blog posts</li>
+                                        </ul>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <h6>2. Network Effectively</h6>
+                                        <ul>
+                                            <li>Attend ML conferences and meetups</li>
+                                            <li>Connect with professionals on LinkedIn</li>
+                                            <li>Join ML communities and forums</li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <h6>3. Prepare for Interviews</h6>
+                                        <ul>
+                                            <li>Practice coding problems on LeetCode</li>
+                                            <li>Review ML fundamentals and algorithms</li>
+                                            <li>Prepare for behavioral questions</li>
+                                        </ul>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <h6>4. Customize Your Applications</h6>
+                                        <ul>
+                                            <li>Tailor your resume for each position</li>
+                                            <li>Write personalized cover letters</li>
+                                            <li>Highlight relevant projects and skills</li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-12">
+                                        <h6>5. Follow Up</h6>
+                                        <ul>
+                                            <li>Send thank-you emails after interviews</li>
+                                            <li>Follow up on applications after 1-2 weeks</li>
+                                            <li>Stay connected with recruiters</li>
+                                        </ul>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -83,123 +439,242 @@
         </div>
     </div>
 
-    <!-- Search Section -->
-    <section id="search-section" class="py-5">
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-lg-8">
-                    <div class="card shadow-lg">
-                        <div class="card-body p-4">
-                            <h3 class="card-title text-center mb-4">
-                                <i class="fas fa-search"></i> Find ML Internships
-                            </h3>
-                            
-                            <form id="searchForm">
-                                <div class="row g-3">
-                                    <div class="col-md-6">
-                                        <label for="keywords" class="form-label">Keywords</label>
-                                        <input type="text" class="form-control" id="keywords" 
-                                               value="machine learning intern" required>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label for="location" class="form-label">Location</label>
-                                        <select class="form-select" id="location">
-                                            <option value="remote">Remote</option>
-                                            <option value="san francisco">San Francisco</option>
-                                            <option value="new york">New York</option>
-                                            <option value="seattle">Seattle</option>
-                                            <option value="austin">Austin</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-12">
-                                        <button type="submit" class="btn btn-primary w-100">
-                                            <i class="fas fa-search"></i> Search Internships
-                                        </button>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Results Section -->
-    <section id="results-section" class="py-5 bg-light" style="display: none;">
-        <div class="container">
-            <div class="row">
-                <div class="col-12">
-                    <h3 class="text-center mb-4">
-                        <i class="fas fa-list"></i> Search Results
-                    </h3>
-                    <div id="results-container">
-                        <!-- Results will be loaded here -->
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Features Section -->
-    <section class="py-5">
-        <div class="container">
-            <div class="row text-center mb-5">
-                <div class="col-12">
-                    <h2 class="fw-bold">Why Choose Our Internship Finder?</h2>
-                    <p class="lead text-muted">Built specifically for ML students and professionals</p>
-                </div>
-            </div>
-            
-            <div class="row g-4">
-                <div class="col-md-4">
-                    <div class="feature-card text-center">
-                        <div class="feature-icon mb-3">
-                            <i class="fas fa-brain text-primary"></i>
-                        </div>
-                        <h4>Smart Matching</h4>
-                        <p class="text-muted">AI-powered job matching based on your skills, experience, and preferences.</p>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="feature-card text-center">
-                        <div class="feature-icon mb-3">
-                            <i class="fas fa-chart-line text-primary"></i>
-                        </div>
-                        <h4>Application Tracking</h4>
-                        <p class="text-muted">Track your applications, interview status, and get insights on your job search.</p>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="feature-card text-center">
-                        <div class="feature-icon mb-3">
-                            <i class="fas fa-lightbulb text-primary"></i>
-                        </div>
-                        <h4>Personalized Tips</h4>
-                        <p class="text-muted">Get customized application tips and interview preparation advice for each job.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="bg-dark text-white py-4">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-6">
-                    <h5>ML Internship Finder</h5>
-                    <p class="text-muted">Find your dream machine learning internship with AI-powered matching.</p>
-                </div>
-                <div class="col-md-6 text-md-end">
-                    <p class="text-muted">&copy; 2024 ML Internship Finder. Built for ML students.</p>
-                </div>
-            </div>
-        </div>
-    </footer>
-
-    <!-- Scripts -->
+    <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+    
+    <script>
+        // Global variables
+        let currentJobs = [];
+        let userProfile = {};
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            // Update salary display
+            document.getElementById('minSalary').addEventListener('input', function() {
+                document.getElementById('salaryValue').textContent = '$' + this.value;
+            });
+
+            // Load initial data
+            loadStats();
+            loadApplications();
+        });
+
+        // Update user profile
+        function updateProfile() {
+            const skills = document.getElementById('skills').value
+                .split(',')
+                .map(skill => skill.trim())
+                .filter(skill => skill.length > 0);
+
+            userProfile = {
+                skills: skills,
+                experience: document.getElementById('experience').value,
+                location: document.getElementById('location').value,
+                minSalary: parseInt(document.getElementById('minSalary').value)
+            };
+
+            fetch('/api/profile', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(userProfile)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    showAlert('Profile updated successfully!', 'success');
+                    searchJobs();
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                showAlert('Error updating profile', 'danger');
+            });
+        }
+
+        // Search jobs
+        function searchJobs() {
+            const searchQuery = document.getElementById('searchQuery').value;
+            const locationFilter = document.getElementById('locationFilter').value;
+            const jobTypeFilter = document.getElementById('jobTypeFilter').value;
+            const minSalary = parseInt(document.getElementById('minSalary').value);
+
+            // Show loading
+            document.getElementById('loading').style.display = 'block';
+            document.getElementById('results').innerHTML = '';
+
+            // Build query string
+            const params = new URLSearchParams({
+                search: searchQuery,
+                location: locationFilter,
+                job_type: jobTypeFilter,
+                min_salary: minSalary
+            });
+
+            fetch(`/api/jobs?${params}`)
+                .then(response => response.json())
+                .then(jobs => {
+                    currentJobs = jobs;
+                    displayJobs(jobs);
+                    document.getElementById('loading').style.display = 'none';
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    document.getElementById('loading').style.display = 'none';
+                    showAlert('Error loading jobs', 'danger');
+                });
+        }
+
+        // Display jobs
+        function displayJobs(jobs) {
+            const resultsDiv = document.getElementById('results');
+            
+            if (jobs.length === 0) {
+                resultsDiv.innerHTML = `
+                    <div class="alert alert-warning">
+                        <i class="fas fa-exclamation-triangle"></i> 
+                        No jobs found matching your criteria. Try adjusting your filters.
+                    </div>
+                `;
+                return;
+            }
+
+            const sortBy = document.getElementById('sortBy').value;
+            if (sortBy === 'Salary') {
+                jobs.sort((a, b) => b.salary - a.salary);
+            } else if (sortBy === 'Company') {
+                jobs.sort((a, b) => a.company.localeCompare(b.company));
+            } else if (sortBy === 'Location') {
+                jobs.sort((a, b) => a.location.localeCompare(b.location));
+            }
+
+            let html = `<h6>Found ${jobs.length} matching internships</h6>`;
+            
+            jobs.forEach(job => {
+                html += `
+                    <div class="job-card">
+                        <div class="row">
+                            <div class="col-md-8">
+                                <h5>${job.title}</h5>
+                                <p><strong>Company:</strong> <span class="company-badge">${job.company}</span></p>
+                                <p><strong>Location:</strong> ${job.location} <span class="remote-badge">${job.remote}</span></p>
+                                <p><strong>Salary:</strong> <span class="salary-badge">$${job.salary}/hour</span></p>
+                                <p><strong>Skills:</strong> ${job.skills.join(', ')}</p>
+                                <p><strong>Description:</strong> ${job.description}</p>
+                                <p><strong>Job Type:</strong> ${job.job_type} | <strong>Duration:</strong> ${job.duration}</p>
+                                <p><strong>Requirements:</strong> ${job.requirements}</p>
+                            </div>
+                            <div class="col-md-4 text-end">
+                                <div class="match-score mb-2">${job.match_score}% Match</div>
+                                <button class="btn btn-success btn-sm mb-2 w-100" onclick="applyToJob('${job.title}')">
+                                    <i class="fas fa-paper-plane"></i> Apply
+                                </button>
+                                <button class="btn btn-info btn-sm w-100" onclick="saveJob('${job.title}')">
+                                    <i class="fas fa-bookmark"></i> Save
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+
+            resultsDiv.innerHTML = html;
+        }
+
+        // Apply to job
+        function applyToJob(jobTitle) {
+            fetch('/api/apply', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ job_title: jobTitle })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    showAlert(data.message, 'success');
+                    loadStats();
+                    loadApplications();
+                } else {
+                    showAlert(data.message, 'danger');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                showAlert('Error applying to job', 'danger');
+            });
+        }
+
+        // Save job (placeholder)
+        function saveJob(jobTitle) {
+            showAlert(`Saved ${jobTitle} to your list!`, 'info');
+        }
+
+        // Load statistics
+        function loadStats() {
+            fetch('/api/stats')
+                .then(response => response.json())
+                .then(stats => {
+                    document.getElementById('totalApplications').textContent = stats.total_applications;
+                    document.getElementById('recentApplications').textContent = stats.recent_applications;
+                    document.getElementById('applicationRate').textContent = stats.application_rate.toFixed(1) + '%';
+                })
+                .catch(error => {
+                    console.error('Error loading stats:', error);
+                });
+        }
+
+        // Load applications
+        function loadApplications() {
+            fetch('/api/stats')
+                .then(response => response.json())
+                .then(stats => {
+                    const applicationsList = document.getElementById('applicationsList');
+                    
+                    if (stats.total_applications === 0) {
+                        applicationsList.innerHTML = `
+                            <div class="alert alert-info">
+                                <i class="fas fa-info-circle"></i> 
+                                You haven't applied to any jobs yet. Start applying to track your progress!
+                            </div>
+                        `;
+                    } else {
+                        // In a real app, you'd fetch the actual applications list
+                        applicationsList.innerHTML = `
+                            <div class="alert alert-success">
+                                <i class="fas fa-check-circle"></i> 
+                                You have applied to ${stats.total_applications} jobs! Check your email for responses.
+                            </div>
+                        `;
+                    }
+                })
+                .catch(error => {
+                    console.error('Error loading applications:', error);
+                });
+        }
+
+        // Show alert
+        function showAlert(message, type) {
+            const alertDiv = document.createElement('div');
+            alertDiv.className = `alert alert-${type} alert-dismissible fade show`;
+            alertDiv.innerHTML = `
+                ${message}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            `;
+            
+            // Insert at the top of the main content
+            const mainContent = document.querySelector('.col-lg-9');
+            mainContent.insertBefore(alertDiv, mainContent.firstChild);
+            
+            // Auto-dismiss after 5 seconds
+            setTimeout(() => {
+                if (alertDiv.parentNode) {
+                    alertDiv.remove();
+                }
+            }, 5000);
+        }
+    </script>
 </body>
 </html> 
