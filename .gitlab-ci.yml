@@ -1,98 +1,56 @@
-# GitLab CI/CD Pipeline for ML Portfolio Projects
-# Simplified version for successful deployment
+# This file is a template, and might need editing before it works on your project.
+# To contribute improvements to CI/CD templates, please follow the Development guide at:
+# https://docs.gitlab.com/development/cicd/templates/
+# This specific template is located at:
+# https://gitlab.com/gitlab-org/gitlab/-/blob/master/lib/gitlab/ci/templates/Python.gitlab-ci.yml
 
-stages:
-  - test
-  - build
-  - deploy
+# Official language image. Look for the different tagged releases at:
+# https://hub.docker.com/r/library/python/tags/
+image: python:latest
 
-# Test stage - Simple dependency check
+# Change pip's cache directory to be inside the project directory since we can
+# only cache local items.
+variables:
+  PIP_CACHE_DIR: "$CI_PROJECT_DIR/.cache/pip"
+
+# https://pip.pypa.io/en/stable/topics/caching/
+cache:
+  paths:
+    - .cache/pip
+
+before_script:
+  - python --version ; pip --version  # For debugging
+  - pip install virtualenv
+  - virtualenv venv
+  - source venv/bin/activate
+
 test:
-  stage: test
-  image: python:3.9
   script:
-    - echo "Testing ML project dependencies..."
-    - python --version
-    - pip --version
-    - echo "✅ All dependencies available"
-  only:
-    - master
+    - pip install ruff tox  # you can also use tox
+    - pip install --editable ".[test]"
+    - tox -e py,ruff
 
-# Build stage - Prepare projects
-build:
-  stage: build
-  image: python:3.9
+run:
   script:
-    - echo "🚀 Building Enhanced ML Projects..."
-    - echo "✅ Enhanced Internship Finder - 12 premium jobs"
-    - echo "✅ Enhanced Sentiment Analyzer - Advanced NLP"
-    - echo "✅ Enhanced Plant Disease Classifier - Professional CV"
-    - echo "✅ Enhanced Interview Prep - Comprehensive tools"
-    - echo "📊 All projects ready for deployment"
+    - pip install .
+    # run the command here
   artifacts:
     paths:
-      - ml-projects/
-    expire_in: 1 week
-  only:
-    - master
+      - build/*
 
-# Deploy portfolio to GitLab Pages
 pages:
-  stage: deploy
-  image: alpine:latest
   script:
-    - echo "🎯 Creating ML Portfolio Page..."
-    - mkdir -p public
-    - echo "<!DOCTYPE html>" > public/index.html
-    - echo "<html><head><title>🎯 Segni Mekonnen - ML Portfolio</title></head>" >> public/index.html
-    - echo "<body style='font-family: Arial, sans-serif; margin: 40px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;'>" >> public/index.html
-    - echo "<h1 style='text-align: center; font-size: 3rem;'>🎯 Segni Mekonnen</h1>" >> public/index.html
-    - echo "<h2 style='text-align: center;'>Machine Learning Engineer & Data Scientist</h2>" >> public/index.html
-    - echo "<div style='max-width: 800px; margin: 0 auto; padding: 20px;'>" >> public/index.html
-    - echo "<h3>🚀 Enhanced ML Portfolio Projects</h3>" >> public/index.html
-    - echo "<p>Professional machine learning applications with advanced features and modern UI/UX.</p>" >> public/index.html
-    - echo "<h4>🎯 Projects:</h4>" >> public/index.html
-    - echo "<ul style='font-size: 1.2rem;'>" >> public/index.html
-    - echo "<li><strong>Enhanced Internship Finder</strong> - 12 premium jobs (Google AI, OpenAI, Tesla, etc.)</li>" >> public/index.html
-    - echo "<li><strong>Enhanced Sentiment Analyzer</strong> - Advanced NLP with batch processing</li>" >> public/index.html
-    - echo "<li><strong>Enhanced Plant Disease Classifier</strong> - Professional computer vision</li>" >> public/index.html
-    - echo "<li><strong>Enhanced Interview Prep</strong> - Comprehensive preparation tools</li>" >> public/index.html
-    - echo "</ul>" >> public/index.html
-    - echo "<h4>🔗 Deployment Status:</h4>" >> public/index.html
-    - echo "<p>✅ All projects enhanced with premium features</p>" >> public/index.html
-    - echo "<p>✅ Ready for Render deployment</p>" >> public/index.html
-    - echo "<p>✅ Professional portfolio created</p>" >> public/index.html
-    - echo "<h4>📊 Features:</h4>" >> public/index.html
-    - echo "<ul>" >> public/index.html
-    - echo "<li>12 Premium Internship Opportunities</li>" >> public/index.html
-    - echo "<li>Advanced Search & Filtering</li>" >> public/index.html
-    - echo "<li>Analytics Dashboards</li>" >> public/index.html
-    - echo "<li>Real-time Processing</li>" >> public/index.html
-    - echo "<li>Professional UI/UX</li>" >> public/index.html
-    - echo "</ul>" >> public/index.html
-    - echo "<p style='text-align: center; margin-top: 40px; font-size: 1.1rem;'>🚀 All projects are enhanced and ready for production deployment!</p>" >> public/index.html
-    - echo "</div></body></html>" >> public/index.html
-    - echo "✅ Portfolio page created successfully"
+    - pip install sphinx sphinx-rtd-theme
+    - cd doc
+    - make html
+    - mv build/html/ ../public/
   artifacts:
     paths:
       - public
-  only:
-    - master
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
 
-# Deploy status notification
-deploy_status:
+deploy:
   stage: deploy
-  image: alpine:latest
-  script:
-    - echo "🎉 Deployment Summary:"
-    - echo "✅ GitLab CI/CD Pipeline: SUCCESS"
-    - echo "✅ Portfolio Page: READY"
-    - echo "✅ Enhanced ML Projects: READY"
-    - echo "✅ All projects ready for Render deployment"
-    - echo ""
-    - echo "🚀 Next Steps:"
-    - echo "1. Deploy to Render for live demos"
-    - echo "2. Portfolio available at GitLab Pages"
-    - echo "3. All enhanced features active"
-  only:
-    - master 
+  script: echo "Define your deployment script!"
+  environment: production
