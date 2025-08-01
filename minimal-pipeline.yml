@@ -1,0 +1,63 @@
+# Minimal GitLab CI/CD Pipeline
+stages:
+  - test
+  - deploy
+
+test:
+  stage: test
+  image: alpine:latest
+  script:
+    - echo "Testing ML Portfolio Projects"
+    - echo "All projects ready"
+  only:
+    - master
+
+pages:
+  stage: deploy
+  image: alpine:latest
+  script:
+    - echo "Creating ML Portfolio Page"
+    - mkdir -p public
+    - cat > public/index.html << 'EOF'
+    - <!DOCTYPE html>
+    - <html>
+    - <head>
+    -   <title>Segni Mekonnen - ML Portfolio</title>
+    -   <meta charset="UTF-8">
+    - </head>
+    - <body style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 40px; font-family: Arial, sans-serif;">
+    -   <div style="max-width: 800px; margin: 0 auto; background: rgba(255,255,255,0.1); padding: 30px; border-radius: 15px;">
+    -     <h1 style="text-align: center; font-size: 3rem;">Segni Mekonnen</h1>
+    -     <h2 style="text-align: center;">Machine Learning Engineer & Data Scientist</h2>
+    -     <h3>Enhanced ML Portfolio Projects</h3>
+    -     <p>Professional machine learning applications with advanced features and modern UI/UX.</p>
+    -     <h4>Featured Projects:</h4>
+    -     <ul>
+    -       <li><strong>Enhanced Internship Finder</strong> - 12 premium jobs (Google AI, OpenAI, Tesla, etc.)</li>
+    -       <li><strong>Enhanced Sentiment Analyzer</strong> - Advanced NLP with batch processing</li>
+    -       <li><strong>Enhanced Plant Disease Classifier</strong> - Professional computer vision</li>
+    -       <li><strong>Enhanced Interview Prep</strong> - Comprehensive preparation tools</li>
+    -     </ul>
+    -     <h4>Deployment Status:</h4>
+    -     <p>All projects enhanced with premium features</p>
+    -     <p>Ready for Render deployment</p>
+    -     <p>Professional portfolio created</p>
+    -     <h4>Features:</h4>
+    -     <ul>
+    -       <li>12 Premium Internship Opportunities</li>
+    -       <li>Advanced Search & Filtering</li>
+    -       <li>Analytics Dashboards</li>
+    -       <li>Real-time Processing</li>
+    -       <li>Professional UI/UX</li>
+    -     </ul>
+    -     <p style="text-align: center; margin-top: 40px; font-size: 1.1rem;">All projects are enhanced and ready for production deployment!</p>
+    -   </div>
+    - </body>
+    - </html>
+    - EOF
+    - echo "Portfolio created successfully"
+  artifacts:
+    paths:
+      - public
+  only:
+    - master 

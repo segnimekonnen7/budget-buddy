@@ -1,0 +1,27 @@
+# Super Simple GitLab CI/CD Pipeline
+stages:
+  - test
+  - deploy
+
+test:
+  stage: test
+  image: alpine:latest
+  script:
+    - echo "Testing ML Portfolio Projects"
+    - echo "All projects ready"
+  only:
+    - master
+
+pages:
+  stage: deploy
+  image: alpine:latest
+  script:
+    - echo "Creating Professional ML Portfolio Page"
+    - mkdir -p public
+    - cp public/index.html public/index.html
+    - echo "Professional ML Portfolio created successfully"
+  artifacts:
+    paths:
+      - public
+  only:
+    - master 

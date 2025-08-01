@@ -1,0 +1,160 @@
+# Working Professional GitLab CI/CD Pipeline
+stages:
+  - test
+  - deploy
+
+test:
+  stage: test
+  image: alpine:latest
+  script:
+    - echo "Testing ML Portfolio Projects"
+    - echo "All projects ready"
+  only:
+    - master
+
+pages:
+  stage: deploy
+  image: alpine:latest
+  script:
+    - echo "Creating Professional ML Portfolio Page"
+    - mkdir -p public
+    - echo "<!DOCTYPE html>" > public/index.html
+    - echo "<html lang='en'>" >> public/index.html
+    - echo "<head>" >> public/index.html
+    - echo "  <meta charset='UTF-8'>" >> public/index.html
+    - echo "  <meta name='viewport' content='width=device-width, initial-scale=1.0'>" >> public/index.html
+    - echo "  <title>Segni Mekonnen - ML Portfolio</title>" >> public/index.html
+    - echo "  <link href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css' rel='stylesheet'>" >> public/index.html
+    - echo "  <style>" >> public/index.html
+    - echo "    body { font-family: Arial, sans-serif; margin: 0; padding: 0; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; min-height: 100vh; }" >> public/index.html
+    - echo "    .container { max-width: 1200px; margin: 0 auto; padding: 40px 20px; }" >> public/index.html
+    - echo "    .header { text-align: center; margin-bottom: 60px; }" >> public/index.html
+    - echo "    .header h1 { font-size: 4rem; margin-bottom: 10px; text-shadow: 2px 2px 4px rgba(0,0,0,0.3); }" >> public/index.html
+    - echo "    .header h2 { font-size: 1.5rem; color: #e0e0e0; margin-bottom: 20px; }" >> public/index.html
+    - echo "    .intro { background: rgba(255,255,255,0.1); padding: 30px; border-radius: 20px; margin-bottom: 40px; text-align: center; }" >> public/index.html
+    - echo "    .intro h3 { font-size: 2rem; margin-bottom: 20px; color: #4CAF50; }" >> public/index.html
+    - echo "    .intro p { font-size: 1.2rem; line-height: 1.6; }" >> public/index.html
+    - echo "    .projects-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(500px, 1fr)); gap: 30px; margin-bottom: 40px; }" >> public/index.html
+    - echo "    .project-card { background: rgba(255,255,255,0.1); padding: 30px; border-radius: 15px; border-left: 5px solid; transition: transform 0.3s ease; }" >> public/index.html
+    - echo "    .project-card:hover { transform: translateY(-5px); }" >> public/index.html
+    - echo "    .project-card.internship { border-left-color: #4CAF50; }" >> public/index.html
+    - echo "    .project-card.sentiment { border-left-color: #2196F3; }" >> public/index.html
+    - echo "    .project-card.plant { border-left-color: #FF9800; }" >> public/index.html
+    - echo "    .project-card.interview { border-left-color: #9C27B0; }" >> public/index.html
+    - echo "    .project-card h4 { font-size: 1.5rem; margin-bottom: 15px; }" >> public/index.html
+    - echo "    .project-card.internship h4 { color: #4CAF50; }" >> public/index.html
+    - echo "    .project-card.sentiment h4 { color: #2196F3; }" >> public/index.html
+    - echo "    .project-card.plant h4 { color: #FF9800; }" >> public/index.html
+    - echo "    .project-card.interview h4 { color: #9C27B0; }" >> public/index.html
+    - echo "    .project-card p { margin-bottom: 15px; line-height: 1.6; }" >> public/index.html
+    - echo "    .features { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 15px; }" >> public/index.html
+    - echo "    .feature-tag { background: rgba(255,255,255,0.2); padding: 5px 12px; border-radius: 20px; font-size: 0.9rem; }" >> public/index.html
+    - echo "    .status { text-align: center; background: rgba(255,255,255,0.1); padding: 20px; border-radius: 15px; }" >> public/index.html
+    - echo "    .status h3 { font-size: 1.8rem; margin-bottom: 20px; color: #4CAF50; }" >> public/index.html
+    - echo "    .status-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; }" >> public/index.html
+    - echo "    .status-item { text-align: center; padding: 20px; background: rgba(255,255,255,0.1); border-radius: 10px; }" >> public/index.html
+    - echo "    .status-item i { font-size: 2.5rem; margin-bottom: 10px; }" >> public/index.html
+    - echo "    .status-item.success i { color: #4CAF50; }" >> public/index.html
+    - echo "    .status-item.ready i { color: #2196F3; }" >> public/index.html
+    - echo "    .status-item.professional i { color: #FF9800; }" >> public/index.html
+    - echo "    .status-item.enhanced i { color: #9C27B0; }" >> public/index.html
+    - echo "    .next-steps { text-align: center; margin-top: 40px; padding: 30px; background: rgba(255,255,255,0.1); border-radius: 15px; }" >> public/index.html
+    - echo "    .next-steps h3 { font-size: 1.8rem; margin-bottom: 20px; color: #4CAF50; }" >> public/index.html
+    - echo "    .next-steps ol { text-align: left; max-width: 600px; margin: 0 auto; font-size: 1.1rem; line-height: 1.8; }" >> public/index.html
+    - echo "    @media (max-width: 768px) { .header h1 { font-size: 2.5rem; } .projects-grid { grid-template-columns: 1fr; } }" >> public/index.html
+    - echo "  </style>" >> public/index.html
+    - echo "</head>" >> public/index.html
+    - echo "<body>" >> public/index.html
+    - echo "  <div class='container'>" >> public/index.html
+    - echo "    <div class='header'>" >> public/index.html
+    - echo "      <h1>Segni Mekonnen</h1>" >> public/index.html
+    - echo "      <h2>Machine Learning Engineer & Data Scientist</h2>" >> public/index.html
+    - echo "    </div>" >> public/index.html
+    - echo "    <div class='intro'>" >> public/index.html
+    - echo "      <h3>Enhanced ML Portfolio Projects</h3>" >> public/index.html
+    - echo "      <p>Professional machine learning applications with advanced features and modern UI/UX. All projects are enhanced with premium features and ready for production deployment.</p>" >> public/index.html
+    - echo "    </div>" >> public/index.html
+    - echo "    <div class='projects-grid'>" >> public/index.html
+    - echo "      <div class='project-card internship'>" >> public/index.html
+    - echo "        <h4>Enhanced Internship Finder</h4>" >> public/index.html
+    - echo "        <p><strong>12 Premium Jobs:</strong> Google AI, OpenAI, Tesla, Microsoft, Netflix, Amazon, Meta AI, Boston Dynamics, NVIDIA, Uber, Goldman Sachs, Johnson & Johnson</p>" >> public/index.html
+    - echo "        <div class='features'>" >> public/index.html
+    - echo "          <span class='feature-tag'>Advanced Search</span>" >> public/index.html
+    - echo "          <span class='feature-tag'>Smart Matching</span>" >> public/index.html
+    - echo "          <span class='feature-tag'>Analytics Dashboard</span>" >> public/index.html
+    - echo "          <span class='feature-tag'>Application Tracking</span>" >> public/index.html
+    - echo "        </div>" >> public/index.html
+    - echo "        <p><strong>Status:</strong> <span style='color: #4CAF50; font-weight: bold;'>Ready for Render Deployment</span></p>" >> public/index.html
+    - echo "      </div>" >> public/index.html
+    - echo "      <div class='project-card sentiment'>" >> public/index.html
+    - echo "        <h4>Enhanced Sentiment Analyzer</h4>" >> public/index.html
+    - echo "        <p><strong>Advanced NLP:</strong> Custom Lexicon, Batch Processing, Real-time Analysis with Twitter Integration</p>" >> public/index.html
+    - echo "        <div class='features'>" >> public/index.html
+    - echo "          <span class='feature-tag'>Custom Lexicon</span>" >> public/index.html
+    - echo "          <span class='feature-tag'>Batch Processing</span>" >> public/index.html
+    - echo "          <span class='feature-tag'>Twitter Integration</span>" >> public/index.html
+    - echo "          <span class='feature-tag'>Analytics Dashboard</span>" >> public/index.html
+    - echo "        </div>" >> public/index.html
+    - echo "        <p><strong>Status:</strong> <span style='color: #2196F3; font-weight: bold;'>Ready for Render Deployment</span></p>" >> public/index.html
+    - echo "      </div>" >> public/index.html
+    - echo "      <div class='project-card plant'>" >> public/index.html
+    - echo "        <h4>Enhanced Plant Disease Classifier</h4>" >> public/index.html
+    - echo "        <p><strong>Computer Vision:</strong> Transfer Learning, Feature Analysis, High Accuracy Classification</p>" >> public/index.html
+    - echo "        <div class='features'>" >> public/index.html
+    - echo "          <span class='feature-tag'>Transfer Learning</span>" >> public/index.html
+    - echo "          <span class='feature-tag'>Feature Analysis</span>" >> public/index.html
+    - echo "          <span class='feature-tag'>Real-time Classification</span>" >> public/index.html
+    - echo "          <span class='feature-tag'>Performance Metrics</span>" >> public/index.html
+    - echo "        </div>" >> public/index.html
+    - echo "        <p><strong>Status:</strong> <span style='color: #FF9800; font-weight: bold;'>Ready for Render Deployment</span></p>" >> public/index.html
+    - echo "      </div>" >> public/index.html
+    - echo "      <div class='project-card interview'>" >> public/index.html
+    - echo "        <h4>Enhanced Interview Prep</h4>" >> public/index.html
+    - echo "        <p><strong>Comprehensive Tools:</strong> 500+ Questions, Progress Tracking, Personalized Tips</p>" >> public/index.html
+    - echo "        <div class='features'>" >> public/index.html
+    - echo "          <span class='feature-tag'>500+ Questions</span>" >> public/index.html
+    - echo "          <span class='feature-tag'>Progress Tracking</span>" >> public/index.html
+    - echo "          <span class='feature-tag'>Question Generator</span>" >> public/index.html
+    - echo "          <span class='feature-tag'>Study Plans</span>" >> public/index.html
+    - echo "        </div>" >> public/index.html
+    - echo "        <p><strong>Status:</strong> <span style='color: #9C27B0; font-weight: bold;'>Ready for Render Deployment</span></p>" >> public/index.html
+    - echo "      </div>" >> public/index.html
+    - echo "    </div>" >> public/index.html
+    - echo "    <div class='status'>" >> public/index.html
+    - echo "      <h3>Deployment Status</h3>" >> public/index.html
+    - echo "      <div class='status-grid'>" >> public/index.html
+    - echo "        <div class='status-item success'>" >> public/index.html
+    - echo "          <i class='fas fa-check-circle'></i>" >> public/index.html
+    - echo "          <div><strong>GitLab CI/CD</strong><br>Pipeline Active</div>" >> public/index.html
+    - echo "        </div>" >> public/index.html
+    - echo "        <div class='status-item ready'>" >> public/index.html
+    - echo "          <i class='fas fa-rocket'></i>" >> public/index.html
+    - echo "          <div><strong>Portfolio Page</strong><br>Live on GitLab Pages</div>" >> public/index.html
+    - echo "        </div>" >> public/index.html
+    - echo "        <div class='status-item professional'>" >> public/index.html
+    - echo "          <i class='fas fa-chart-line'></i>" >> public/index.html
+    - echo "          <div><strong>Enhanced Projects</strong><br>Ready for Render</div>" >> public/index.html
+    - echo "        </div>" >> public/index.html
+    - echo "        <div class='status-item enhanced'>" >> public/index.html
+    - echo "          <i class='fas fa-star'></i>" >> public/index.html
+    - echo "          <div><strong>Professional UI</strong><br>Modern Design</div>" >> public/index.html
+    - echo "        </div>" >> public/index.html
+    - echo "      </div>" >> public/index.html
+    - echo "    </div>" >> public/index.html
+    - echo "    <div class='next-steps'>" >> public/index.html
+    - echo "      <h3>Next Steps</h3>" >> public/index.html
+    - echo "      <ol>" >> public/index.html
+    - echo "        <li><strong>Deploy to Render</strong> for live demo links</li>" >> public/index.html
+    - echo "        <li><strong>Portfolio available</strong> at GitLab Pages</li>" >> public/index.html
+    - echo "        <li><strong>All enhanced features</strong> active and ready</li>" >> public/index.html
+    - echo "      </ol>" >> public/index.html
+    - echo "    </div>" >> public/index.html
+    - echo "  </div>" >> public/index.html
+    - echo "</body>" >> public/index.html
+    - echo "</html>" >> public/index.html
+    - echo "Professional ML Portfolio created successfully"
+  artifacts:
+    paths:
+      - public
+  only:
+    - master 

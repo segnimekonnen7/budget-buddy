@@ -1,381 +1,266 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🎯 Segni Mekonnen - ML Portfolio Projects</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <style>
-        :root {
-            --primary-color: #667eea;
-            --secondary-color: #764ba2;
-            --accent-color: #f093fb;
-            --success-color: #4CAF50;
-            --warning-color: #ff9800;
-            --danger-color: #f44336;
-        }
-
-        body {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-
-        .main-header {
-            background: linear-gradient(90deg, #1f77b4, #ff7f0e);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            font-size: 3rem;
-            font-weight: bold;
-            text-align: center;
-            margin-bottom: 1rem;
-        }
-
-        .sub-header {
-            color: white;
-            text-align: center;
-            font-size: 1.2rem;
-            margin-bottom: 3rem;
-        }
-
-        .card {
-            background: rgba(255, 255, 255, 0.95);
-            border: none;
-            border-radius: 15px;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
-            backdrop-filter: blur(10px);
-            margin-bottom: 2rem;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 12px 40px rgba(0,0,0,0.2);
-        }
-
-        .project-card {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border-radius: 15px;
-            padding: 2rem;
-            margin-bottom: 2rem;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .project-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 12px 40px rgba(0,0,0,0.2);
-        }
-
-        .btn-primary {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            border: none;
-            border-radius: 25px;
-            padding: 0.75rem 2rem;
-            transition: all 0.3s ease;
-            font-weight: bold;
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-        }
-
-        .btn-success {
-            background: linear-gradient(135deg, #4CAF50, #45a049);
-            border: none;
-            border-radius: 25px;
-            padding: 0.75rem 2rem;
-            font-weight: bold;
-        }
-
-        .btn-info {
-            background: linear-gradient(135deg, #2196F3, #1976D2);
-            border: none;
-            border-radius: 25px;
-            padding: 0.75rem 2rem;
-            font-weight: bold;
-        }
-
-        .feature-badge {
-            background: rgba(255,255,255,0.2);
-            padding: 0.25rem 0.75rem;
-            border-radius: 15px;
-            font-size: 0.8rem;
-            margin-right: 0.5rem;
-            margin-bottom: 0.5rem;
-            display: inline-block;
-        }
-
-        .stats-card {
-            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-            color: white;
-            padding: 1.5rem;
-            border-radius: 15px;
-            text-align: center;
-            margin-bottom: 1rem;
-        }
-
-        .tech-stack {
-            background: rgba(255,255,255,0.1);
-            padding: 1rem;
-            border-radius: 10px;
-            margin: 1rem 0;
-        }
-
-        .tech-item {
-            background: rgba(255,255,255,0.2);
-            padding: 0.5rem 1rem;
-            border-radius: 20px;
-            margin: 0.25rem;
-            display: inline-block;
-            font-size: 0.9rem;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Segni Mekonnen - ML Portfolio</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+  <style>
+    body { 
+      font-family: Arial, sans-serif; 
+      margin: 0; 
+      padding: 0; 
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
+      color: white; 
+      min-height: 100vh; 
+    }
+    .container { 
+      max-width: 1200px; 
+      margin: 0 auto; 
+      padding: 40px 20px; 
+    }
+    .header { 
+      text-align: center; 
+      margin-bottom: 60px; 
+    }
+    .header h1 { 
+      font-size: 4rem; 
+      margin-bottom: 10px; 
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.3); 
+    }
+    .header h2 { 
+      font-size: 1.5rem; 
+      color: #e0e0e0; 
+      margin-bottom: 20px; 
+    }
+    .intro { 
+      background: rgba(255,255,255,0.1); 
+      padding: 30px; 
+      border-radius: 20px; 
+      margin-bottom: 40px; 
+      text-align: center; 
+    }
+    .intro h3 { 
+      font-size: 2rem; 
+      margin-bottom: 20px; 
+      color: #4CAF50; 
+    }
+    .intro p { 
+      font-size: 1.2rem; 
+      line-height: 1.6; 
+    }
+    .projects-grid { 
+      display: grid; 
+      grid-template-columns: repeat(auto-fit, minmax(500px, 1fr)); 
+      gap: 30px; 
+      margin-bottom: 40px; 
+    }
+    .project-card { 
+      background: rgba(255,255,255,0.1); 
+      padding: 30px; 
+      border-radius: 15px; 
+      border-left: 5px solid; 
+      transition: transform 0.3s ease; 
+    }
+    .project-card:hover { 
+      transform: translateY(-5px); 
+    }
+    .project-card.internship { 
+      border-left-color: #4CAF50; 
+    }
+    .project-card.sentiment { 
+      border-left-color: #2196F3; 
+    }
+    .project-card.plant { 
+      border-left-color: #FF9800; 
+    }
+    .project-card.interview { 
+      border-left-color: #9C27B0; 
+    }
+    .project-card h4 { 
+      font-size: 1.5rem; 
+      margin-bottom: 15px; 
+    }
+    .project-card.internship h4 { 
+      color: #4CAF50; 
+    }
+    .project-card.sentiment h4 { 
+      color: #2196F3; 
+    }
+    .project-card.plant h4 { 
+      color: #FF9800; 
+    }
+    .project-card.interview h4 { 
+      color: #9C27B0; 
+    }
+    .project-card p { 
+      margin-bottom: 15px; 
+      line-height: 1.6; 
+    }
+    .features { 
+      display: flex; 
+      flex-wrap: wrap; 
+      gap: 8px; 
+      margin-bottom: 15px; 
+    }
+    .feature-tag { 
+      background: rgba(255,255,255,0.2); 
+      padding: 5px 12px; 
+      border-radius: 20px; 
+      font-size: 0.9rem; 
+    }
+    .status { 
+      text-align: center; 
+      background: rgba(255,255,255,0.1); 
+      padding: 20px; 
+      border-radius: 15px; 
+    }
+    .status h3 { 
+      font-size: 1.8rem; 
+      margin-bottom: 20px; 
+      color: #4CAF50; 
+    }
+    .status-grid { 
+      display: grid; 
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); 
+      gap: 20px; 
+    }
+    .status-item { 
+      text-align: center; 
+      padding: 20px; 
+      background: rgba(255,255,255,0.1); 
+      border-radius: 10px; 
+    }
+    .status-item i { 
+      font-size: 2.5rem; 
+      margin-bottom: 10px; 
+    }
+    .status-item.success i { 
+      color: #4CAF50; 
+    }
+    .status-item.ready i { 
+      color: #2196F3; 
+    }
+    .status-item.professional i { 
+      color: #FF9800; 
+    }
+    .status-item.enhanced i { 
+      color: #9C27B0; 
+    }
+    .next-steps { 
+      text-align: center; 
+      margin-top: 40px; 
+      padding: 30px; 
+      background: rgba(255,255,255,0.1); 
+      border-radius: 15px; 
+    }
+    .next-steps h3 { 
+      font-size: 1.8rem; 
+      margin-bottom: 20px; 
+      color: #4CAF50; 
+    }
+    .next-steps ol { 
+      text-align: left; 
+      max-width: 600px; 
+      margin: 0 auto; 
+      font-size: 1.1rem; 
+      line-height: 1.8; 
+    }
+    @media (max-width: 768px) { 
+      .header h1 { 
+        font-size: 2.5rem; 
+      } 
+      .projects-grid { 
+        grid-template-columns: 1fr; 
+      } 
+    }
+  </style>
 </head>
 <body>
-    <div class="container-fluid py-5">
-        <!-- Header -->
-        <div class="row">
-            <div class="col-12">
-                <h1 class="main-header">🎯 Segni Mekonnen</h1>
-                <p class="sub-header">Machine Learning Engineer & Data Scientist</p>
-            </div>
-        </div>
-
-        <!-- Introduction -->
-        <div class="row mb-5">
-            <div class="col-12">
-                <div class="card">
-                    <div class="card-body text-center">
-                        <h2 class="card-title">🚀 Enhanced ML Portfolio Projects</h2>
-                        <p class="card-text lead">
-                            Professional machine learning applications with advanced features, 
-                            modern UI/UX, and production-ready deployment. Each project showcases 
-                            cutting-edge ML techniques and best practices.
-                        </p>
-                        <div class="row mt-4">
-                            <div class="col-md-3">
-                                <div class="stats-card">
-                                    <h3>4</h3>
-                                    <p>ML Projects</p>
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="stats-card">
-                                    <h3>12</h3>
-                                    <p>Premium Jobs</p>
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="stats-card">
-                                    <h3>100%</h3>
-                                    <p>Enhanced</p>
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="stats-card">
-                                    <h3>Live</h3>
-                                    <p>Demos</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Projects -->
-        <div class="row">
-            <!-- Enhanced Internship Finder -->
-            <div class="col-lg-6">
-                <div class="project-card">
-                    <h3><i class="fas fa-search"></i> Enhanced ML Internship Finder</h3>
-                    <p class="lead">AI-powered internship matching with 12 premium opportunities from top tech companies.</p>
-                    
-                    <div class="tech-stack">
-                        <strong>Tech Stack:</strong><br>
-                        <span class="tech-item">Flask</span>
-                        <span class="tech-item">Python</span>
-                        <span class="tech-item">Bootstrap</span>
-                        <span class="tech-item">JavaScript</span>
-                        <span class="tech-item">API</span>
-                    </div>
-
-                    <h5>🎯 Premium Features:</h5>
-                    <div class="mb-3">
-                        <span class="feature-badge">12 Premium Jobs</span>
-                        <span class="feature-badge">Advanced Search</span>
-                        <span class="feature-badge">Smart Matching</span>
-                        <span class="feature-badge">Analytics Dashboard</span>
-                        <span class="feature-badge">Application Tracking</span>
-                    </div>
-
-                    <h5>🏢 Featured Companies:</h5>
-                    <p>Google AI, OpenAI, Tesla, Microsoft, Netflix, Amazon, Meta AI, Boston Dynamics, NVIDIA, Uber, Goldman Sachs, Johnson & Johnson</p>
-
-                    <div class="mt-4">
-                        <a href="https://enhanced-internship-finder.onrender.com" class="btn btn-success me-2" target="_blank">
-                            <i class="fas fa-external-link-alt"></i> Live Demo
-                        </a>
-                        <a href="https://github.com/segnimekonnen7/budget-buddy/tree/master/ml-projects/internship-finder" class="btn btn-info" target="_blank">
-                            <i class="fab fa-github"></i> View Code
-                        </a>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Enhanced Sentiment Analyzer -->
-            <div class="col-lg-6">
-                <div class="project-card">
-                    <h3><i class="fas fa-brain"></i> Enhanced Sentiment Analyzer</h3>
-                    <p class="lead">Advanced NLP application with custom lexicon and batch processing capabilities.</p>
-                    
-                    <div class="tech-stack">
-                        <strong>Tech Stack:</strong><br>
-                        <span class="tech-item">Flask</span>
-                        <span class="tech-item">NLTK</span>
-                        <span class="tech-item">TextBlob</span>
-                        <span class="tech-item">Plotly</span>
-                        <span class="tech-item">Pandas</span>
-                    </div>
-
-                    <h5>🎯 Premium Features:</h5>
-                    <div class="mb-3">
-                        <span class="feature-badge">Advanced NLP</span>
-                        <span class="feature-badge">Batch Processing</span>
-                        <span class="feature-badge">Custom Lexicon</span>
-                        <span class="feature-badge">Analytics Dashboard</span>
-                        <span class="feature-badge">Real-time Analysis</span>
-                    </div>
-
-                    <h5>📊 Capabilities:</h5>
-                    <p>Single text analysis, batch processing, sentiment trends, confidence scoring, and detailed analytics</p>
-
-                    <div class="mt-4">
-                        <a href="https://enhanced-sentiment-analyzer.onrender.com" class="btn btn-success me-2" target="_blank">
-                            <i class="fas fa-external-link-alt"></i> Live Demo
-                        </a>
-                        <a href="https://github.com/segnimekonnen7/budget-buddy/tree/master/ml-projects/sentiment-analyzer" class="btn btn-info" target="_blank">
-                            <i class="fab fa-github"></i> View Code
-                        </a>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Enhanced Plant Disease Classifier -->
-            <div class="col-lg-6">
-                <div class="project-card">
-                    <h3><i class="fas fa-leaf"></i> Enhanced Plant Disease Classifier</h3>
-                    <p class="lead">Professional computer vision application for plant disease detection and analysis.</p>
-                    
-                    <div class="tech-stack">
-                        <strong>Tech Stack:</strong><br>
-                        <span class="tech-item">Flask</span>
-                        <span class="tech-item">OpenCV</span>
-                        <span class="tech-item">TensorFlow</span>
-                        <span class="tech-item">Pillow</span>
-                        <span class="tech-item">Plotly</span>
-                    </div>
-
-                    <h5>🎯 Premium Features:</h5>
-                    <div class="mb-3">
-                        <span class="feature-badge">Computer Vision</span>
-                        <span class="feature-badge">Feature Analysis</span>
-                        <span class="feature-badge">Performance Metrics</span>
-                        <span class="feature-badge">Advanced Classification</span>
-                        <span class="feature-badge">Real-time Processing</span>
-                    </div>
-
-                    <h5>🌱 Capabilities:</h5>
-                    <p>Image upload, disease classification, feature analysis, confidence scoring, and detailed reports</p>
-
-                    <div class="mt-4">
-                        <a href="https://enhanced-plant-classifier.onrender.com" class="btn btn-success me-2" target="_blank">
-                            <i class="fas fa-external-link-alt"></i> Live Demo
-                        </a>
-                        <a href="https://github.com/segnimekonnen7/budget-buddy/tree/master/ml-projects/image-classifier" class="btn btn-info" target="_blank">
-                            <i class="fab fa-github"></i> View Code
-                        </a>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Enhanced Interview Prep -->
-            <div class="col-lg-6">
-                <div class="project-card">
-                    <h3><i class="fas fa-graduation-cap"></i> Enhanced Interview Prep</h3>
-                    <p class="lead">Comprehensive interview preparation tool with personalized question generation.</p>
-                    
-                    <div class="tech-stack">
-                        <strong>Tech Stack:</strong><br>
-                        <span class="tech-item">Flask</span>
-                        <span class="tech-item">Python</span>
-                        <span class="tech-item">Bootstrap</span>
-                        <span class="tech-item">JavaScript</span>
-                        <span class="tech-item">JSON</span>
-                    </div>
-
-                    <h5>🎯 Premium Features:</h5>
-                    <div class="mb-3">
-                        <span class="feature-badge">Question Generator</span>
-                        <span class="feature-badge">Progress Tracking</span>
-                        <span class="feature-badge">Personalized Tips</span>
-                        <span class="feature-badge">Comprehensive Prep</span>
-                        <span class="feature-badge">Interactive UI</span>
-                    </div>
-
-                    <h5>💼 Capabilities:</h5>
-                    <p>ML interview questions, behavioral questions, technical challenges, progress tracking, and personalized guidance</p>
-
-                    <div class="mt-4">
-                        <a href="https://enhanced-interview-prep.onrender.com" class="btn btn-success me-2" target="_blank">
-                            <i class="fas fa-external-link-alt"></i> Live Demo
-                        </a>
-                        <a href="https://github.com/segnimekonnen7/budget-buddy/tree/master/ml-projects/interview-prep" class="btn btn-info" target="_blank">
-                            <i class="fab fa-github"></i> View Code
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Contact & Links -->
-        <div class="row mt-5">
-            <div class="col-12">
-                <div class="card">
-                    <div class="card-body text-center">
-                        <h3 class="card-title">🔗 Connect With Me</h3>
-                        <div class="row">
-                            <div class="col-md-4">
-                                <a href="https://github.com/segnimekonnen7" class="btn btn-primary btn-lg" target="_blank">
-                                    <i class="fab fa-github"></i> GitHub
-                                </a>
-                            </div>
-                            <div class="col-md-4">
-                                <a href="https://linkedin.com/in/segnimekonnen" class="btn btn-primary btn-lg" target="_blank">
-                                    <i class="fab fa-linkedin"></i> LinkedIn
-                                </a>
-                            </div>
-                            <div class="col-md-4">
-                                <a href="mailto:segnimekonnen@example.com" class="btn btn-primary btn-lg">
-                                    <i class="fas fa-envelope"></i> Email
-                                </a>
-                            </div>
-                        </div>
-                        <p class="mt-3 text-muted">
-                            🚀 All projects are enhanced with premium features and ready for production deployment!
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
+  <div class="container">
+    <div class="header">
+      <h1>Segni Mekonnen</h1>
+      <h2>Machine Learning Engineer & Data Scientist</h2>
     </div>
-
-    <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <div class="intro">
+      <h3>Enhanced ML Portfolio Projects</h3>
+      <p>Professional machine learning applications with advanced features and modern UI/UX. All projects are enhanced with premium features and ready for production deployment.</p>
+    </div>
+    <div class="projects-grid">
+      <div class="project-card internship">
+        <h4>Enhanced Internship Finder</h4>
+        <p><strong>12 Premium Jobs:</strong> Google AI, OpenAI, Tesla, Microsoft, Netflix, Amazon, Meta AI, Boston Dynamics, NVIDIA, Uber, Goldman Sachs, Johnson & Johnson</p>
+        <div class="features">
+          <span class="feature-tag">Advanced Search</span>
+          <span class="feature-tag">Smart Matching</span>
+          <span class="feature-tag">Analytics Dashboard</span>
+          <span class="feature-tag">Application Tracking</span>
+        </div>
+        <p><strong>Status:</strong> <span style="color: #4CAF50; font-weight: bold;">Ready for Render Deployment</span></p>
+      </div>
+      <div class="project-card sentiment">
+        <h4>Enhanced Sentiment Analyzer</h4>
+        <p><strong>Advanced NLP:</strong> Custom Lexicon, Batch Processing, Real-time Analysis with Twitter Integration</p>
+        <div class="features">
+          <span class="feature-tag">Custom Lexicon</span>
+          <span class="feature-tag">Batch Processing</span>
+          <span class="feature-tag">Twitter Integration</span>
+          <span class="feature-tag">Analytics Dashboard</span>
+        </div>
+        <p><strong>Status:</strong> <span style="color: #2196F3; font-weight: bold;">Ready for Render Deployment</span></p>
+      </div>
+      <div class="project-card plant">
+        <h4>Enhanced Plant Disease Classifier</h4>
+        <p><strong>Computer Vision:</strong> Transfer Learning, Feature Analysis, High Accuracy Classification</p>
+        <div class="features">
+          <span class="feature-tag">Transfer Learning</span>
+          <span class="feature-tag">Feature Analysis</span>
+          <span class="feature-tag">Real-time Classification</span>
+          <span class="feature-tag">Performance Metrics</span>
+        </div>
+        <p><strong>Status:</strong> <span style="color: #FF9800; font-weight: bold;">Ready for Render Deployment</span></p>
+      </div>
+      <div class="project-card interview">
+        <h4>Enhanced Interview Prep</h4>
+        <p><strong>Comprehensive Tools:</strong> 500+ Questions, Progress Tracking, Personalized Tips</p>
+        <div class="features">
+          <span class="feature-tag">500+ Questions</span>
+          <span class="feature-tag">Progress Tracking</span>
+          <span class="feature-tag">Question Generator</span>
+          <span class="feature-tag">Study Plans</span>
+        </div>
+        <p><strong>Status:</strong> <span style="color: #9C27B0; font-weight: bold;">Ready for Render Deployment</span></p>
+      </div>
+    </div>
+    <div class="status">
+      <h3>Deployment Status</h3>
+      <div class="status-grid">
+        <div class="status-item success">
+          <i class="fas fa-check-circle"></i>
+          <div><strong>GitLab CI/CD</strong><br>Pipeline Active</div>
+        </div>
+        <div class="status-item ready">
+          <i class="fas fa-rocket"></i>
+          <div><strong>Portfolio Page</strong><br>Live on GitLab Pages</div>
+        </div>
+        <div class="status-item professional">
+          <i class="fas fa-chart-line"></i>
+          <div><strong>Enhanced Projects</strong><br>Ready for Render</div>
+        </div>
+        <div class="status-item enhanced">
+          <i class="fas fa-star"></i>
+          <div><strong>Professional UI</strong><br>Modern Design</div>
+        </div>
+      </div>
+    </div>
+    <div class="next-steps">
+      <h3>Next Steps</h3>
+      <ol>
+        <li><strong>Deploy to Render</strong> for live demo links</li>
+        <li><strong>Portfolio available</strong> at GitLab Pages</li>
+        <li><strong>All enhanced features</strong> active and ready</li>
+      </ol>
+    </div>
+  </div>
 </body>
 </html>
