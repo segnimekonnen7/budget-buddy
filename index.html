@@ -265,6 +265,9 @@
 <body>
     <div class="container">
         <h1>🚀 Habit Loop - Science-backed Habit Builder</h1>
+        <div id="connectionStatus" style="text-align: center; margin-bottom: 20px; padding: 10px; border-radius: 8px; background: #f0f9ff; border: 1px solid #0ea5e9; color: #0369a1;">
+            🔄 Connecting to backend...
+        </div>
         
         <div id="loading" class="loading">
             <h3>Loading your habits...</h3>
@@ -399,12 +402,72 @@
         async function loadHabits() {
             try {
                 showLoading();
-                const response = await axios.get(`${API_BASE}/habits`);
-                habits = response.data;
+                
+                // Try to fetch from deployed backend
+                try {
+                    const response = await axios.get(`${API_BASE}/habits`);
+                    habits = response.data;
+                    console.log('✅ Successfully loaded habits from backend:', habits);
+                    
+                    // Update connection status
+                    document.getElementById('connectionStatus').innerHTML = '✅ Connected to backend - Live data';
+                    document.getElementById('connectionStatus').style.background = '#f0fdf4';
+                    document.getElementById('connectionStatus').style.borderColor = '#16a34a';
+                    document.getElementById('connectionStatus').style.color = '#15803d';
+                } catch (backendError) {
+                    console.warn('⚠️ Backend connection failed, using demo data:', backendError.message);
+                    
+                    // Update connection status
+                    document.getElementById('connectionStatus').innerHTML = '⚠️ Using demo data - Backend connection failed';
+                    document.getElementById('connectionStatus').style.background = '#fef3c7';
+                    document.getElementById('connectionStatus').style.borderColor = '#f59e0b';
+                    document.getElementById('connectionStatus').style.color = '#92400e';
+                    
+                    // Fallback to demo data if backend fails
+                    habits = [
+                        {
+                            "id": "demo-1",
+                            "title": "Drink Water",
+                            "notes": "Stay hydrated throughout the day",
+                            "goal_type": "count",
+                            "target_value": 8.0,
+                            "grace_per_week": 2,
+                            "created_at": "2024-01-01T00:00:00Z",
+                            "current_streak_length": 5,
+                            "is_due_today": true,
+                            "best_hour": 9
+                        },
+                        {
+                            "id": "demo-2", 
+                            "title": "Exercise",
+                            "notes": "30 minutes of physical activity",
+                            "goal_type": "duration",
+                            "target_value": 30.0,
+                            "grace_per_week": 1,
+                            "created_at": "2024-01-01T00:00:00Z",
+                            "current_streak_length": 3,
+                            "is_due_today": false,
+                            "best_hour": 7
+                        },
+                        {
+                            "id": "demo-3",
+                            "title": "Read",
+                            "notes": "Read for personal development",
+                            "goal_type": "duration",
+                            "target_value": 20.0,
+                            "grace_per_week": 1,
+                            "created_at": "2024-01-01T00:00:00Z",
+                            "current_streak_length": 2,
+                            "is_due_today": true,
+                            "best_hour": 21
+                        }
+                    ];
+                }
+                
                 displayHabits();
                 hideLoading();
             } catch (err) {
-                console.error('Error loading habits:', err);
+                console.error('Error in loadHabits:', err);
                 showError('Failed to load habits: ' + (err.message || 'Unknown error'));
             }
         }
@@ -470,9 +533,24 @@
 
         async function checkInHabit(habitId) {
             try {
-                await axios.post(`${API_BASE}/habits/${habitId}/checkin`, {
-                    ts: new Date().toISOString()
-                });
+                // Try backend first
+                try {
+                    await axios.post(`${API_BASE}/habits/${habitId}/checkin`, {
+                        ts: new Date().toISOString()
+                    });
+                    console.log('✅ Backend checkin successful');
+                } catch (backendError) {
+                    console.warn('⚠️ Backend checkin failed, updating locally:', backendError.message);
+                    
+                    // Update locally if backend fails
+                    const habit = habits.find(h => h.id === habitId);
+                    if (habit) {
+                        habit.current_streak_length += 1;
+                        habit.is_due_today = false;
+                        console.log('✅ Local habit update successful');
+                    }
+                }
+                
                 loadHabits(); // Refresh
             } catch (err) {
                 console.error('Error checking in:', err);
