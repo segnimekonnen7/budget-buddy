@@ -1,161 +1,186 @@
-# 🎯 Segni Mekonnen - ML Portfolio Projects
+# 🚀 Habit Loop - Science-backed Habit Builder
 
-**Machine Learning Engineer & Data Scientist**
+A full-stack habit tracking application built with FastAPI backend and enhanced frontend, featuring ML-powered insights and adaptive reminders.
 
-Professional machine learning applications with advanced features and modern UI/UX. All projects are enhanced with premium features and ready for production deployment.
+## 🌟 Live Demo
 
-## 🚀 Enhanced ML Projects
+**Frontend:** [https://segnimekonnen7.github.io/budget-buddy/](https://segnimekonnen7.github.io/budget-buddy/)  
+**Backend API:** [https://routine-h9ig.onrender.com](https://routine-h9ig.onrender.com)
 
-### 1. 🎯 Enhanced Internship Finder
-**AI-powered internship matching with 12 premium opportunities from top tech companies.**
+## 🚀 Features
 
-**Features:**
-- ✅ 12 Premium Jobs (Google AI, OpenAI, Tesla, Microsoft, Netflix, Amazon, Meta AI, Boston Dynamics, NVIDIA, Uber, Goldman Sachs, Johnson & Johnson)
-- ✅ Advanced Search & Filtering
-- ✅ Smart Matching Algorithm
-- ✅ Analytics Dashboard
-- ✅ Application Tracking
+### 🤖 ML-Powered Insights
+- **Success Prediction** - AI-powered habit success likelihood
+- **Optimal Reminder Times** - Smart timing recommendations based on completion patterns
+- **Completion Statistics** - Detailed habit performance analytics
+- **Personalized Recommendations** - Data-driven suggestions for habit improvement
 
-**Tech Stack:** Flask, Python, Bootstrap, JavaScript, API
+### 🎯 Smart Habit Tracking
+- **Flexible Goal Types** - Daily check-in, count-based, duration-based
+- **Adaptive Scheduling** - Grace periods and flexible timing
+- **Progress Analytics** - Visual streak tracking and completion rates
+- **Smart Notifications** - Optimal reminder timing using ML
 
-**How to Run:**
-```bash
-cd ml-projects/internship-finder
-pip install -r requirements.txt
-python flask_app.py
+### 🎨 Modern UI/UX
+- **Beautiful Interface** - Professional gradients and animations
+- **Responsive Design** - Works perfectly on all devices
+- **Interactive Charts** - Progress visualization with Chart.js
+- **Tabbed Navigation** - Organized feature sections
+
+## 🏗️ Architecture
+
+- **Backend:** FastAPI with Python 3.11+
+- **Frontend:** Vanilla HTML/CSS/JavaScript with modern design
+- **Database:** SQLAlchemy with SQLite (local) / PostgreSQL (production)
+- **ML Features:** Statistical analysis and rule-based predictions
+- **Deployment:** Render.com (backend) + GitHub Pages (frontend)
+
+## 📁 Project Structure
+
 ```
+budget-buddy/
+├── index.html              # Enhanced frontend with ML features
+├── .github/workflows/      # GitHub Pages deployment
+├── habit-loop/            # Backend FastAPI application
+│   ├── backend/           # FastAPI backend
+│   │   ├── app/          # Application code
+│   │   │   ├── core/     # Configuration and settings
+│   │   │   ├── models/   # SQLAlchemy models
+│   │   │   ├── routers/  # API routes
+│   │   │   └── services/ # Business logic and ML services
+│   │   └── requirements.txt
+│   ├── main.py           # Deployment entry point
+│   ├── Dockerfile        # Container configuration
+│   └── render.yaml       # Render deployment config
+└── README.md
+```
+
+## 🛠️ Local Development
+
+### Backend Setup
+```bash
+cd habit-loop/backend
+python -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
+pip install -r requirements.txt
+export PYTHONPATH=.
+uvicorn app.main:app --reload --host 127.0.0.1 --port 8000
+```
+
+### Frontend Setup
+```bash
+# Simply open index.html in your browser
+# Or serve with a local server:
+python -m http.server 8000
+# Then visit: http://localhost:8000
+```
+
+## 🚀 Deployment
+
+### Backend (Render.com)
+- ✅ **Automatically deployed** from GitHub
+- ✅ **CORS configured** for GitHub Pages
+- ✅ **ML features enabled** and working
+
+### Frontend (GitHub Pages)
+- ✅ **Automatically deployed** from master branch
+- ✅ **Enhanced UI** with all ML features
+- ✅ **Responsive design** for all devices
+
+## 📊 API Endpoints
+
+### Core Endpoints
+- `GET /health` - Health check
+- `GET /habits` - Get all habits
+- `POST /habits` - Create new habit
+- `POST /habits/{id}/checkin` - Check in a habit
+- `POST /habits/{id}/miss` - Mark habit as missed
+
+### ML-Powered Insights
+- `GET /insights/habits/{id}/success-prediction` - Predict habit success
+- `GET /insights/habits/{id}/optimal-reminder` - Get optimal reminder time
+- `GET /insights/habits/{id}/completion-stats` - Get completion statistics
+
+## 🔧 Configuration
+
+### Environment Variables
+```bash
+# Database
+DATABASE_URL=sqlite:///./habitloop.db
+
+# CORS
+ALLOWED_ORIGINS=http://localhost:3000,https://segnimekonnen7.github.io
+
+# JWT
+JWT_SECRET=your-secret-key
+JWT_ALGORITHM=HS256
+JWT_EXPIRE_MINUTES=10080
+```
+
+## 🧪 Testing
+
+```bash
+# Backend tests
+cd habit-loop/backend
+pytest
+
+# Test ML features
+python test_ml_features.py
+```
+
+## 🎯 ML Features Explained
+
+### Success Prediction
+- **Rule-based logic** using completion rates and streak length
+- **Statistical analysis** of habit patterns
+- **Confidence scoring** for predictions
+- **Personalized recommendations** based on data
+
+### Optimal Reminder Timing
+- **Pattern analysis** of successful completion times
+- **Statistical optimization** using completion data
+- **Adaptive scheduling** based on user behavior
+- **Success rate optimization** for better habit formation
+
+### Completion Statistics
+- **Streak tracking** with visual progress
+- **Completion rate analysis** over time
+- **Pattern recognition** for habit optimization
+- **Data-driven insights** for improvement
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create a feature branch: `git checkout -b feature-name`
+3. Commit changes: `git commit -m "Add feature"`
+4. Push to branch: `git push origin feature-name`
+5. Submit a pull request
+
+## 📄 License
+
+This project is licensed under the MIT License.
+
+## 🆘 Support
+
+If you encounter any issues:
+- Check the [Issues](https://github.com/segnimekonnen7/budget-buddy/issues) page
+- Create a new issue with detailed information
+- Check the deployment status on Render.com
+
+## 🎉 Roadmap
+
+- [x] **ML-powered insights** and predictions
+- [x] **Enhanced frontend** with modern UI
+- [x] **GitHub Pages deployment** with automation
+- [x] **Backend deployment** on Render.com
+- [ ] User authentication and profiles
+- [ ] Habit sharing and social features
+- [ ] Advanced analytics dashboard
+- [ ] Mobile app (React Native)
+- [ ] Integration with fitness trackers
 
 ---
 
-### 2. 🧠 Enhanced Sentiment Analyzer
-**Advanced NLP application with custom lexicon and batch processing capabilities.**
+**Built with ❤️ using FastAPI, modern web technologies, and ML-powered insights.**
 
-**Features:**
-- ✅ Custom Lexicon
-- ✅ Batch Processing
-- ✅ Twitter Integration
-- ✅ Analytics Dashboard
-- ✅ Real-time Analysis
-
-**Tech Stack:** Flask, NLTK, TextBlob, Plotly, Pandas
-
-**How to Run:**
-```bash
-cd ml-projects/sentiment-analyzer
-pip install -r requirements.txt
-python app.py
-```
-
----
-
-### 3. 🌱 Enhanced Plant Disease Classifier
-**Professional computer vision application for plant disease detection and analysis.**
-
-**Features:**
-- ✅ Transfer Learning
-- ✅ Feature Analysis
-- ✅ Real-time Classification
-- ✅ Performance Metrics
-- ✅ High Accuracy
-
-**Tech Stack:** Flask, OpenCV, TensorFlow, Pillow, Plotly
-
-**How to Run:**
-```bash
-cd ml-projects/image-classifier
-pip install -r requirements.txt
-python app.py
-```
-
----
-
-### 4. 💼 Enhanced Interview Prep
-**Comprehensive interview preparation tool with personalized question generation.**
-
-**Features:**
-- ✅ 500+ Questions
-- ✅ Progress Tracking
-- ✅ Question Generator
-- ✅ Study Plans
-- ✅ Personalized Tips
-
-**Tech Stack:** Flask, Python, Bootstrap, JavaScript, JSON
-
-**How to Run:**
-```bash
-cd ml-projects/interview-prep
-pip install -r requirements.txt
-python app.py
-```
-
-## 📊 Project Statistics
-
-- **4 ML Projects** - All enhanced with premium features
-- **12 Premium Jobs** - Top-tier internship opportunities
-- **100% Enhanced** - Professional UI/UX and advanced functionality
-- **Production Ready** - All projects ready for deployment
-
-## 🛠️ Quick Start
-
-### Prerequisites
-- Python 3.8+
-- pip
-- Git
-
-### Installation
-```bash
-# Clone the repository
-git clone https://github.com/segnimekonnen7/budget-buddy.git
-cd budget-buddy
-
-# Install dependencies for all projects
-pip install -r ml-projects/internship-finder/requirements.txt
-pip install -r ml-projects/sentiment-analyzer/requirements.txt
-pip install -r ml-projects/image-classifier/requirements.txt
-pip install -r ml-projects/interview-prep/requirements.txt
-```
-
-### Running Projects
-Each project can be run independently. Navigate to the project directory and run the main application file.
-
-## 🎯 Key Features Across All Projects
-
-### Advanced Functionality
-- **Real-time Processing** - Instant results and feedback
-- **Analytics Dashboards** - Comprehensive data visualization
-- **Professional UI/UX** - Modern, responsive design
-- **Error Handling** - Robust error management
-- **Performance Optimization** - Fast and efficient processing
-
-### Technical Excellence
-- **Clean Code Architecture** - Well-structured, maintainable code
-- **Comprehensive Documentation** - Clear instructions and comments
-- **Modular Design** - Reusable components and functions
-- **Best Practices** - Following industry standards
-- **Scalable Solutions** - Ready for production deployment
-
-## 🔗 Portfolio Links
-
-- **GitHub Repository:** https://github.com/segnimekonnen7/budget-buddy
-- **LinkedIn:** https://linkedin.com/in/segnimekonnen
-- **Email:** segnimekonnen@example.com
-
-## 📈 Deployment Status
-
-- ✅ **GitHub Repository** - Public and accessible
-- ✅ **All Projects** - Enhanced and ready
-- ✅ **Documentation** - Comprehensive and clear
-- ✅ **Code Quality** - Professional standards
-
-## 🚀 Next Steps
-
-1. **Clone the repository** and explore the projects
-2. **Run each project locally** to see the enhanced features
-3. **Review the code** to understand the implementation
-4. **Contact me** for any questions or collaboration opportunities
-
----
-
-**🎯 All projects are enhanced with premium features and ready for production deployment!**
-
-*Built with ❤️ by Segni Mekonnen*
+**Live Demo:** [https://segnimekonnen7.github.io/budget-buddy/](https://segnimekonnen7.github.io/budget-buddy/)
