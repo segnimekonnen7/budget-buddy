@@ -557,6 +557,62 @@
                 alert('Failed to check in habit. Please try again.');
             }
         }
+        
+        async function createNewHabit() {
+            const title = document.getElementById('habitTitle').value.trim();
+            const notes = document.getElementById('habitNotes').value.trim();
+            const goalType = document.getElementById('goalType').value;
+            const targetValue = parseFloat(document.getElementById('targetValue').value) || 1;
+            const gracePerWeek = parseInt(document.getElementById('gracePerWeek').value) || 1;
+            
+            if (!title) {
+                alert('Please enter a habit title');
+                return;
+            }
+            
+            try {
+                // Try backend first
+                try {
+                    const response = await axios.post(`${API_BASE}/habits`, {
+                        title,
+                        notes,
+                        goal_type: goalType,
+                        target_value: targetValue,
+                        grace_per_week: gracePerWeek,
+                        schedule_json: {} // Empty schedule for now
+                    });
+                    console.log('✅ Backend habit creation successful:', response.data);
+                } catch (backendError) {
+                    console.warn('⚠️ Backend habit creation failed, creating locally:', backendError.message);
+                    
+                    // Create locally if backend fails
+                    const newHabit = {
+                        id: 'local-' + Date.now(),
+                        title,
+                        notes,
+                        goal_type: goalType,
+                        target_value: targetValue,
+                        grace_per_week: gracePerWeek,
+                        created_at: new Date().toISOString() + 'Z',
+                        current_streak_length: 0,
+                        is_due_today: true,
+                        best_hour: null
+                    };
+                    
+                    habits.push(newHabit);
+                    console.log('✅ Local habit creation successful:', newHabit);
+                }
+                
+                // Close modal and refresh
+                hideNewHabitModal();
+                document.getElementById('newHabitForm').reset();
+                loadHabits();
+                
+            } catch (err) {
+                console.error('Error creating habit:', err);
+                alert('Failed to create habit. Please try again.');
+            }
+        }
 
         async function snoozeHabit(habitId) {
             try {
