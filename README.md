@@ -183,4 +183,4 @@ If you encounter any issues:
 
 **Built with ❤️ using FastAPI, modern web technologies, and ML-powered insights.**
 
-**Live Demo:** [https://segnimekonnen7.github.io/budget-buddy/](https://segnimekonnen7.github.io/budget-buddy/)
+**Live Demo:** [https://segnimekonnen7.github.io/budget-buddy/](https://segnimekonnen7.github.io/budget-buddy/)# Trigger deployment
