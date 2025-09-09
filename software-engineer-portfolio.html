@@ -1,0 +1,1193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Segni Mekonnen - Backend Software Engineer</title>
+    <meta name="description" content="Segni Mekonnen - Backend Software Engineer specializing in Python, FastAPI, and scalable web applications">
+    <meta name="keywords" content="backend engineer, python developer, fastapi, postgresql, software engineering student">
+    <meta property="og:title" content="Segni Mekonnen - Backend Software Engineer">
+    <meta property="og:description" content="Computer Science student specializing in backend development with Python, FastAPI, and database optimization">
+    <meta property="og:image" content="./portfolio-preview.jpg">
+    
+    <!-- Add to head for better loading -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #2563eb;
+            --secondary-color: #1e40af;
+            --accent-color: #3b82f6;
+            --text-primary: #1f2937;
+            --text-secondary: #6b7280;
+            --background: #ffffff;
+            --surface: #f8fafc;
+            --border: #e5e7eb;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f8f9fa;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Navigation */
+        .navbar {
+            background: #fff;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 70px;
+        }
+
+        .nav-logo h2 {
+            color: #2c3e50;
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-menu a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        .nav-menu a:hover {
+            color: #3498db;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 120px 0 80px;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+        }
+
+        .hero-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .hero-content h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .hero-content h2 {
+            font-size: 1.8rem;
+            font-weight: 400;
+            margin-bottom: 1.5rem;
+            color: #e8f4fd;
+        }
+
+        .hero-description {
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+            line-height: 1.7;
+            color: #e8f4fd;
+        }
+
+        .hero-stats {
+            display: flex;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-number {
+            display: block;
+            font-size: 2rem;
+            font-weight: 700;
+            color: #fff;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: #e8f4fd;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .btn {
+            padding: 12px 30px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: inline-block;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-primary {
+            background: #3498db;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #2980b9;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: white;
+            border: 2px solid white;
+        }
+
+        .btn-secondary:hover {
+            background: white;
+            color: #3498db;
+        }
+
+        .hero-image {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .tech-icons {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            padding: 2rem;
+            background: rgba(255,255,255,0.1);
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+        }
+
+        .tech-icon {
+            font-size: 3rem;
+            color: white;
+            transition: transform 0.3s ease;
+        }
+
+        .tech-icon:hover {
+            transform: scale(1.1);
+        }
+
+        /* Section Styles */
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 3rem;
+            color: #2c3e50;
+        }
+
+        /* Projects Section */
+        .projects {
+            padding: 80px 0;
+            background: white;
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .project-card {
+            transition: all 0.3s ease;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 24px;
+            background: var(--background);
+        }
+
+        .project-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+            border-color: var(--primary-color);
+        }
+
+        .project-header h3 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: #2c3e50;
+        }
+
+        .project-tech {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .tech-tag {
+            background: #3498db;
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .project-description {
+            color: #666;
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .project-features {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .feature {
+            background: #f8f9fa;
+            color: #495057;
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            border: 1px solid #e9ecef;
+        }
+
+        .project-links {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .project-link {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #3498db;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .project-link:hover {
+            color: #2980b9;
+        }
+
+        /* Skills Section */
+        .skills {
+            padding: 80px 0;
+            background: #f8f9fa;
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .skill-category {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        .skill-category.can-own {
+            border-left: 4px solid #27ae60;
+        }
+
+        .skill-category.proficient {
+            border-left: 4px solid #3498db;
+        }
+
+        .skill-category.familiar {
+            border-left: 4px solid #f39c12;
+        }
+
+        .skill-category h3 {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            color: #2c3e50;
+        }
+
+        .skill-items {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .skill-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.8rem;
+            background: #f8f9fa;
+            border-radius: 8px;
+            transition: background 0.3s ease;
+        }
+
+        .skill-item:hover {
+            background: #e9ecef;
+        }
+
+        .skill-icon {
+            font-size: 1.5rem;
+            color: #3498db;
+        }
+
+        /* Resume Summary Section */
+        .resume-summary {
+            padding: 80px 0;
+            background: white;
+        }
+
+        .resume-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .resume-card {
+            background: #f8f9fa;
+            padding: 2rem;
+            border-radius: 10px;
+            border-left: 4px solid #3498db;
+        }
+
+        .resume-card h3 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: #2c3e50;
+        }
+
+        .resume-card p {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .strengths-list,
+        .achievements-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .strengths-list li,
+        .achievements-list li {
+            padding: 0.5rem 0;
+            color: #666;
+            display: flex;
+            align-items: flex-start;
+            gap: 0.8rem;
+        }
+
+        .strengths-list li i {
+            color: #27ae60;
+            margin-top: 0.2rem;
+        }
+
+        .achievements-list li i {
+            color: #f39c12;
+            margin-top: 0.2rem;
+        }
+
+        /* Education Section */
+        .education {
+            padding: 80px 0;
+            background: #f8f9fa;
+        }
+
+        .education-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .education-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            border: 1px solid #e9ecef;
+        }
+
+        .education-card h3 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #2c3e50;
+        }
+
+        .education-school {
+            color: #3498db;
+            font-weight: 500;
+            margin-bottom: 0.3rem;
+        }
+
+        .education-year {
+            color: #666;
+            margin-bottom: 1.5rem;
+        }
+
+        .education-details h4 {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 0.8rem;
+            color: #2c3e50;
+        }
+
+        .education-details ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .education-details li {
+            padding: 0.3rem 0;
+            color: #666;
+            position: relative;
+            padding-left: 1.5rem;
+        }
+
+        .education-details li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: #27ae60;
+            font-weight: bold;
+        }
+
+        .certifications {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .cert-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+
+        .cert-icon {
+            font-size: 1.5rem;
+            color: #3498db;
+        }
+
+        .cert-details {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .cert-name {
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        .cert-usage {
+            font-size: 0.9rem;
+            color: #666;
+            font-style: italic;
+        }
+
+        /* Project Impact */
+        .project-impact {
+            margin-top: 1rem;
+            padding: 1rem;
+            background: var(--surface);
+            border-radius: 8px;
+            border-left: 4px solid var(--primary-color);
+        }
+
+        /* CTA Section */
+        .cta-section {
+            background: var(--primary-color);
+            color: white;
+            padding: 60px 0;
+            text-align: center;
+        }
+
+        .cta-section h3 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .cta-section p {
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .cta-buttons .btn-primary,
+        .cta-buttons .btn-secondary {
+            padding: 12px 30px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .cta-buttons .btn-primary {
+            background: white;
+            color: var(--primary-color);
+        }
+
+        .cta-buttons .btn-primary:hover {
+            background: var(--surface);
+            transform: translateY(-2px);
+        }
+
+        .cta-buttons .btn-secondary {
+            background: transparent;
+            color: white;
+            border: 2px solid white;
+        }
+
+        .cta-buttons .btn-secondary:hover {
+            background: white;
+            color: var(--primary-color);
+        }
+
+        /* Contact Section */
+        .contact {
+            padding: 80px 0;
+            background: #f8f9fa;
+        }
+
+        .contact-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: start;
+        }
+
+        .contact-info h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: #2c3e50;
+        }
+
+        .contact-info p {
+            color: #666;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+
+        .contact-links {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .contact-link {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            color: #3498db;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .contact-link:hover {
+            color: #2980b9;
+        }
+
+        .contact-form {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 1rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #3498db;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        /* Footer */
+        .footer {
+            background: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+        }
+
+        /* Add mobile-first responsive design */
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 15px;
+            }
+            
+            .navbar {
+                padding: 10px 0;
+            }
+            
+            .nav-menu {
+                display: none;
+            }
+            
+            .hero-container {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+            
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .hero-stats {
+                justify-content: center;
+            }
+            
+            .tech-icons {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .contact-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .skills-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .education-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <h2>Segni Mekonnen</h2>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="#about">About</a></li>
+                <li><a href="#projects">Projects</a></li>
+                <li><a href="#skills">Skills</a></li>
+                <li><a href="#education">Education</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="about" class="hero">
+        <div class="hero-container">
+            <div class="hero-content">
+                <h1>Segni Mekonnen</h1>
+                <h2>Backend Software Engineer</h2>
+                <p class="hero-description">
+                    Backend developer building real products with ML. I enjoy schema design, authentication/authorization, caching, and serving models for inference. I'm actively expanding my ML toolkit and learn best through hands-on projects and code reviews. Built full-stack applications using FastAPI, WebSockets, and scikit-learn with modern infrastructure (Docker, AWS, CI/CD).
+                </p>
+                <div class="hero-stats">
+                    <div class="stat">
+                        <span class="stat-number">3</span>
+                        <span class="stat-label">Projects Built</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number">3</span>
+                        <span class="stat-label">Years Learning</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number">8+</span>
+                        <span class="stat-label">Technologies</span>
+                    </div>
+                </div>
+                <div class="hero-buttons">
+                    <a href="#projects" class="btn btn-primary">View Projects</a>
+                    <a href="#contact" class="btn btn-secondary">Get In Touch</a>
+                </div>
+            </div>
+            <div class="hero-image">
+                <div class="tech-icons">
+                    <i class="fab fa-python tech-icon"></i>
+                    <i class="fab fa-node-js tech-icon"></i>
+                    <i class="fas fa-code tech-icon"></i>
+                    <i class="fas fa-database tech-icon"></i>
+                    <i class="fab fa-docker tech-icon"></i>
+                    <i class="fab fa-aws tech-icon"></i>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects" class="projects">
+        <div class="container">
+            <h2 class="section-title">Featured Projects</h2>
+            <div class="projects-grid">
+                <div class="project-card featured-project">
+                    <div class="project-header">
+                        <h3>Habit Loop Tracker</h3>
+                        <div class="project-links">
+                            <a href="https://github.com/segnimekonnen7/habit-loop" target="_blank">
+                                <i class="fab fa-github"></i> Code
+                            </a>
+                            <a href="https://habit-loop-demo.vercel.app" target="_blank">
+                                <i class="fas fa-external-link-alt"></i> Live Demo
+                            </a>
+                        </div>
+                    </div>
+                    <p class="project-description">
+                        Full-stack habit tracking application built with Python FastAPI backend and Next.js frontend. 
+                        Features user authentication, habit analytics, and PostgreSQL database optimization.
+                    </p>
+                    <div class="project-tech">
+                        <span class="tech-tag">Python</span>
+                        <span class="tech-tag">FastAPI</span>
+                        <span class="tech-tag">Next.js</span>
+                        <span class="tech-tag">PostgreSQL</span>
+                    </div>
+                    <div class="project-impact">
+                        <strong>Impact:</strong> Built data-driven recommendations and real-time analytics dashboard for habit tracking insights
+                    </div>
+                </div>
+
+                <div class="project-card featured-project">
+                    <div class="project-header">
+                        <h3>Real-Time Chat Application</h3>
+                        <div class="project-links">
+                            <a href="https://github.com/segnimekonnen7/realtime-chat" target="_blank">
+                                <i class="fab fa-github"></i> Code
+                            </a>
+                            <a href="realtime-chat-app/index.html" target="_blank">
+                                <i class="fas fa-external-link-alt"></i> Live Demo
+                            </a>
+                            <a href="realtime-chat-showcase.html" target="_blank">
+                                <i class="fas fa-info-circle"></i> Details
+                            </a>
+                        </div>
+                    </div>
+                    <p class="project-description">
+                        Production-ready real-time chat system with WebSocket connections, JWT authentication, and message persistence. 
+                        Features typing indicators, online status tracking, and room management with scalable architecture.
+                    </p>
+                    <div class="project-tech">
+                        <span class="tech-tag">FastAPI</span>
+                        <span class="tech-tag">WebSockets</span>
+                        <span class="tech-tag">SQLAlchemy</span>
+                        <span class="tech-tag">JWT</span>
+                        <span class="tech-tag">BCrypt</span>
+                        <span class="tech-tag">Docker</span>
+                    </div>
+                    <div class="project-impact">
+                        <strong>Impact:</strong> Demonstrates real-time systems expertise with scalable WebSocket architecture
+                    </div>
+                </div>
+
+                <div class="project-card featured-project">
+                    <div class="project-header">
+                        <h3>Weather Dashboard API</h3>
+                        <div class="project-links">
+                            <a href="https://github.com/segnimekonnen7/weather-dashboard" target="_blank">
+                                <i class="fab fa-github"></i> Code
+                            </a>
+                            <a href="weather-dashboard/index.html" target="_blank">
+                                <i class="fas fa-external-link-alt"></i> Live Demo
+                            </a>
+                            <a href="weather-dashboard-showcase.html" target="_blank">
+                                <i class="fas fa-info-circle"></i> Details
+                            </a>
+                        </div>
+                    </div>
+                    <p class="project-description">
+                        Production-ready weather API with OpenWeatherMap integration, intelligent caching, and responsive dashboard. 
+                        Features 90% API call reduction through caching, location search, and 5-day forecasts with beautiful UI.
+                    </p>
+                    <div class="project-tech">
+                        <span class="tech-tag">FastAPI</span>
+                        <span class="tech-tag">OpenWeatherMap</span>
+                        <span class="tech-tag">HTTPX</span>
+                        <span class="tech-tag">Caching</span>
+                        <span class="tech-tag">Pydantic</span>
+                        <span class="tech-tag">Docker</span>
+                    </div>
+                    <div class="project-impact">
+                        <strong>Impact:</strong> Showcases external API integration with performance optimization and production deployment
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills" class="skills">
+        <div class="container">
+            <h2 class="section-title">Technical Skills</h2>
+            <div class="skills-grid">
+                <div class="skill-category can-own">
+                    <h3><i class="fas fa-crown"></i> Backend</h3>
+                    <div class="skill-items">
+                        <div class="skill-item">
+                            <i class="fab fa-python skill-icon"></i>
+                            <span>Python</span>
+                        </div>
+                        <div class="skill-item">
+                            <i class="fas fa-code skill-icon"></i>
+                            <span>FastAPI</span>
+                        </div>
+                        <div class="skill-item">
+                            <i class="fas fa-code skill-icon"></i>
+                            <span>REST APIs</span>
+                        </div>
+                        <div class="skill-item">
+                            <i class="fas fa-bolt skill-icon"></i>
+                            <span>WebSockets</span>
+                        </div>
+                        <div class="skill-item">
+                            <i class="fas fa-key skill-icon"></i>
+                            <span>JWT Authentication</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="skill-category proficient">
+                    <h3><i class="fas fa-check-circle"></i> Data/ML</h3>
+                    <div class="skill-items">
+                        <div class="skill-item">
+                            <i class="fas fa-brain skill-icon"></i>
+                            <span>scikit-learn</span>
+                        </div>
+                        <div class="skill-item">
+                            <i class="fas fa-cogs skill-icon"></i>
+                            <span>Feature Engineering</span>
+                        </div>
+                        <div class="skill-item">
+                            <i class="fas fa-chart-line skill-icon"></i>
+                            <span>Model Serving</span>
+                        </div>
+                        <div class="skill-item">
+                            <i class="fas fa-analytics skill-icon"></i>
+                            <span>Predictive Analytics</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="skill-category familiar">
+                    <h3><i class="fas fa-lightbulb"></i> Datastores</h3>
+                    <div class="skill-items">
+                        <div class="skill-item">
+                            <i class="fas fa-database skill-icon"></i>
+                            <span>PostgreSQL</span>
+                        </div>
+                        <div class="skill-item">
+                            <i class="fas fa-database skill-icon"></i>
+                            <span>MongoDB</span>
+                        </div>
+                        <div class="skill-item">
+                            <i class="fas fa-memory skill-icon"></i>
+                            <span>Redis</span>
+                        </div>
+                        <div class="skill-item">
+                            <i class="fas fa-search skill-icon"></i>
+                            <span>Query Optimization</span>
+                        </div>
+                        <div class="skill-item">
+                            <i class="fas fa-tachometer-alt skill-icon"></i>
+                            <span>Caching Strategies</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="skill-category can-own">
+                    <h3><i class="fas fa-crown"></i> Infra/DevOps</h3>
+                    <div class="skill-items">
+                        <div class="skill-item">
+                            <i class="fab fa-docker skill-icon"></i>
+                            <span>Docker</span>
+                        </div>
+                        <div class="skill-item">
+                            <i class="fab fa-aws skill-icon"></i>
+                            <span>AWS</span>
+                        </div>
+                        <div class="skill-item">
+                            <i class="fas fa-cloud skill-icon"></i>
+                            <span>Render</span>
+                        </div>
+                        <div class="skill-item">
+                            <i class="fab fa-git-alt skill-icon"></i>
+                            <span>Git</span>
+                        </div>
+                        <div class="skill-item">
+                            <i class="fas fa-sync-alt skill-icon"></i>
+                            <span>CI/CD Pipelines</span>
+                        </div>
+                        <div class="skill-item">
+                            <i class="fas fa-cloud-upload-alt skill-icon"></i>
+                            <span>Cloud Deployment</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="skill-category proficient">
+                    <h3><i class="fas fa-check-circle"></i> Frontend</h3>
+                    <div class="skill-items">
+                        <div class="skill-item">
+                            <i class="fab fa-js skill-icon"></i>
+                            <span>JavaScript</span>
+                        </div>
+                        <div class="skill-item">
+                            <i class="fab fa-react skill-icon"></i>
+                            <span>React</span>
+                        </div>
+                        <div class="skill-item">
+                            <i class="fab fa-html5 skill-icon"></i>
+                            <span>HTML5/CSS3</span>
+                        </div>
+                        <div class="skill-item">
+                            <i class="fas fa-mobile-alt skill-icon"></i>
+                            <span>Responsive Design</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="skill-category familiar">
+                    <h3><i class="fas fa-lightbulb"></i> Practices</h3>
+                    <div class="skill-items">
+                        <div class="skill-item">
+                            <i class="fas fa-users skill-icon"></i>
+                            <span>Agile/Scrum</span>
+                        </div>
+                        <div class="skill-item">
+                            <i class="fas fa-vial skill-icon"></i>
+                            <span>Test-Driven Development</span>
+                        </div>
+                        <div class="skill-item">
+                            <i class="fas fa-code-review skill-icon"></i>
+                            <span>Code Reviews</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+    <!-- Education Section -->
+    <section id="education" class="education">
+        <div class="container">
+            <h2 class="section-title">Education & Certifications</h2>
+            <div class="education-grid">
+                <div class="education-card">
+                    <h3>B.S. Computer Information Technology</h3>
+                    <p class="education-school">Minnesota State University, Mankato</p>
+                    <p class="education-year">Expected 2026</p>
+                    <div class="education-details">
+                        <h4>Relevant Coursework:</h4>
+                        <ul>
+                            <li>Database Systems</li>
+                            <li>Web Development</li>
+                            <li>Software Engineering</li>
+                            <li>Data Structures</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="education-card">
+                    <h3>Professional Certifications</h3>
+                    <div class="certifications">
+                        <div class="cert-item">
+                            <i class="fab fa-aws cert-icon"></i>
+                            <div class="cert-details">
+                                <span class="cert-name">AWS Cloud Practitioner</span>
+                                <span class="cert-usage">Applied in Habit Loop deployment</span>
+                            </div>
+                        </div>
+                        <div class="cert-item">
+                            <i class="fas fa-code cert-icon"></i>
+                            <div class="cert-details">
+                                <span class="cert-name">Meta Back-End Developer</span>
+                                <span class="cert-usage">Coursera specialization</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact">
+        <div class="container">
+            <h2 class="section-title">Get In Touch</h2>
+            <div class="contact-content">
+                <div class="contact-info">
+                    <h3>Let's Connect!</h3>
+                    <p>I'm always interested in new opportunities and exciting projects. Feel free to reach out!</p>
+                    <div class="contact-links">
+                        <a href="mailto:segnimekonnen7@gmail.com" class="contact-link">
+                            <i class="fas fa-envelope"></i>
+                            <span>segnimekonnen7@gmail.com</span>
+                        </a>
+                        <a href="https://github.com/segnimekonnen7" class="contact-link" target="_blank">
+                            <i class="fab fa-github"></i>
+                            <span>GitHub</span>
+                        </a>
+                        <a href="https://linkedin.com/in/segni-mekonnen-16928125b" class="contact-link" target="_blank">
+                            <i class="fab fa-linkedin"></i>
+                            <span>LinkedIn</span>
+                        </a>
+                    </div>
+                </div>
+                <div class="contact-form">
+                    <form>
+                        <div class="form-group">
+                            <input type="text" placeholder="Your Name" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="email" placeholder="Your Email" required>
+                        </div>
+                        <div class="form-group">
+                            <textarea placeholder="Your Message" rows="5" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Send Message</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="container">
+            <h3>Ready to collaborate?</h3>
+            <p>I'm actively seeking backend engineering internships for Summer 2025</p>
+            <div class="cta-buttons">
+                <a href="mailto:segnimekonnen7@gmail.com" class="btn-primary">Get In Touch</a>
+                <a href="./resume.pdf" class="btn-secondary" download>Download Resume</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 Segni Mekonnen. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Add active class to navigation links on scroll
+        window.addEventListener('scroll', () => {
+            const sections = document.querySelectorAll('section[id]');
+            const navLinks = document.querySelectorAll('.nav-menu a');
+            
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                if (scrollY >= (sectionTop - 200)) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === `#${current}`) {
+                    link.classList.add('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
+
+
