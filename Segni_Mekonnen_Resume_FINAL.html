@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume</title>
+    <style>
+        @page {
+            margin: 0.25in;
+            size: letter;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.1;
+            color: #333;
+            background: white;
+            font-size: 8.5pt;
+            max-width: 8.5in;
+            margin: 0 auto;
+            padding: 8px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 8px;
+            padding-bottom: 4px;
+            border-bottom: 1px solid #333;
+        }
+
+        .header h1 {
+            font-size: 1.2rem;
+            color: #333;
+            margin-bottom: 3px;
+            font-weight: bold;
+            letter-spacing: 0.5px;
+        }
+
+        .contact-info {
+            font-size: 0.75rem;
+            color: #555;
+        }
+
+        .section {
+            margin-bottom: 8px;
+        }
+
+        .section-header {
+            background-color: #333;
+            color: white;
+            padding: 3px 6px;
+            font-size: 0.75rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 6px;
+        }
+
+        .summary-text {
+            font-size: 0.8rem;
+            line-height: 1.2;
+            text-align: justify;
+            margin-bottom: 4px;
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+        }
+
+        .skills-column ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .skills-column li {
+            margin-bottom: 3px;
+            font-size: 0.75rem;
+            padding-left: 8px;
+            position: relative;
+        }
+
+        .skills-column li:before {
+            content: "●";
+            color: #333;
+            font-weight: bold;
+            position: absolute;
+            left: 0;
+        }
+
+        .work-item, .project-item {
+            margin-bottom: 8px;
+            padding-bottom: 4px;
+            border-bottom: 1px dotted #ccc;
+        }
+
+        .work-item:last-child, .project-item:last-child {
+            border-bottom: none;
+        }
+
+        .date-range {
+            color: #333;
+            font-size: 0.7rem;
+            font-weight: 600;
+            margin-bottom: 1px;
+        }
+
+        .job-title {
+            font-size: 0.85rem;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 1px;
+        }
+
+        .company-name {
+            font-size: 0.75rem;
+            font-style: italic;
+            color: #555;
+            margin-bottom: 3px;
+        }
+
+        .job-description ul {
+            list-style: none;
+            padding-left: 0;
+            margin-top: 1px;
+        }
+
+        .job-description li {
+            margin-bottom: 1px;
+            font-size: 0.75rem;
+            padding-left: 8px;
+            position: relative;
+            line-height: 1.1;
+        }
+
+        .job-description li:before {
+            content: "●";
+            color: #333;
+            font-weight: bold;
+            position: absolute;
+            left: 0;
+        }
+
+        .education-item {
+            margin-bottom: 4px;
+        }
+
+        .degree-title {
+            font-size: 0.85rem;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 1px;
+        }
+
+        .school-name {
+            font-size: 0.75rem;
+            font-style: italic;
+            color: #555;
+            margin-bottom: 1px;
+        }
+
+        .education-details {
+            font-size: 0.7rem;
+            color: #666;
+            line-height: 1.0;
+        }
+
+        /* Print styles */
+        @media print {
+            @page {
+                margin: 0.2in;
+                size: letter;
+            }
+            
+            body {
+                font-size: 7.5pt;
+                padding: 3px;
+                line-height: 1.0;
+            }
+            
+            .header {
+                margin-bottom: 6px;
+                padding-bottom: 3px;
+            }
+            
+            .header h1 {
+                font-size: 1.1rem;
+                margin-bottom: 1px;
+            }
+            
+            .section {
+                margin-bottom: 6px;
+            }
+            
+            .section-header {
+                background-color: #333 !important;
+                -webkit-print-color-adjust: exact !important;
+                color-adjust: exact !important;
+                padding: 2px 4px;
+                margin-bottom: 4px;
+            }
+            
+            .work-item, .project-item {
+                break-inside: avoid;
+                page-break-inside: avoid;
+                margin-bottom: 6px;
+                padding-bottom: 3px;
+            }
+            
+            .job-description li {
+                margin-bottom: 0px;
+            }
+            
+            .skills-column li {
+                margin-bottom: 1px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>SEGNI MEKONNEN</h1>
+        <div class="contact-info">
+            (571) 502-1555 • <a href="mailto:segnimekonnen7@gmail.com" style="color: #555; text-decoration: none;">segnimekonnen7@gmail.com</a><br>
+            <a href="https://github.com/segnimekonnen7" style="color: #555; text-decoration: none;">GitHub: github.com/segnimekonnen7</a> • <a href="https://linkedin.com/in/segni-mekonnen-16928125b" style="color: #555; text-decoration: none;">LinkedIn: linkedin.com/in/segni-mekonnen-16928125b</a> • <a href="https://segnimekonnen7.github.io/budget-buddy/software-engineer-portfolio.html" style="color: #555; text-decoration: none;">Portfolio: segnimekonnen7.github.io/budget-buddy/software-engineer-portfolio.html</a> • Minneapolis, MN
+        </div>
+    </div>
+
+    <div class="section">
+        <div class="section-header">Education</div>
+        <div class="education-item">
+            <div class="degree-title">Bachelor of Science: Computer Information Technology</div>
+            <div class="school-name">Minnesota State University, Mankato - Expected Graduation: 2026</div>
+            <div class="education-details">
+                <strong>Minor:</strong> Mathematics<br>
+                <strong>Academic Honors:</strong> Dean's List, Dean's Scholarship Recipient<br>
+                <strong>Relevant Coursework:</strong> Data Structures & Algorithms, Database Design, Software Engineering, Systems Analysis, Web Development
+            </div>
+        </div>
+    </div>
+
+    <div class="section">
+        <div class="section-header">Skills</div>
+        <div class="skills-grid">
+            <div class="skills-column">
+                <ul>
+                    <li><strong>Backend:</strong> Python, FastAPI, SQLAlchemy, REST APIs, WebSockets, JWT Authentication</li>
+                    <li><strong>Data/ML:</strong> scikit-learn, Feature Engineering, Model Serving, Predictive Analytics</li>
+                    <li><strong>Datastores:</strong> PostgreSQL, MongoDB, Redis, Query Optimization, Caching Strategies</li>
+                </ul>
+            </div>
+            <div class="skills-column">
+                <ul>
+                    <li><strong>Infra/DevOps:</strong> Docker, AWS, Render, Git, CI/CD Pipelines, Cloud Deployment</li>
+                    <li><strong>Frontend:</strong> JavaScript, React, HTML5/CSS3, Responsive Design</li>
+                    <li><strong>Practices:</strong> Agile/Scrum, Test-Driven Development, Code Reviews</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="section">
+        <div class="section-header">Experience</div>
+        
+        <div class="work-item">
+            <div class="date-range">Jun–Aug 2024</div>
+            <div class="job-title">Open Source Contributor</div>
+            <div class="company-name">Omdena - Remote</div>
+            <div class="job-description">
+                <ul>
+                    <li>Developed NLP pipeline, evaluation, and reporting for an AI-for-Good partner using Python, pandas, and NLTK</li>
+                    <li>Improved text preprocessing pipeline through stemming, class weighting, and feature engineering, increasing model F1 score by 12%</li>
+                    <li>Collaborated with 15+ data scientists using Git workflows, code reviews, and agile methodologies</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="section">
+        <div class="section-header">Leadership & Activities</div>
+        
+        <div class="work-item">
+            <div class="date-range">2017</div>
+            <div class="job-title">Scout Leader</div>
+            <div class="company-name">Boy Scouts of America - 2017 National Jamboree, West Virginia</div>
+            <div class="job-description">
+                <ul>
+                    <li>Led and mentored a team of scouts during the National Jamboree, developing strong leadership and communication skills</li>
+                    <li>Coordinated group activities and ensured safety protocols while fostering teamwork and outdoor skills development</li>
+                    <li>Gained valuable experience in project management, conflict resolution, and building collaborative relationships in challenging environments</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="section">
+        <div class="section-header">Projects</div>
+        
+        <div class="project-item">
+            <div class="date-range">2025</div>
+            <div class="job-title">Real-Time Chat Application</div>
+            <div class="company-name">FastAPI + WebSockets + Docker - Production Deployment</div>
+            <div class="job-description">
+                <ul>
+                    <li>Achieved sub-100ms p95 latency by engineering WebSocket-based messaging system with connection pooling and async Python</li>
+                    <li>Prevented unauthorized access by implementing JWT authentication and BCrypt password hashing</li>
+                    <li>Deployed scalable backend using FastAPI, SQLAlchemy ORM, and Docker containerization</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="project-item">
+            <div class="date-range">2024</div>
+            <div class="job-title">Weather Dashboard API</div>
+            <div class="company-name">FastAPI + External API Integration + Intelligent Caching</div>
+            <div class="job-description">
+                <ul>
+                    <li>Reduced external API calls by 90% through intelligent 10-minute caching strategy and performance optimization</li>
+                    <li>Ensured reliability by integrating OpenWeatherMap API with comprehensive error handling, rate limiting, and fallback mechanisms</li>
+                    <li>Delivered 5-day forecasts using responsive dashboard with HTTPX async client and auto-generated documentation</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="project-item">
+            <div class="date-range">2025</div>
+            <div class="job-title">Habit Loop - ML-Powered Tracker</div>
+            <div class="company-name">FastAPI + React + Machine Learning - Full-Stack Application</div>
+            <div class="job-description">
+                <ul>
+                    <li>Achieved 85% accuracy by developing ML prediction models for habit success using scikit-learn in production</li>
+                    <li>Built data-driven recommendations and real-time analytics dashboard for habit tracking insights</li>
+                    <li>Deployed full-stack application using FastAPI backend, React frontend, and PostgreSQL database on cloud infrastructure</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
