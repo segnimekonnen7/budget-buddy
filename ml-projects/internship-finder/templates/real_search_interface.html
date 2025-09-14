@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🌐 Real Internship Search Pro</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        .main-header {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            text-align: center;
+            color: white;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        
+        .search-panel {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 30px;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        
+        .job-card {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255,255,255,0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .job-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        
+        .btn-primary {
+            background: linear-gradient(45deg, #4CAF50, #45a049);
+            border: none;
+            border-radius: 25px;
+            padding: 10px 25px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(76, 175, 80, 0.4);
+        }
+        
+        .form-control, .form-select {
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.3);
+            color: white;
+            border-radius: 10px;
+        }
+        
+        .form-control:focus, .form-select:focus {
+            background: rgba(255,255,255,0.15);
+            border-color: rgba(255,255,255,0.5);
+            color: white;
+            box-shadow: 0 0 0 0.2rem rgba(255,255,255,0.25);
+        }
+        
+        .form-control::placeholder {
+            color: rgba(255,255,255,0.7);
+        }
+        
+        .form-label {
+            color: white;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: white;
+        }
+        
+        .spinner {
+            border: 4px solid rgba(255,255,255,0.3);
+            border-top: 4px solid white;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .results-info {
+            background: rgba(255,255,255,0.1);
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 20px;
+            color: white;
+        }
+        
+        .source-badge {
+            background: linear-gradient(45deg, #FF5722, #E64A19);
+            color: white;
+            padding: 3px 10px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+        
+        .apply-link {
+            background: linear-gradient(45deg, #9C27B0, #7B1FA2);
+            color: white;
+            text-decoration: none;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+        
+        .apply-link:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(156, 39, 176, 0.4);
+            color: white;
+        }
+        
+        .company-logo {
+            width: 50px;
+            height: 50px;
+            border-radius: 10px;
+            margin-right: 15px;
+            background: rgba(255,255,255,0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+        
+        .salary {
+            color: #4CAF50;
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+        
+        .location {
+            color: #2196F3;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid py-4">
+        <div class="main-header">
+            <h1><i class="fas fa-globe"></i> Real Internship Search Pro</h1>
+            <p class="mb-0">Live web scraping from LinkedIn, Indeed, Glassdoor, and more job sites</p>
+        </div>
+
+        <div class="search-panel">
+            <div class="row">
+                <div class="col-md-4">
+                    <label class="form-label">Keywords</label>
+                    <input type="text" class="form-control" id="searchKeywords" placeholder="e.g., Machine Learning, Software Engineering, Data Science">
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">Location</label>
+                    <input type="text" class="form-control" id="searchLocation" placeholder="e.g., Minneapolis, San Francisco, Remote">
+                </div>
+                <div class="col-md-2">
+                    <label class="form-label">Experience</label>
+                    <select class="form-select" id="searchExperience">
+                        <option value="">Any Level</option>
+                        <option value="entry">Entry Level</option>
+                        <option value="mid">Mid Level</option>
+                        <option value="senior">Senior</option>
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <label class="form-label">Job Type</label>
+                    <select class="form-select" id="searchType">
+                        <option value="">All Types</option>
+                        <option value="remote">Remote</option>
+                        <option value="onsite">On-site</option>
+                        <option value="hybrid">Hybrid</option>
+                    </select>
+                </div>
+                <div class="col-md-1">
+                    <label class="form-label">&nbsp;</label>
+                    <button class="btn btn-primary w-100" onclick="startRealSearch()">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <div class="row mt-3">
+                <div class="col-md-12">
+                    <label class="form-label">Search Sources</label>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" id="sourceLinkedIn" checked>
+                        <label class="form-check-label text-white" for="sourceLinkedIn">LinkedIn</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" id="sourceIndeed" checked>
+                        <label class="form-check-label text-white" for="sourceIndeed">Indeed</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" id="sourceGlassdoor" checked>
+                        <label class="form-check-label text-white" for="sourceGlassdoor">Glassdoor</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" id="sourceInternships" checked>
+                        <label class="form-check-label text-white" for="sourceInternships">Internships.com</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" id="sourceAngelList" checked>
+                        <label class="form-check-label text-white" for="sourceAngelList">AngelList</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="searchResults"></div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        let searchInterval;
+        let isSearching = false;
+
+        // Start real web scraping search
+        async function startRealSearch() {
+            if (isSearching) {
+                alert('Search already in progress. Please wait...');
+                return;
+            }
+
+            const keywords = document.getElementById('searchKeywords').value;
+            const location = document.getElementById('searchLocation').value;
+            const experience = document.getElementById('searchExperience').value;
+            const jobType = document.getElementById('searchType').value;
+
+            if (!keywords || !location) {
+                alert('Please enter keywords and location');
+                return;
+            }
+
+            // Get selected sources
+            const sources = [];
+            if (document.getElementById('sourceLinkedIn').checked) sources.push('linkedin');
+            if (document.getElementById('sourceIndeed').checked) sources.push('indeed');
+            if (document.getElementById('sourceGlassdoor').checked) sources.push('glassdoor');
+            if (document.getElementById('sourceInternships').checked) sources.push('internships');
+            if (document.getElementById('sourceAngelList').checked) sources.push('angellist');
+
+            if (sources.length === 0) {
+                alert('Please select at least one search source');
+                return;
+            }
+
+            // Show loading
+            showLoading();
+
+            // Start search
+            try {
+                const response = await fetch('/api/search', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        keywords: keywords,
+                        location: location,
+                        job_type: jobType,
+                        experience: experience,
+                        sources: sources
+                    })
+                });
+
+                const data = await response.json();
+                
+                if (data.status === 'searching') {
+                    isSearching = true;
+                    // Start polling for results
+                    searchInterval = setInterval(checkResults, 2000);
+                } else {
+                    showError('Failed to start search');
+                }
+            } catch (error) {
+                console.error('Search error:', error);
+                showError('Failed to start search');
+            }
+        }
+
+        // Check for search results
+        async function checkResults() {
+            try {
+                const response = await fetch('/api/results');
+                const data = await response.json();
+
+                if (!data.in_progress) {
+                    // Search completed
+                    clearInterval(searchInterval);
+                    isSearching = false;
+                    displayResults(data.results);
+                } else {
+                    // Still searching, update loading message
+                    updateLoadingMessage(`Found ${data.count} internships so far...`);
+                }
+            } catch (error) {
+                console.error('Error checking results:', error);
+            }
+        }
+
+        // Display search results
+        function displayResults(results) {
+            const resultsArea = document.getElementById('searchResults');
+            
+            if (results.length === 0) {
+                resultsArea.innerHTML = `
+                    <div class="results-info">
+                        <h5><i class="fas fa-info-circle"></i> No Results Found</h5>
+                        <p>No internships found matching your criteria. Try:</p>
+                        <ul>
+                            <li>Broadening your keywords</li>
+                            <li>Expanding your location</li>
+                            <li>Selecting more search sources</li>
+                            <li>Removing some filters</li>
+                        </ul>
+                    </div>
+                `;
+                return;
+            }
+
+            resultsArea.innerHTML = `
+                <div class="results-info">
+                    <h5><i class="fas fa-info-circle"></i> Search Results</h5>
+                    <p>Found <strong>${results.length}</strong> internships from real job websites</p>
+                    <p>These are live results scraped from the web!</p>
+                </div>
+            `;
+
+            results.forEach(job => {
+                const jobCard = document.createElement('div');
+                jobCard.className = 'job-card';
+                jobCard.innerHTML = `
+                    <div class="d-flex align-items-start">
+                        <div class="company-logo">
+                            ${job.logo}
+                        </div>
+                        <div class="flex-grow-1">
+                            <div class="d-flex justify-content-between align-items-start mb-2">
+                                <div>
+                                    <h5 class="text-white mb-1">${job.position}</h5>
+                                    <h6 class="text-white-50 mb-2">${job.company}</h6>
+                                </div>
+                                <div class="text-end">
+                                    <div class="salary">${job.salary}</div>
+                                    <span class="source-badge">${job.source}</span>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <span class="location"><i class="fas fa-map-marker-alt"></i> ${job.location}</span>
+                                <span class="text-white-50 ms-3"><i class="fas fa-globe"></i> ${job.type}</span>
+                            </div>
+                            
+                            <p class="text-white-50 mb-3">${job.description}</p>
+                            
+                            <div class="mb-3">
+                                <span class="badge bg-light text-dark">${job.requirements}</span>
+                            </div>
+                            
+                            <div class="d-flex gap-2">
+                                <a href="${job.applyLink}" target="_blank" class="apply-link">
+                                    <i class="fas fa-external-link-alt"></i> Apply on ${job.source}
+                                </a>
+                                <button class="btn btn-warning" onclick="saveJob(${job.id})">
+                                    <i class="fas fa-bookmark"></i> Save
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                resultsArea.appendChild(jobCard);
+            });
+        }
+
+        // Show loading screen
+        function showLoading() {
+            const resultsArea = document.getElementById('searchResults');
+            resultsArea.innerHTML = `
+                <div class="loading">
+                    <div class="spinner"></div>
+                    <h4>🔍 Searching Real Job Websites...</h4>
+                    <p>Scraping LinkedIn, Indeed, Glassdoor, and more...</p>
+                    <p>This may take 30-60 seconds as we search multiple sites</p>
+                </div>
+            `;
+        }
+
+        // Update loading message
+        function updateLoadingMessage(message) {
+            const loadingDiv = document.querySelector('.loading p');
+            if (loadingDiv) {
+                loadingDiv.textContent = message;
+            }
+        }
+
+        // Show error
+        function showError(message) {
+            const resultsArea = document.getElementById('searchResults');
+            resultsArea.innerHTML = `
+                <div class="results-info">
+                    <h5><i class="fas fa-exclamation-triangle"></i> Search Error</h5>
+                    <p>${message}</p>
+                    <p>Please try again or check your internet connection.</p>
+                </div>
+            `;
+        }
+
+        // Save job (placeholder function)
+        function saveJob(jobId) {
+            alert('Job saved! (Feature to be implemented)');
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            // Show welcome message
+            const resultsArea = document.getElementById('searchResults');
+            resultsArea.innerHTML = `
+                <div class="results-info">
+                    <h5><i class="fas fa-rocket"></i> Welcome to Real Internship Search Pro!</h5>
+                    <p>This tool searches <strong>real job websites</strong> for internships:</p>
+                    <ul>
+                        <li>🔍 <strong>LinkedIn</strong> - Professional networking and job listings</li>
+                        <li>📊 <strong>Indeed</strong> - Comprehensive job search engine</li>
+                        <li>🏢 <strong>Glassdoor</strong> - Company reviews and job listings</li>
+                        <li>🎓 <strong>Internships.com</strong> - Specialized internship platform</li>
+                        <li>👼 <strong>AngelList</strong> - Startup and tech job listings</li>
+                    </ul>
+                    <p><strong>Enter your search criteria above and click search to find real internships!</strong></p>
+                </div>
+            `;
+        });
+    </script>
+</body>
+</html> 

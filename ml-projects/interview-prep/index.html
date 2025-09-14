@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>💼 Enhanced Interview Prep</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <style>
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        .main-header {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            text-align: center;
+            color: white;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        
+        .question-card {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255,255,255,0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .question-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        
+        .metric-card {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            color: white;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        
+        .btn-primary {
+            background: linear-gradient(45deg, #4CAF50, #45a049);
+            border: none;
+            border-radius: 25px;
+            padding: 10px 25px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(76, 175, 80, 0.4);
+        }
+        
+        .btn-success {
+            background: linear-gradient(45deg, #2196F3, #1976D2);
+            border: none;
+            border-radius: 25px;
+            padding: 8px 20px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-success:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(33, 150, 243, 0.4);
+        }
+        
+        .btn-warning {
+            background: linear-gradient(45deg, #FF9800, #F57C00);
+            border: none;
+            border-radius: 25px;
+            padding: 8px 20px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-warning:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 152, 0, 0.4);
+        }
+        
+        .progress-bar {
+            background: linear-gradient(45deg, #4CAF50, #45a049);
+        }
+        
+        .difficulty-easy {
+            color: #4CAF50;
+            font-weight: bold;
+        }
+        
+        .difficulty-medium {
+            color: #FF9800;
+            font-weight: bold;
+        }
+        
+        .difficulty-hard {
+            color: #f44336;
+            font-weight: bold;
+        }
+        
+        .category-ml {
+            background: rgba(76, 175, 80, 0.2);
+            color: #4CAF50;
+        }
+        
+        .category-dl {
+            background: rgba(33, 150, 243, 0.2);
+            color: #2196F3;
+        }
+        
+        .category-cv {
+            background: rgba(255, 152, 0, 0.2);
+            color: #FF9800;
+        }
+        
+        .category-nlp {
+            background: rgba(156, 39, 176, 0.2);
+            color: #9C27B0;
+        }
+        
+        .form-control, .form-select {
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.3);
+            color: white;
+            border-radius: 10px;
+        }
+        
+        .form-control:focus, .form-select:focus {
+            background: rgba(255,255,255,0.15);
+            border-color: rgba(255,255,255,0.5);
+            color: white;
+            box-shadow: 0 0 0 0.2rem rgba(255,255,255,0.25);
+        }
+        
+        .form-control::placeholder {
+            color: rgba(255,255,255,0.7);
+        }
+        
+        .form-label {
+            color: white;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        
+        .nav-tabs {
+            border-bottom: 2px solid rgba(255,255,255,0.2);
+        }
+        
+        .nav-tabs .nav-link {
+            color: rgba(255,255,255,0.8);
+            border: none;
+            border-radius: 10px 10px 0 0;
+            margin-right: 5px;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-tabs .nav-link.active {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: none;
+        }
+        
+        .nav-tabs .nav-link:hover {
+            background: rgba(255,255,255,0.1);
+            color: white;
+        }
+        
+        .tab-content {
+            background: rgba(255,255,255,0.05);
+            border-radius: 15px;
+            padding: 25px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .answer-section {
+            background: rgba(255,255,255,0.1);
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 15px;
+            border-left: 4px solid #4CAF50;
+        }
+        
+        .timer {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #FF9800;
+            text-align: center;
+            margin: 20px 0;
+        }
+        
+        .question-number {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            display: inline-block;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid py-4">
+        <div class="main-header">
+            <h1><i class="fas fa-graduation-cap"></i> Enhanced Interview Prep</h1>
+            <p class="mb-0">Comprehensive interview preparation tool with personalized question generation</p>
+        </div>
+
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="questions-tab" data-bs-toggle="tab" data-bs-target="#questions" type="button" role="tab">
+                    <i class="fas fa-question-circle"></i> Question Bank
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="mock-tab" data-bs-toggle="tab" data-bs-target="#mock" type="button" role="tab">
+                    <i class="fas fa-users"></i> Mock Interview
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="progress-tab" data-bs-toggle="tab" data-bs-target="#progress" type="button" role="tab">
+                    <i class="fas fa-chart-line"></i> Progress
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="study-tab" data-bs-toggle="tab" data-bs-target="#study" type="button" role="tab">
+                    <i class="fas fa-book"></i> Study Plan
+                </button>
+            </li>
+        </ul>
+
+        <div class="tab-content" id="myTabContent">
+            <!-- Questions Tab -->
+            <div class="tab-pane fade show active" id="questions" role="tabpanel">
+                <div class="row mb-4">
+                    <div class="col-md-3">
+                        <label class="form-label">Category</label>
+                        <select class="form-select" id="categoryFilter">
+                            <option value="">All Categories</option>
+                            <option value="ML">Machine Learning</option>
+                            <option value="DL">Deep Learning</option>
+                            <option value="CV">Computer Vision</option>
+                            <option value="NLP">Natural Language Processing</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label">Difficulty</label>
+                        <select class="form-select" id="difficultyFilter">
+                            <option value="">All Difficulties</option>
+                            <option value="Easy">Easy</option>
+                            <option value="Medium">Medium</option>
+                            <option value="Hard">Hard</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label">Search</label>
+                        <input type="text" class="form-control" id="searchQuestions" placeholder="Search questions...">
+                    </div>
+                    <div class="col-md-2">
+                        <label class="form-label">&nbsp;</label>
+                        <button class="btn btn-primary w-100" onclick="filterQuestions()">
+                            <i class="fas fa-search"></i> Filter
+                        </button>
+                    </div>
+                </div>
+
+                <div id="questionsList"></div>
+            </div>
+
+            <!-- Mock Interview Tab -->
+            <div class="tab-pane fade" id="mock" role="tabpanel">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="question-card">
+                            <h4><i class="fas fa-cog"></i> Interview Settings</h4>
+                            <div class="mb-3">
+                                <label class="form-label">Number of Questions</label>
+                                <select class="form-select" id="questionCount">
+                                    <option value="5">5 Questions</option>
+                                    <option value="10">10 Questions</option>
+                                    <option value="15">15 Questions</option>
+                                    <option value="20">20 Questions</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Time Limit (minutes)</label>
+                                <select class="form-select" id="timeLimit">
+                                    <option value="15">15 minutes</option>
+                                    <option value="30">30 minutes</option>
+                                    <option value="45">45 minutes</option>
+                                    <option value="60">60 minutes</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Categories</label>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="mlCheck" checked>
+                                    <label class="form-check-label" for="mlCheck">Machine Learning</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="dlCheck" checked>
+                                    <label class="form-check-label" for="dlCheck">Deep Learning</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="cvCheck" checked>
+                                    <label class="form-check-label" for="cvCheck">Computer Vision</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="nlpCheck" checked>
+                                    <label class="form-check-label" for="nlpCheck">NLP</label>
+                                </div>
+                            </div>
+                            <button class="btn btn-primary" onclick="startMockInterview()">
+                                <i class="fas fa-play"></i> Start Mock Interview
+                            </button>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div id="mockInterviewArea"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Progress Tab -->
+            <div class="tab-pane fade" id="progress" role="tabpanel">
+                <div class="stats-grid">
+                    <div class="metric-card">
+                        <i class="fas fa-question-circle fa-2x mb-2"></i>
+                        <h4 id="totalQuestions">500+</h4>
+                        <p>Total Questions</p>
+                    </div>
+                    <div class="metric-card">
+                        <i class="fas fa-check-circle fa-2x mb-2"></i>
+                        <h4 id="answeredQuestions">0</h4>
+                        <p>Answered</p>
+                    </div>
+                    <div class="metric-card">
+                        <i class="fas fa-percentage fa-2x mb-2"></i>
+                        <h4 id="accuracyRate">0%</h4>
+                        <p>Accuracy</p>
+                    </div>
+                    <div class="metric-card">
+                        <i class="fas fa-clock fa-2x mb-2"></i>
+                        <h4 id="studyTime">0h</h4>
+                        <p>Study Time</p>
+                    </div>
+                </div>
+                
+                <div class="question-card">
+                    <h4><i class="fas fa-chart-bar"></i> Progress by Category</h4>
+                    <div id="progressChart"></div>
+                </div>
+            </div>
+
+            <!-- Study Plan Tab -->
+            <div class="tab-pane fade" id="study" role="tabpanel">
+                <div class="question-card">
+                    <h4><i class="fas fa-calendar-alt"></i> Personalized Study Plan</h4>
+                    <p>Based on your performance, here's a recommended study plan:</p>
+                    
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h5>Week 1: Machine Learning Fundamentals</h5>
+                            <ul class="text-white-50">
+                                <li>Linear Regression & Logistic Regression</li>
+                                <li>Decision Trees & Random Forest</li>
+                                <li>Support Vector Machines</li>
+                                <li>Cross-validation techniques</li>
+                            </ul>
+                            <div class="progress mb-3">
+                                <div class="progress-bar" role="progressbar" style="width: 25%">25%</div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <h5>Week 2: Deep Learning</h5>
+                            <ul class="text-white-50">
+                                <li>Neural Networks basics</li>
+                                <li>Convolutional Neural Networks</li>
+                                <li>Recurrent Neural Networks</li>
+                                <li>Transfer Learning</li>
+                            </ul>
+                            <div class="progress mb-3">
+                                <div class="progress-bar" role="progressbar" style="width: 15%">15%</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row mt-3">
+                        <div class="col-md-6">
+                            <h5>Week 3: Computer Vision</h5>
+                            <ul class="text-white-50">
+                                <li>Image preprocessing</li>
+                                <li>Object detection</li>
+                                <li>Image segmentation</li>
+                                <li>Feature extraction</li>
+                            </ul>
+                            <div class="progress mb-3">
+                                <div class="progress-bar" role="progressbar" style="width: 10%">10%</div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <h5>Week 4: Natural Language Processing</h5>
+                            <ul class="text-white-50">
+                                <li>Text preprocessing</li>
+                                <li>Word embeddings</li>
+                                <li>Sequence models</li>
+                                <li>Transformer architecture</li>
+                            </ul>
+                            <div class="progress mb-3">
+                                <div class="progress-bar" role="progressbar" style="width: 5%">5%</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Sample questions database
+        const questions = [
+            {
+                id: 1,
+                question: "What is the difference between supervised and unsupervised learning?",
+                answer: "Supervised learning uses labeled data to train models, while unsupervised learning finds patterns in unlabeled data.",
+                category: "ML",
+                difficulty: "Easy",
+                tags: ["supervised", "unsupervised", "learning"]
+            },
+            {
+                id: 2,
+                question: "Explain the concept of overfitting and how to prevent it.",
+                answer: "Overfitting occurs when a model learns the training data too well but fails to generalize. Prevention methods include regularization, cross-validation, and using more training data.",
+                category: "ML",
+                difficulty: "Medium",
+                tags: ["overfitting", "regularization", "generalization"]
+            },
+            {
+                id: 3,
+                question: "What is a convolutional neural network and when would you use it?",
+                answer: "A CNN is a neural network designed for processing grid-like data such as images. It uses convolutional layers to detect features and is commonly used for image classification, object detection, and computer vision tasks.",
+                category: "DL",
+                difficulty: "Medium",
+                tags: ["cnn", "convolution", "image", "deep learning"]
+            },
+            {
+                id: 4,
+                question: "How does transfer learning work in deep learning?",
+                answer: "Transfer learning involves using a pre-trained model on a new but related task. The model's learned features are transferred and fine-tuned for the new task, requiring less data and training time.",
+                category: "DL",
+                difficulty: "Medium",
+                tags: ["transfer learning", "pre-trained", "fine-tuning"]
+            },
+            {
+                id: 5,
+                question: "What is the difference between classification and regression?",
+                answer: "Classification predicts discrete categories/classes, while regression predicts continuous numerical values. Classification outputs probabilities or class labels, while regression outputs real numbers.",
+                category: "ML",
+                difficulty: "Easy",
+                tags: ["classification", "regression", "prediction"]
+            },
+            {
+                id: 6,
+                question: "Explain the concept of gradient descent and its variants.",
+                answer: "Gradient descent is an optimization algorithm that minimizes loss functions by iteratively moving in the direction of steepest descent. Variants include SGD, Adam, RMSprop, and AdaGrad.",
+                category: "DL",
+                difficulty: "Hard",
+                tags: ["gradient descent", "optimization", "adam", "sgd"]
+            },
+            {
+                id: 7,
+                question: "What is the attention mechanism in transformers?",
+                answer: "Attention allows the model to focus on different parts of the input sequence when making predictions. It computes attention weights to determine which input elements are most relevant.",
+                category: "NLP",
+                difficulty: "Hard",
+                tags: ["attention", "transformer", "nlp", "sequence"]
+            },
+            {
+                id: 8,
+                question: "How do you handle imbalanced datasets?",
+                answer: "Techniques include resampling (oversampling minority class, undersampling majority class), using different evaluation metrics, adjusting class weights, and using ensemble methods.",
+                category: "ML",
+                difficulty: "Medium",
+                tags: ["imbalanced", "resampling", "evaluation"]
+            },
+            {
+                id: 9,
+                question: "What is the difference between precision and recall?",
+                answer: "Precision measures the accuracy of positive predictions (TP/(TP+FP)), while recall measures the ability to find all positive instances (TP/(TP+FN)). Precision focuses on quality, recall on completeness.",
+                category: "ML",
+                difficulty: "Medium",
+                tags: ["precision", "recall", "metrics", "evaluation"]
+            },
+            {
+                id: 10,
+                question: "Explain the concept of batch normalization.",
+                answer: "Batch normalization normalizes the inputs of each layer by computing the mean and variance across the batch. It helps with training stability, faster convergence, and allows higher learning rates.",
+                category: "DL",
+                difficulty: "Hard",
+                tags: ["batch normalization", "training", "stability"]
+            }
+        ];
+
+        let currentQuestions = [...questions];
+        let mockInterviewQuestions = [];
+        let currentQuestionIndex = 0;
+        let mockTimer = null;
+        let mockTimeLeft = 0;
+
+        // Initialize
+        function init() {
+            displayQuestions(currentQuestions);
+            updateProgress();
+        }
+
+        // Display questions
+        function displayQuestions(questionsToShow) {
+            const questionsList = document.getElementById('questionsList');
+            questionsList.innerHTML = '';
+
+            questionsToShow.forEach((q, index) => {
+                const questionCard = document.createElement('div');
+                questionCard.className = 'question-card';
+                questionCard.innerHTML = `
+                    <div class="d-flex justify-content-between align-items-start mb-3">
+                        <div class="flex-grow-1">
+                            <h5>Question ${index + 1}</h5>
+                            <p class="text-white mb-2">${q.question}</p>
+                            <div class="mb-2">
+                                <span class="badge category-${q.category.toLowerCase()} me-2">${q.category}</span>
+                                <span class="badge difficulty-${q.difficulty.toLowerCase()}">${q.difficulty}</span>
+                            </div>
+                        </div>
+                        <button class="btn btn-success" onclick="showAnswer(${q.id})">
+                            <i class="fas fa-eye"></i> Show Answer
+                        </button>
+                    </div>
+                    <div id="answer-${q.id}" class="answer-section" style="display: none;">
+                        <h6><i class="fas fa-lightbulb"></i> Answer:</h6>
+                        <p class="text-white-50">${q.answer}</p>
+                    </div>
+                `;
+                questionsList.appendChild(questionCard);
+            });
+        }
+
+        // Show/hide answer
+        function showAnswer(questionId) {
+            const answerSection = document.getElementById(`answer-${questionId}`);
+            if (answerSection.style.display === 'none') {
+                answerSection.style.display = 'block';
+            } else {
+                answerSection.style.display = 'none';
+            }
+        }
+
+        // Filter questions
+        function filterQuestions() {
+            const category = document.getElementById('categoryFilter').value;
+            const difficulty = document.getElementById('difficultyFilter').value;
+            const search = document.getElementById('searchQuestions').value.toLowerCase();
+
+            let filtered = questions.filter(q => {
+                let match = true;
+                
+                if (category && q.category !== category) match = false;
+                if (difficulty && q.difficulty !== difficulty) match = false;
+                if (search && !q.question.toLowerCase().includes(search) && 
+                    !q.answer.toLowerCase().includes(search) && 
+                    !q.tags.some(tag => tag.toLowerCase().includes(search))) match = false;
+                
+                return match;
+            });
+
+            currentQuestions = filtered;
+            displayQuestions(filtered);
+        }
+
+        // Start mock interview
+        function startMockInterview() {
+            const count = parseInt(document.getElementById('questionCount').value);
+            const timeLimit = parseInt(document.getElementById('timeLimit').value);
+            
+            // Get selected categories
+            const categories = [];
+            if (document.getElementById('mlCheck').checked) categories.push('ML');
+            if (document.getElementById('dlCheck').checked) categories.push('DL');
+            if (document.getElementById('cvCheck').checked) categories.push('CV');
+            if (document.getElementById('nlpCheck').checked) categories.push('NLP');
+            
+            // Filter questions by category
+            const availableQuestions = questions.filter(q => categories.includes(q.category));
+            
+            // Randomly select questions
+            mockInterviewQuestions = [];
+            for (let i = 0; i < Math.min(count, availableQuestions.length); i++) {
+                const randomIndex = Math.floor(Math.random() * availableQuestions.length);
+                mockInterviewQuestions.push(availableQuestions[randomIndex]);
+                availableQuestions.splice(randomIndex, 1);
+            }
+            
+            currentQuestionIndex = 0;
+            mockTimeLeft = timeLimit * 60; // Convert to seconds
+            
+            displayMockInterview();
+            startMockTimer();
+        }
+
+        // Display mock interview
+        function displayMockInterview() {
+            const mockArea = document.getElementById('mockInterviewArea');
+            
+            if (currentQuestionIndex >= mockInterviewQuestions.length) {
+                // Interview completed
+                mockArea.innerHTML = `
+                    <div class="question-card text-center">
+                        <h4><i class="fas fa-trophy"></i> Interview Completed!</h4>
+                        <p>Great job completing the mock interview!</p>
+                        <button class="btn btn-primary" onclick="showMockResults()">
+                            <i class="fas fa-chart-bar"></i> View Results
+                        </button>
+                    </div>
+                `;
+                clearInterval(mockTimer);
+                return;
+            }
+            
+            const question = mockInterviewQuestions[currentQuestionIndex];
+            
+            mockArea.innerHTML = `
+                <div class="question-card">
+                    <div class="timer" id="mockTimer">${Math.floor(mockTimeLeft / 60)}:${(mockTimeLeft % 60).toString().padStart(2, '0')}</div>
+                    <div class="question-number">Question ${currentQuestionIndex + 1} of ${mockInterviewQuestions.length}</div>
+                    <h5>${question.question}</h5>
+                    <div class="mb-3">
+                        <span class="badge category-${question.category.toLowerCase()} me-2">${question.category}</span>
+                        <span class="badge difficulty-${question.difficulty.toLowerCase()}">${question.difficulty}</span>
+                    </div>
+                    <div class="d-flex gap-2">
+                        <button class="btn btn-success" onclick="nextQuestion()">
+                            <i class="fas fa-arrow-right"></i> Next Question
+                        </button>
+                        <button class="btn btn-warning" onclick="showMockAnswer()">
+                            <i class="fas fa-eye"></i> Show Answer
+                        </button>
+                    </div>
+                    <div id="mockAnswer" class="answer-section" style="display: none;">
+                        <h6><i class="fas fa-lightbulb"></i> Answer:</h6>
+                        <p class="text-white-50">${question.answer}</p>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Show mock answer
+        function showMockAnswer() {
+            const answerSection = document.getElementById('mockAnswer');
+            answerSection.style.display = 'block';
+        }
+
+        // Next question
+        function nextQuestion() {
+            currentQuestionIndex++;
+            displayMockInterview();
+        }
+
+        // Start mock timer
+        function startMockTimer() {
+            mockTimer = setInterval(() => {
+                mockTimeLeft--;
+                const timerElement = document.getElementById('mockTimer');
+                if (timerElement) {
+                    timerElement.textContent = `${Math.floor(mockTimeLeft / 60)}:${(mockTimeLeft % 60).toString().padStart(2, '0')}`;
+                }
+                
+                if (mockTimeLeft <= 0) {
+                    clearInterval(mockTimer);
+                    alert('Time\'s up! Interview completed.');
+                    currentQuestionIndex = mockInterviewQuestions.length;
+                    displayMockInterview();
+                }
+            }, 1000);
+        }
+
+        // Show mock results
+        function showMockResults() {
+            const mockArea = document.getElementById('mockInterviewArea');
+            mockArea.innerHTML = `
+                <div class="question-card">
+                    <h4><i class="fas fa-chart-bar"></i> Mock Interview Results</h4>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p><strong>Questions Answered:</strong> ${mockInterviewQuestions.length}</p>
+                            <p><strong>Time Used:</strong> ${Math.floor((parseInt(document.getElementById('timeLimit').value) * 60 - mockTimeLeft) / 60)}:${((parseInt(document.getElementById('timeLimit').value) * 60 - mockTimeLeft) % 60).toString().padStart(2, '0')}</p>
+                        </div>
+                        <div class="col-md-6">
+                            <p><strong>Categories Covered:</strong> ${[...new Set(mockInterviewQuestions.map(q => q.category))].join(', ')}</p>
+                            <p><strong>Difficulty Distribution:</strong> ${getDifficultyDistribution()}</p>
+                        </div>
+                    </div>
+                    <button class="btn btn-primary" onclick="startMockInterview()">
+                        <i class="fas fa-redo"></i> Try Again
+                    </button>
+                </div>
+            `;
+        }
+
+        // Get difficulty distribution
+        function getDifficultyDistribution() {
+            const distribution = {};
+            mockInterviewQuestions.forEach(q => {
+                distribution[q.difficulty] = (distribution[q.difficulty] || 0) + 1;
+            });
+            return Object.entries(distribution).map(([k, v]) => `${k}: ${v}`).join(', ');
+        }
+
+        // Update progress
+        function updateProgress() {
+            // Simulate progress data
+            document.getElementById('answeredQuestions').textContent = Math.floor(Math.random() * 100) + 50;
+            document.getElementById('accuracyRate').textContent = Math.floor(Math.random() * 30) + 70 + '%';
+            document.getElementById('studyTime').textContent = Math.floor(Math.random() * 20) + 5 + 'h';
+            
+            updateProgressChart();
+        }
+
+        // Update progress chart
+        function updateProgressChart() {
+            const data = [{
+                values: [25, 30, 20, 25],
+                labels: ['Machine Learning', 'Deep Learning', 'Computer Vision', 'NLP'],
+                type: 'pie',
+                marker: {
+                    colors: ['#4CAF50', '#2196F3', '#FF9800', '#9C27B0']
+                }
+            }];
+            
+            const layout = {
+                paper_bgcolor: 'rgba(0,0,0,0)',
+                plot_bgcolor: 'rgba(0,0,0,0)',
+                font: {
+                    color: 'white'
+                },
+                margin: {
+                    l: 0,
+                    r: 0,
+                    t: 0,
+                    b: 0
+                }
+            };
+            
+            Plotly.newPlot('progressChart', data, layout, {displayModeBar: false});
+        }
+
+        // Initialize when page loads
+        window.onload = init;
+    </script>
+</body>
+</html> 

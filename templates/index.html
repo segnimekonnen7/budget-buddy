@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Task Manager - Smart Task Management with AI</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        .main-container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            margin: 20px auto;
+            max-width: 1200px;
+        }
+        
+        .hero-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px 0;
+            border-radius: 20px 20px 0 0;
+            text-align: center;
+        }
+        
+        .task-input-section {
+            padding: 30px;
+            background: #f8f9fa;
+            border-bottom: 1px solid #dee2e6;
+        }
+        
+        .ai-input-box {
+            background: white;
+            border: 2px solid #e9ecef;
+            border-radius: 15px;
+            padding: 20px;
+            transition: all 0.3s ease;
+        }
+        
+        .ai-input-box:focus-within {
+            border-color: #667eea;
+            box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+        }
+        
+        .ai-input {
+            border: none;
+            outline: none;
+            width: 100%;
+            font-size: 16px;
+            padding: 10px 0;
+        }
+        
+        .ai-suggestions {
+            background: #e3f2fd;
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 15px;
+        }
+        
+        .suggestion-item {
+            background: white;
+            border-radius: 8px;
+            padding: 10px;
+            margin: 5px 0;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border-left: 4px solid #667eea;
+        }
+        
+        .suggestion-item:hover {
+            transform: translateX(5px);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .task-card {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            margin: 15px 0;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            border-left: 5px solid #667eea;
+        }
+        
+        .task-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+        }
+        
+        .task-card.completed {
+            opacity: 0.7;
+            border-left-color: #28a745;
+        }
+        
+        .priority-badge {
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        
+        .priority-urgent { background: #dc3545; color: white; }
+        .priority-high { background: #fd7e14; color: white; }
+        .priority-medium { background: #ffc107; color: black; }
+        .priority-low { background: #6c757d; color: white; }
+        
+        .category-badge {
+            background: #667eea;
+            color: white;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+        }
+        
+        .stats-card {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            margin: 15px 0;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .ai-processing {
+            display: none;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .spinner {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #667eea;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 10px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .ai-features {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin: 20px 0;
+        }
+        
+        .feature-item {
+            display: flex;
+            align-items: center;
+            margin: 10px 0;
+        }
+        
+        .feature-icon {
+            margin-right: 10px;
+            font-size: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="main-container">
+            <!-- Hero Section -->
+            <div class="hero-section">
+                <div class="container">
+                    <h1 class="display-4 mb-3">
+                        <i class="fas fa-robot"></i> AI Task Manager
+                    </h1>
+                    <p class="lead">Manage tasks with the power of artificial intelligence</p>
+                    <div class="ai-features">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="feature-item">
+                                    <i class="fas fa-brain feature-icon"></i>
+                                    <span>AI Analysis</span>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="feature-item">
+                                    <i class="fas fa-tags feature-icon"></i>
+                                    <span>Smart Categorization</span>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="feature-item">
+                                    <i class="fas fa-chart-line feature-icon"></i>
+                                    <span>Priority Prediction</span>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="feature-item">
+                                    <i class="fas fa-lightbulb feature-icon"></i>
+                                    <span>AI Suggestions</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Task Input Section -->
+            <div class="task-input-section">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <h4><i class="fas fa-plus-circle"></i> Add New Task</h4>
+                            <div class="ai-input-box">
+                                <input type="text" class="ai-input" id="taskInput" 
+                                       placeholder="Describe your task naturally... (e.g., 'Remind me to call mom tomorrow at 3pm')">
+                                <small class="text-muted">
+                                    <i class="fas fa-info-circle"></i> 
+                                    AI will automatically categorize, prioritize, and extract due dates
+                                </small>
+                            </div>
+                            <button class="btn btn-primary mt-3" onclick="addTask()">
+                                <i class="fas fa-magic"></i> Add Task with AI
+                            </button>
+                        </div>
+                        <div class="col-md-4">
+                            <h4><i class="fas fa-lightbulb"></i> AI Suggestions</h4>
+                            <button class="btn btn-outline-primary" onclick="getAISuggestions()">
+                                <i class="fas fa-robot"></i> Get Suggestions
+                            </button>
+                            <div id="aiSuggestions" class="ai-suggestions" style="display: none;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- AI Processing Indicator -->
+            <div id="aiProcessing" class="ai-processing">
+                <div class="spinner"></div>
+                <p>AI is analyzing your task...</p>
+            </div>
+
+            <!-- Main Content -->
+            <div class="container-fluid p-4">
+                <div class="row">
+                    <!-- Task List -->
+                    <div class="col-md-8">
+                        <div class="d-flex justify-content-between align-items-center mb-4">
+                            <h3><i class="fas fa-tasks"></i> Your Tasks</h3>
+                            <div class="btn-group" role="group">
+                                <button class="btn btn-outline-primary" onclick="filterTasks('all')">All</button>
+                                <button class="btn btn-outline-primary" onclick="filterTasks('pending')">Pending</button>
+                                <button class="btn btn-outline-primary" onclick="filterTasks('completed')">Completed</button>
+                            </div>
+                        </div>
+                        <div id="taskList"></div>
+                    </div>
+
+                    <!-- Statistics -->
+                    <div class="col-md-4">
+                        <h3><i class="fas fa-chart-bar"></i> Statistics</h3>
+                        <div id="statsContainer">
+                            <div class="stats-card">
+                                <h5>Task Overview</h5>
+                                <div class="row text-center">
+                                    <div class="col-4">
+                                        <h4 id="totalTasks">0</h4>
+                                        <small>Total</small>
+                                    </div>
+                                    <div class="col-4">
+                                        <h4 id="completedTasks">0</h4>
+                                        <small>Completed</small>
+                                    </div>
+                                    <div class="col-4">
+                                        <h4 id="pendingTasks">0</h4>
+                                        <small>Pending</small>
+                                    </div>
+                                </div>
+                                <div class="progress mt-3">
+                                    <div id="completionProgress" class="progress-bar" style="width: 0%"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        let currentFilter = 'all';
+        let tasks = [];
+
+        // Load tasks on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            loadTasks();
+            loadStats();
+        });
+
+        // Add task with AI processing
+        async function addTask() {
+            const taskText = document.getElementById('taskInput').value.trim();
+            if (!taskText) {
+                alert('Please enter a task description');
+                return;
+            }
+
+            showAIProcessing();
+
+            try {
+                const response = await fetch('/api/tasks', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ text: taskText })
+                });
+
+                const task = await response.json();
+                
+                if (response.ok) {
+                    tasks.unshift(task);
+                    renderTasks();
+                    loadStats();
+                    document.getElementById('taskInput').value = '';
+                    showNotification('Task added successfully!', 'success');
+                } else {
+                    showNotification('Error adding task: ' + task.error, 'error');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                showNotification('Error adding task', 'error');
+            }
+
+            hideAIProcessing();
+        }
+
+        // Load all tasks
+        async function loadTasks() {
+            try {
+                const response = await fetch('/api/tasks');
+                tasks = await response.json();
+                renderTasks();
+            } catch (error) {
+                console.error('Error loading tasks:', error);
+            }
+        }
+
+        // Render tasks
+        function renderTasks() {
+            const taskList = document.getElementById('taskList');
+            const filteredTasks = filterTasksByStatus(tasks, currentFilter);
+            
+            if (filteredTasks.length === 0) {
+                taskList.innerHTML = '<div class="text-center text-muted mt-4"><i class="fas fa-inbox fa-3x"></i><p>No tasks found</p></div>';
+                return;
+            }
+
+            taskList.innerHTML = filteredTasks.map(task => `
+                <div class="task-card ${task.status === 'Completed' ? 'completed' : ''}" data-task-id="${task.id}">
+                    <div class="d-flex justify-content-between align-items-start">
+                        <div class="flex-grow-1">
+                            <div class="d-flex align-items-center mb-2">
+                                <h5 class="mb-0 me-2">${task.title}</h5>
+                                <span class="priority-badge priority-${task.priority.toLowerCase()}">${task.priority}</span>
+                                <span class="category-badge ms-2">${task.category}</span>
+                            </div>
+                            <p class="text-muted mb-2">${task.description}</p>
+                            <div class="small text-muted">
+                                <i class="fas fa-calendar"></i> Created: ${new Date(task.created_at).toLocaleDateString()}
+                                ${task.due_date ? `<br><i class="fas fa-clock"></i> Due: ${new Date(task.due_date).toLocaleDateString()}` : ''}
+                                ${task.ai_processed ? '<br><i class="fas fa-robot"></i> AI Processed' : ''}
+                            </div>
+                        </div>
+                        <div class="btn-group-vertical">
+                            ${task.status !== 'Completed' ? 
+                                `<button class="btn btn-sm btn-success" onclick="completeTask(${task.id})">
+                                    <i class="fas fa-check"></i>
+                                </button>` : ''
+                            }
+                            <button class="btn btn-sm btn-outline-primary" onclick="editTask(${task.id})">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="btn btn-sm btn-outline-danger" onclick="deleteTask(${task.id})">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Filter tasks
+        function filterTasksByStatus(tasks, filter) {
+            if (filter === 'all') return tasks;
+            if (filter === 'pending') return tasks.filter(task => task.status === 'Pending');
+            if (filter === 'completed') return tasks.filter(task => task.status === 'Completed');
+            return tasks;
+        }
+
+        function filterTasks(filter) {
+            currentFilter = filter;
+            renderTasks();
+        }
+
+        // Complete task
+        async function completeTask(taskId) {
+            try {
+                const response = await fetch(`/api/tasks/${taskId}/complete`, {
+                    method: 'POST'
+                });
+                
+                if (response.ok) {
+                    const updatedTask = await response.json();
+                    const taskIndex = tasks.findIndex(t => t.id === taskId);
+                    if (taskIndex !== -1) {
+                        tasks[taskIndex] = updatedTask;
+                        renderTasks();
+                        loadStats();
+                        showNotification('Task completed!', 'success');
+                    }
+                }
+            } catch (error) {
+                console.error('Error completing task:', error);
+                showNotification('Error completing task', 'error');
+            }
+        }
+
+        // Delete task
+        async function deleteTask(taskId) {
+            if (!confirm('Are you sure you want to delete this task?')) return;
+
+            try {
+                const response = await fetch(`/api/tasks/${taskId}`, {
+                    method: 'DELETE'
+                });
+                
+                if (response.ok) {
+                    tasks = tasks.filter(t => t.id !== taskId);
+                    renderTasks();
+                    loadStats();
+                    showNotification('Task deleted!', 'success');
+                }
+            } catch (error) {
+                console.error('Error deleting task:', error);
+                showNotification('Error deleting task', 'error');
+            }
+        }
+
+        // Get AI suggestions
+        async function getAISuggestions() {
+            try {
+                const response = await fetch('/api/ai/suggestions');
+                const suggestions = await response.json();
+                
+                const suggestionsDiv = document.getElementById('aiSuggestions');
+                suggestionsDiv.innerHTML = suggestions.map(suggestion => `
+                    <div class="suggestion-item" onclick="useSuggestion('${suggestion.title}')">
+                        <strong>${suggestion.title}</strong><br>
+                        <small class="text-muted">${suggestion.description}</small><br>
+                        <span class="badge bg-primary">${suggestion.category}</span>
+                        <span class="badge bg-secondary">${suggestion.priority}</span>
+                    </div>
+                `).join('');
+                
+                suggestionsDiv.style.display = 'block';
+            } catch (error) {
+                console.error('Error getting suggestions:', error);
+                showNotification('Error getting AI suggestions', 'error');
+            }
+        }
+
+        // Use AI suggestion
+        function useSuggestion(title) {
+            document.getElementById('taskInput').value = title;
+            document.getElementById('aiSuggestions').style.display = 'none';
+        }
+
+        // Load statistics
+        async function loadStats() {
+            try {
+                const response = await fetch('/api/stats');
+                const stats = await response.json();
+                
+                document.getElementById('totalTasks').textContent = stats.total_tasks;
+                document.getElementById('completedTasks').textContent = stats.completed_tasks;
+                document.getElementById('pendingTasks').textContent = stats.pending_tasks;
+                document.getElementById('completionProgress').style.width = stats.completion_rate + '%';
+                document.getElementById('completionProgress').textContent = Math.round(stats.completion_rate) + '%';
+            } catch (error) {
+                console.error('Error loading stats:', error);
+            }
+        }
+
+        // Show/hide AI processing
+        function showAIProcessing() {
+            document.getElementById('aiProcessing').style.display = 'block';
+        }
+
+        function hideAIProcessing() {
+            document.getElementById('aiProcessing').style.display = 'none';
+        }
+
+        // Show notification
+        function showNotification(message, type) {
+            const alertClass = type === 'success' ? 'alert-success' : 'alert-danger';
+            const alert = document.createElement('div');
+            alert.className = `alert ${alertClass} alert-dismissible fade show position-fixed`;
+            alert.style.cssText = 'top: 20px; right: 20px; z-index: 9999; min-width: 300px;';
+            alert.innerHTML = `
+                ${message}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            `;
+            document.body.appendChild(alert);
+            
+            setTimeout(() => {
+                alert.remove();
+            }, 5000);
+        }
+
+        // Enter key to add task
+        document.getElementById('taskInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                addTask();
+            }
+        });
+    </script>
+</body>
+</html>

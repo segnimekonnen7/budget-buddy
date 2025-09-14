@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume</title>
+    <style>
+        @page {
+            margin: 0.3in;
+            size: letter;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.2;
+            color: #333;
+            background: white;
+            font-size: 9pt;
+            max-width: 8.5in;
+            margin: 0 auto;
+            padding: 10px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 12px;
+            padding-bottom: 6px;
+            border-bottom: 1px solid #333;
+        }
+
+        .header h1 {
+            font-size: 1.4rem;
+            color: #333;
+            margin-bottom: 4px;
+            font-weight: bold;
+            letter-spacing: 0.5px;
+        }
+
+        .contact-info {
+            font-size: 0.8rem;
+            color: #555;
+        }
+
+        .section {
+            margin-bottom: 12px;
+        }
+
+        .section-header {
+            background-color: #333;
+            color: white;
+            padding: 4px 8px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+        }
+
+        .summary-text {
+            font-size: 0.85rem;
+            line-height: 1.3;
+            text-align: justify;
+            margin-bottom: 6px;
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .skills-column ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .skills-column li {
+            margin-bottom: 4px;
+            font-size: 0.8rem;
+            padding-left: 10px;
+            position: relative;
+        }
+
+        .skills-column li:before {
+            content: "●";
+            color: #333;
+            font-weight: bold;
+            position: absolute;
+            left: 0;
+        }
+
+        .work-item, .project-item {
+            margin-bottom: 10px;
+            padding-bottom: 6px;
+            border-bottom: 1px dotted #ccc;
+        }
+
+        .work-item:last-child, .project-item:last-child {
+            border-bottom: none;
+        }
+
+        .date-range {
+            color: #333;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-bottom: 2px;
+        }
+
+        .job-title {
+            font-size: 0.9rem;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 1px;
+        }
+
+        .company-name {
+            font-size: 0.8rem;
+            font-style: italic;
+            color: #555;
+            margin-bottom: 4px;
+        }
+
+        .job-description ul {
+            list-style: none;
+            padding-left: 0;
+            margin-top: 2px;
+        }
+
+        .job-description li {
+            margin-bottom: 2px;
+            font-size: 0.8rem;
+            padding-left: 10px;
+            position: relative;
+            line-height: 1.2;
+        }
+
+        .job-description li:before {
+            content: "●";
+            color: #333;
+            font-weight: bold;
+            position: absolute;
+            left: 0;
+        }
+
+        .education-item {
+            margin-bottom: 6px;
+        }
+
+        .degree-title {
+            font-size: 0.9rem;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 1px;
+        }
+
+        .school-name {
+            font-size: 0.8rem;
+            font-style: italic;
+            color: #555;
+            margin-bottom: 2px;
+        }
+
+        .education-details {
+            font-size: 0.75rem;
+            color: #666;
+            line-height: 1.1;
+        }
+
+        /* Print styles */
+        @media print {
+            @page {
+                margin: 0.25in;
+                size: letter;
+            }
+            
+            body {
+                font-size: 8pt;
+                padding: 5px;
+                line-height: 1.1;
+            }
+            
+            .header {
+                margin-bottom: 8px;
+                padding-bottom: 4px;
+            }
+            
+            .header h1 {
+                font-size: 1.3rem;
+                margin-bottom: 2px;
+            }
+            
+            .section {
+                margin-bottom: 8px;
+            }
+            
+            .section-header {
+                background-color: #333 !important;
+                -webkit-print-color-adjust: exact !important;
+                color-adjust: exact !important;
+                padding: 3px 6px;
+                margin-bottom: 6px;
+            }
+            
+            .work-item, .project-item {
+                break-inside: avoid;
+                page-break-inside: avoid;
+                margin-bottom: 8px;
+                padding-bottom: 4px;
+            }
+            
+            .job-description li {
+                margin-bottom: 1px;
+            }
+            
+            .skills-column li {
+                margin-bottom: 2px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>SEGNI MEKONNEN</h1>
+        <div class="contact-info">
+            Home: (571) 502-1555 • Cell: (571) 502-1555 • segnimekonnen7@gmail.com<br>
+            GitHub: github.com/segnimekonnen7 • LinkedIn: linkedin.com/in/segni-mekonnen-16928125b • Minneapolis, MN
+        </div>
+    </div>
+
+    <div class="section">
+        <div class="section-header">Professional Summary</div>
+        <div class="summary-text">
+            Software Developer with strong backend + ML toolkit. Deployed FastAPI services, WebSocket architectures, and model-driven features reaching 85% prediction accuracy and boosting user completion rates by 40%. Skilled in scikit-learn, feature engineering, model serving, and modern infra (Docker, AWS, CI/CD) with hands-on SQL and caching expertise delivering 90% API optimization. Proven ability to build production-ready applications with measurable business impact.
+        </div>
+    </div>
+
+    <div class="section">
+        <div class="section-header">Skills</div>
+        <div class="skills-grid">
+            <div class="skills-column">
+                <ul>
+                    <li><strong>Backend Development:</strong> Python, FastAPI, SQLAlchemy, REST APIs, WebSockets, JWT Authentication</li>
+                    <li><strong>Databases & Caching:</strong> PostgreSQL, MongoDB, Redis, Database Design, Query Optimization</li>
+                    <li><strong>Machine Learning:</strong> scikit-learn, Feature Engineering, Model Serving, Predictive Analytics, OpenCV</li>
+                </ul>
+            </div>
+            <div class="skills-column">
+                <ul>
+                    <li><strong>Frontend & UI:</strong> JavaScript, React, HTML5/CSS3, Responsive Design</li>
+                    <li><strong>Infrastructure:</strong> Docker, AWS, Render, Git, CI/CD Pipelines, Cloud Deployment</li>
+                    <li><strong>Development Practices:</strong> Agile/Scrum, Test-Driven Development, Code Reviews, API Documentation</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="section">
+        <div class="section-header">Experience</div>
+        
+        <div class="work-item">
+            <div class="date-range">2024 – Present</div>
+            <div class="job-title">Undergraduate Research Assistant — Machine Learning (Deepfake Detection)</div>
+            <div class="company-name">Minnesota State University, Mankato</div>
+            <div class="job-description">
+                <ul>
+                    <li>Work on ML approaches to detect synthetic media, building reproducible pipeline for dataset prep and feature engineering</li>
+                    <li>Trained scikit-learn baselines (logistic regression, SVM, random forest) with precision/recall/AUC evaluation</li>
+                    <li>Maintain experiment logs/notebooks for replication and collaborate through GitHub workflows</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="section">
+        <div class="section-header">Projects</div>
+        
+        <div class="project-item">
+            <div class="date-range">2025</div>
+            <div class="job-title">Real-Time Chat Application</div>
+            <div class="company-name">FastAPI + WebSockets + Docker - Production Deployment</div>
+            <div class="job-description">
+                <ul>
+                    <li>Engineered WebSocket-based messaging system delivering sub-100ms latency through connection pooling and async Python</li>
+                    <li>Implemented JWT authentication and BCrypt password hashing, preventing unauthorized access</li>
+                    <li>Built scalable backend with FastAPI, SQLAlchemy ORM, and Docker containerization for production deployment</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="project-item">
+            <div class="date-range">2024</div>
+            <div class="job-title">Weather Dashboard API</div>
+            <div class="company-name">FastAPI + External API Integration + Intelligent Caching</div>
+            <div class="job-description">
+                <ul>
+                    <li>Optimized API performance by 90% through intelligent 10-minute caching strategy, reducing external API calls</li>
+                    <li>Integrated OpenWeatherMap API with comprehensive error handling, rate limiting, and automatic fallback mechanisms</li>
+                    <li>Built responsive dashboard delivering 5-day forecasts with HTTPX async client and auto-generated documentation</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="project-item">
+            <div class="date-range">2025</div>
+            <div class="job-title">Habit Loop - ML-Powered Tracker</div>
+            <div class="company-name">FastAPI + React + Machine Learning - Full-Stack Application</div>
+            <div class="job-description">
+                <ul>
+                    <li>Developed ML prediction models achieving 85% accuracy for habit success using scikit-learn in production</li>
+                    <li>Increased user completion rates by 40% through data-driven recommendations and real-time analytics dashboard</li>
+                    <li>Deployed full-stack application with FastAPI backend, React frontend, and PostgreSQL database on cloud infrastructure</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="section">
+        <div class="section-header">Education</div>
+        <div class="education-item">
+            <div class="degree-title">Bachelor of Science: Computer Information Technology</div>
+            <div class="school-name">Minnesota State University, Mankato - Expected Graduation: 2026</div>
+            <div class="education-details">
+                <strong>Academic Honors:</strong> Dean's List, Dean's Scholarship Recipient<br>
+                <strong>Relevant Coursework:</strong> Data Structures & Algorithms, Database Design, Software Engineering, Systems Analysis, Web Development
+            </div>
+        </div>
+    </div>
+</body>
+</html>

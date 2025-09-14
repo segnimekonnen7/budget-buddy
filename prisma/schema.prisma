@@ -1,0 +1,103 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String   @id @default(cuid())
+  email         String   @unique
+  name          String?
+  image         String?
+  role          String   @default("user")
+  resumeKeywords String? // comma-separated or JSON array
+  createdAt     DateTime @default(now())
+  bookmarks     Bookmark[]
+  searches      SavedSearch[]
+  applications  Application[]
+}
+
+model Job {
+  id            String   @id   // stable hash id
+  source        String
+  externalId    String?
+  title         String
+  company       String
+  location      String
+  jobType       String?
+  postedAt      DateTime?
+  applyUrl      String
+  descriptionSnippet String?
+  majorTags     String   // JSON stringified string[]
+  keywords      String   // JSON stringified string[]
+  fts           String?  // materialized tsvector source (via migration)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  bookmarks     Bookmark[]
+  applications  Application[]
+  
+  // composite index for dedup/lookups
+  @@index([company, title, location])
+  @@index([source, externalId])
+  @@index([fts], type: Gin)
+}
+
+model IngestLog {
+  id        String   @id @default(cuid())
+  adapter   String
+  runId     String
+  count     Int
+  errors    Int
+  startedAt DateTime @default(now())
+  finishedAt DateTime?
+  notes     String?
+  
+  @@index([adapter, startedAt])
+}
+
+model SavedSearch {
+  id         String   @id @default(cuid())
+  userId     String
+  name       String
+  query      String
+  majors     String   // JSON stringified string[]
+  location   String?
+  alertFreq  String   // "none" | "daily" | "weekly"
+  lastRunAt  DateTime?
+  User       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  @@index([userId, alertFreq])
+}
+
+model Bookmark {
+  id      String @id @default(cuid())
+  userId  String
+  jobId   String
+  User    User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  Job     Job    @relation(fields: [jobId], references: [id], onDelete: Cascade)
+  @@unique([userId, jobId])
+  
+  @@index([userId])
+  @@index([jobId])
+}
+
+model Application {
+  id         String   @id @default(cuid())
+  userId     String
+  jobId      String
+  status     String   // Interested, Applied, OA, Interview, Offer, Rejected
+  notes      String?
+  updatedAt  DateTime @updatedAt
+  createdAt  DateTime @default(now())
+  User       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  Job        Job      @relation(fields: [jobId], references: [id], onDelete: Cascade)
+  
+  @@index([userId, status])
+  @@index([jobId])
+}

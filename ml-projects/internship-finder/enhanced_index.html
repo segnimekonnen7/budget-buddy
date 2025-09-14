@@ -1,0 +1,1006 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎯 Enhanced Internship Finder Pro</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <style>
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        .main-header {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            text-align: center;
+            color: white;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        
+        .search-panel {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 30px;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        
+        .job-card {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255,255,255,0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .job-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        
+        .metric-card {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            color: white;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        
+        .btn-primary {
+            background: linear-gradient(45deg, #4CAF50, #45a049);
+            border: none;
+            border-radius: 25px;
+            padding: 10px 25px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(76, 175, 80, 0.4);
+        }
+        
+        .btn-success {
+            background: linear-gradient(45deg, #2196F3, #1976D2);
+            border: none;
+            border-radius: 25px;
+            padding: 8px 20px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-success:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(33, 150, 243, 0.4);
+        }
+        
+        .btn-warning {
+            background: linear-gradient(45deg, #FF9800, #F57C00);
+            border: none;
+            border-radius: 25px;
+            padding: 8px 20px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-warning:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 152, 0, 0.4);
+        }
+        
+        .form-control, .form-select {
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.3);
+            color: white;
+            border-radius: 10px;
+        }
+        
+        .form-control:focus, .form-select:focus {
+            background: rgba(255,255,255,0.15);
+            border-color: rgba(255,255,255,0.5);
+            color: white;
+            box-shadow: 0 0 0 0.2rem rgba(255,255,255,0.25);
+        }
+        
+        .form-control::placeholder {
+            color: rgba(255,255,255,0.7);
+        }
+        
+        .form-label {
+            color: white;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        
+        .nav-tabs {
+            border-bottom: 2px solid rgba(255,255,255,0.2);
+        }
+        
+        .nav-tabs .nav-link {
+            color: rgba(255,255,255,0.8);
+            border: none;
+            border-radius: 10px 10px 0 0;
+            margin-right: 5px;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-tabs .nav-link.active {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: none;
+        }
+        
+        .nav-tabs .nav-link:hover {
+            background: rgba(255,255,255,0.1);
+            color: white;
+        }
+        
+        .tab-content {
+            background: rgba(255,255,255,0.05);
+            border-radius: 15px;
+            padding: 25px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .badge {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            margin: 2px;
+        }
+        
+        .company-logo {
+            width: 50px;
+            height: 50px;
+            border-radius: 10px;
+            margin-right: 15px;
+            background: rgba(255,255,255,0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+        
+        .match-score {
+            background: linear-gradient(45deg, #4CAF50, #45a049);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+        
+        .salary {
+            color: #4CAF50;
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+        
+        .location {
+            color: #2196F3;
+            font-weight: 500;
+        }
+        
+        .deadline {
+            color: #FF9800;
+            font-weight: bold;
+        }
+        
+        .status-applied { color: #2196F3; }
+        .status-interview { color: #FF9800; }
+        .status-rejected { color: #f44336; }
+        .status-accepted { color: #4CAF50; }
+        
+        .profile-section {
+            background: rgba(255,255,255,0.1);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        
+        .upload-area {
+            border: 2px dashed rgba(255,255,255,0.3);
+            border-radius: 15px;
+            padding: 40px;
+            text-align: center;
+            color: white;
+            transition: all 0.3s ease;
+        }
+        
+        .upload-area:hover {
+            border-color: rgba(255,255,255,0.5);
+            background: rgba(255,255,255,0.1);
+        }
+        
+        .notification {
+            background: rgba(255,255,255,0.1);
+            border-radius: 10px;
+            padding: 15px;
+            margin: 10px 0;
+            border-left: 4px solid #FF9800;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid py-4">
+        <div class="main-header">
+            <h1><i class="fas fa-rocket"></i> Enhanced Internship Finder Pro</h1>
+            <p class="mb-0">AI-powered internship matching with advanced search, recommendations, and application tracking</p>
+        </div>
+
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="search-tab" data-bs-toggle="tab" data-bs-target="#search" type="button" role="tab">
+                    <i class="fas fa-search"></i> Search & Apply
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab">
+                    <i class="fas fa-user"></i> My Profile
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="bookmarks-tab" data-bs-toggle="tab" data-bs-target="#bookmarks" type="button" role="tab">
+                    <i class="fas fa-bookmark"></i> Bookmarks
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="applications-tab" data-bs-toggle="tab" data-bs-target="#applications" type="button" role="tab">
+                    <i class="fas fa-file-alt"></i> Applications
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="tips-tab" data-bs-toggle="tab" data-bs-target="#tips" type="button" role="tab">
+                    <i class="fas fa-lightbulb"></i> Tips & Resources
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="admin-tab" data-bs-toggle="tab" data-bs-target="#admin" type="button" role="tab">
+                    <i class="fas fa-cog"></i> Admin
+                </button>
+            </li>
+        </ul>
+
+        <div class="tab-content" id="myTabContent">
+            <!-- Search Tab -->
+            <div class="tab-pane fade show active" id="search" role="tabpanel">
+                <div class="search-panel">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label class="form-label">Keywords</label>
+                            <input type="text" class="form-control" id="searchKeywords" placeholder="e.g., Machine Learning, Python, Data Science">
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label">Location</label>
+                            <input type="text" class="form-control" id="searchLocation" placeholder="e.g., San Francisco, Remote">
+                        </div>
+                        <div class="col-md-2">
+                            <label class="form-label">Type</label>
+                            <select class="form-select" id="searchType">
+                                <option value="">All Types</option>
+                                <option value="Remote">Remote</option>
+                                <option value="On-site">On-site</option>
+                                <option value="Hybrid">Hybrid</option>
+                            </select>
+                        </div>
+                        <div class="col-md-2">
+                            <label class="form-label">Duration</label>
+                            <select class="form-select" id="searchDuration">
+                                <option value="">Any Duration</option>
+                                <option value="3 months">3 months</option>
+                                <option value="6 months">6 months</option>
+                                <option value="12 months">12 months</option>
+                            </select>
+                        </div>
+                        <div class="col-md-1">
+                            <label class="form-label">&nbsp;</label>
+                            <button class="btn btn-primary w-100" onclick="searchInternships()">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="searchResults"></div>
+            </div>
+
+            <!-- Profile Tab -->
+            <div class="tab-pane fade" id="profile" role="tabpanel">
+                <div class="profile-section">
+                    <h4><i class="fas fa-user-circle"></i> My Profile</h4>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label">Full Name</label>
+                                <input type="text" class="form-control" id="profileName" value="Segni Mekonnen">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Email</label>
+                                <input type="email" class="form-control" id="profileEmail" value="segnimekonnen7@gmail.com">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Skills (comma-separated)</label>
+                                <textarea class="form-control" id="profileSkills" rows="3">Python, Machine Learning, TensorFlow, Flask, React, Data Science, Computer Vision, NLP</textarea>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Education</label>
+                                <input type="text" class="form-control" id="profileEducation" value="B.S. Computer Information Technology, Minnesota State University">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label">Preferred Location</label>
+                                <input type="text" class="form-control" id="profileLocation" value="San Francisco, CA">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Field of Interest</label>
+                                <select class="form-select" id="profileField">
+                                    <option value="Machine Learning">Machine Learning</option>
+                                    <option value="Data Science">Data Science</option>
+                                    <option value="Software Engineering">Software Engineering</option>
+                                    <option value="Computer Vision">Computer Vision</option>
+                                    <option value="NLP">Natural Language Processing</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Experience Level</label>
+                                <select class="form-select" id="profileExperience">
+                                    <option value="Entry Level">Entry Level</option>
+                                    <option value="Intermediate">Intermediate</option>
+                                    <option value="Advanced">Advanced</option>
+                                </select>
+                            </div>
+                            <div class="upload-area">
+                                <i class="fas fa-cloud-upload-alt fa-3x mb-3"></i>
+                                <h5>Upload Resume</h5>
+                                <p>Drag and drop your resume here or click to browse</p>
+                                <input type="file" id="resumeUpload" accept=".pdf,.doc,.docx" style="display: none;">
+                                <button class="btn btn-primary" onclick="document.getElementById('resumeUpload').click()">
+                                    <i class="fas fa-folder-open"></i> Choose File
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="btn btn-success" onclick="updateProfile()">
+                        <i class="fas fa-save"></i> Update Profile
+                    </button>
+                </div>
+            </div>
+
+            <!-- Bookmarks Tab -->
+            <div class="tab-pane fade" id="bookmarks" role="tabpanel">
+                <div class="job-card">
+                    <h4><i class="fas fa-bookmark"></i> Saved Internships</h4>
+                    <div id="bookmarksList">
+                        <p class="text-white-50">No bookmarked internships yet. Start searching and bookmark interesting opportunities!</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Applications Tab -->
+            <div class="tab-pane fade" id="applications" role="tabpanel">
+                <div class="stats-grid">
+                    <div class="metric-card">
+                        <i class="fas fa-paper-plane fa-2x mb-2"></i>
+                        <h4 id="totalApplications">0</h4>
+                        <p>Total Applications</p>
+                    </div>
+                    <div class="metric-card">
+                        <i class="fas fa-clock fa-2x mb-2"></i>
+                        <h4 id="pendingApplications">0</h4>
+                        <p>Pending</p>
+                    </div>
+                    <div class="metric-card">
+                        <i class="fas fa-check-circle fa-2x mb-2"></i>
+                        <h4 id="acceptedApplications">0</h4>
+                        <p>Accepted</p>
+                    </div>
+                    <div class="metric-card">
+                        <i class="fas fa-times-circle fa-2x mb-2"></i>
+                        <h4 id="rejectedApplications">0</h4>
+                        <p>Rejected</p>
+                    </div>
+                </div>
+                
+                <div class="job-card">
+                    <h4><i class="fas fa-list"></i> Application History</h4>
+                    <div id="applicationsList">
+                        <p class="text-white-50">No applications yet. Start applying to internships!</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tips Tab -->
+            <div class="tab-pane fade" id="tips" role="tabpanel">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="job-card">
+                            <h4><i class="fas fa-file-alt"></i> Resume Tips</h4>
+                            <ul class="text-white-50">
+                                <li>Keep it concise (1-2 pages)</li>
+                                <li>Use action verbs and quantifiable achievements</li>
+                                <li>Tailor it to each position</li>
+                                <li>Include relevant projects and skills</li>
+                                <li>Proofread carefully</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="job-card">
+                            <h4><i class="fas fa-envelope"></i> Cover Letter Tips</h4>
+                            <ul class="text-white-50">
+                                <li>Address the hiring manager personally</li>
+                                <li>Explain why you're interested in the company</li>
+                                <li>Highlight relevant experience and skills</li>
+                                <li>Show enthusiasm and motivation</li>
+                                <li>Keep it professional and concise</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row mt-3">
+                    <div class="col-md-6">
+                        <div class="job-card">
+                            <h4><i class="fas fa-users"></i> Interview Tips</h4>
+                            <ul class="text-white-50">
+                                <li>Research the company thoroughly</li>
+                                <li>Prepare answers to common questions</li>
+                                <li>Practice your elevator pitch</li>
+                                <li>Dress professionally</li>
+                                <li>Ask thoughtful questions</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="job-card">
+                            <h4><i class="fas fa-network-wired"></i> Networking Tips</h4>
+                            <ul class="text-white-50">
+                                <li>Attend industry events and meetups</li>
+                                <li>Connect with professionals on LinkedIn</li>
+                                <li>Join relevant online communities</li>
+                                <li>Follow up after meetings</li>
+                                <li>Offer value before asking for help</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Admin Tab -->
+            <div class="tab-pane fade" id="admin" role="tabpanel">
+                <div class="job-card">
+                    <h4><i class="fas fa-cog"></i> Admin Dashboard</h4>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h5>Add New Internship</h5>
+                            <div class="mb-3">
+                                <label class="form-label">Company</label>
+                                <input type="text" class="form-control" id="adminCompany" placeholder="Company Name">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Position</label>
+                                <input type="text" class="form-control" id="adminPosition" placeholder="Position Title">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Location</label>
+                                <input type="text" class="form-control" id="adminLocation" placeholder="Location">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Salary</label>
+                                <input type="text" class="form-control" id="adminSalary" placeholder="e.g., $5,000/month">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Description</label>
+                                <textarea class="form-control" id="adminDescription" rows="3" placeholder="Job description..."></textarea>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Requirements</label>
+                                <textarea class="form-control" id="adminRequirements" rows="2" placeholder="Skills and requirements..."></textarea>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Deadline</label>
+                                <input type="date" class="form-control" id="adminDeadline">
+                            </div>
+                            <button class="btn btn-success" onclick="addInternship()">
+                                <i class="fas fa-plus"></i> Add Internship
+                            </button>
+                        </div>
+                        <div class="col-md-6">
+                            <h5>Manage Internships</h5>
+                            <div id="adminInternshipsList">
+                                <p class="text-white-50">No internships to manage yet.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Enhanced internship database with real data
+        const internships = [
+            {
+                id: 1,
+                company: "Google AI",
+                position: "Machine Learning Intern",
+                location: "Mountain View, CA",
+                type: "On-site",
+                duration: "12 months",
+                salary: "$120,000",
+                deadline: "2024-03-15",
+                description: "Work on cutting-edge AI research and development projects. Focus on large language models, computer vision, and reinforcement learning.",
+                requirements: "Python, TensorFlow, PyTorch, ML, Research",
+                matchScore: 95,
+                logo: "🔍",
+                status: null
+            },
+            {
+                id: 2,
+                company: "OpenAI",
+                position: "AI Research Intern",
+                location: "San Francisco, CA",
+                type: "Hybrid",
+                duration: "12 months",
+                salary: "$130,000",
+                deadline: "2024-02-28",
+                description: "Contribute to the development of advanced AI systems and research. Work on GPT models and AI safety.",
+                requirements: "Python, PyTorch, NLP, Research, AI Safety",
+                matchScore: 92,
+                logo: "🤖",
+                status: null
+            },
+            {
+                id: 3,
+                company: "Tesla",
+                position: "Autonomous Driving ML Intern",
+                location: "Palo Alto, CA",
+                type: "On-site",
+                duration: "12 months",
+                salary: "$110,000",
+                deadline: "2024-04-01",
+                description: "Develop machine learning algorithms for autonomous vehicles. Work on computer vision and sensor fusion.",
+                requirements: "Python, Computer Vision, TensorFlow, C++, Robotics",
+                matchScore: 88,
+                logo: "🚗",
+                status: null
+            },
+            {
+                id: 4,
+                company: "Microsoft",
+                position: "Azure ML Intern",
+                location: "Redmond, WA",
+                type: "Hybrid",
+                duration: "6 months",
+                salary: "$100,000",
+                deadline: "2024-03-30",
+                description: "Build and deploy machine learning models on Azure. Work on cloud-based AI solutions.",
+                requirements: "Python, Azure, ML, Cloud, DevOps",
+                matchScore: 85,
+                logo: "☁️",
+                status: null
+            },
+            {
+                id: 5,
+                company: "Netflix",
+                position: "Recommendation Systems Intern",
+                location: "Los Gatos, CA",
+                type: "Remote",
+                duration: "6 months",
+                salary: "$115,000",
+                deadline: "2024-02-15",
+                description: "Improve Netflix's recommendation algorithms. Work on personalization and content discovery.",
+                requirements: "Python, ML, Recommendation Systems, Big Data, A/B Testing",
+                matchScore: 87,
+                logo: "📺",
+                status: null
+            },
+            {
+                id: 6,
+                company: "Amazon",
+                position: "Alexa AI Intern",
+                location: "Seattle, WA",
+                type: "On-site",
+                duration: "12 months",
+                salary: "$105,000",
+                deadline: "2024-03-20",
+                description: "Develop AI capabilities for Alexa. Work on natural language processing and speech recognition.",
+                requirements: "Python, NLP, Speech Recognition, AWS, ML",
+                matchScore: 83,
+                logo: "📦",
+                status: null
+            },
+            {
+                id: 7,
+                company: "Meta AI",
+                position: "Computer Vision Intern",
+                location: "Menlo Park, CA",
+                type: "Hybrid",
+                duration: "12 months",
+                salary: "$125,000",
+                deadline: "2024-02-25",
+                description: "Research and develop computer vision technologies for AR/VR applications.",
+                requirements: "Python, Computer Vision, PyTorch, AR/VR, Research",
+                matchScore: 90,
+                logo: "📱",
+                status: null
+            },
+            {
+                id: 8,
+                company: "Boston Dynamics",
+                position: "Robotics ML Intern",
+                location: "Waltham, MA",
+                type: "On-site",
+                duration: "12 months",
+                salary: "$95,000",
+                deadline: "2024-04-15",
+                description: "Develop machine learning algorithms for robotic systems. Work on locomotion and manipulation.",
+                requirements: "Python, Robotics, Control Systems, C++, ML",
+                matchScore: 82,
+                logo: "🤖",
+                status: null
+            }
+        ];
+
+        let bookmarkedInternships = [];
+        let appliedInternships = [];
+        let userProfile = {
+            name: "Segni Mekonnen",
+            email: "segnimekonnen7@gmail.com",
+            skills: "Python, Machine Learning, TensorFlow, Flask, React, Data Science, Computer Vision, NLP",
+            education: "B.S. Computer Information Technology, Minnesota State University",
+            location: "San Francisco, CA",
+            field: "Machine Learning",
+            experience: "Entry Level"
+        };
+
+        // Initialize
+        function init() {
+            displayInternships(internships);
+            updateApplicationStats();
+            displayNotifications();
+        }
+
+        // Search internships with real functionality
+        function searchInternships() {
+            const keywords = document.getElementById('searchKeywords').value.toLowerCase();
+            const location = document.getElementById('searchLocation').value.toLowerCase();
+            const type = document.getElementById('searchType').value;
+            const duration = document.getElementById('searchDuration').value;
+            
+            let filtered = internships.filter(internship => {
+                let match = true;
+                
+                if (keywords) {
+                    const searchText = `${internship.position} ${internship.company} ${internship.description} ${internship.requirements}`.toLowerCase();
+                    if (!searchText.includes(keywords)) match = false;
+                }
+                
+                if (location && !internship.location.toLowerCase().includes(location)) {
+                    match = false;
+                }
+                
+                if (type && internship.type !== type) {
+                    match = false;
+                }
+                
+                if (duration && internship.duration !== duration) {
+                    match = false;
+                }
+                
+                return match;
+            });
+            
+            // Calculate match scores based on user profile
+            filtered.forEach(internship => {
+                internship.matchScore = calculateMatchScore(internship);
+            });
+            
+            // Sort by match score
+            filtered.sort((a, b) => b.matchScore - a.matchScore);
+            
+            displayInternships(filtered);
+        }
+
+        // Calculate match score based on user profile
+        function calculateMatchScore(internship) {
+            let score = 70; // Base score
+            
+            const userSkills = userProfile.skills.toLowerCase().split(',').map(s => s.trim());
+            const jobRequirements = internship.requirements.toLowerCase().split(',').map(r => r.trim());
+            
+            // Skill matching
+            const matches = userSkills.filter(skill => 
+                jobRequirements.some(req => req.includes(skill) || skill.includes(req))
+            );
+            score += matches.length * 5;
+            
+            // Location preference
+            if (internship.location.toLowerCase().includes(userProfile.location.toLowerCase())) {
+                score += 10;
+            }
+            
+            // Field of interest
+            if (internship.description.toLowerCase().includes(userProfile.field.toLowerCase())) {
+                score += 5;
+            }
+            
+            return Math.min(95, Math.max(70, score));
+        }
+
+        // Display internships
+        function displayInternships(internshipsToShow) {
+            const resultsArea = document.getElementById('searchResults');
+            resultsArea.innerHTML = '';
+
+            if (internshipsToShow.length === 0) {
+                resultsArea.innerHTML = '<div class="job-card text-center"><h5>No internships found</h5><p class="text-white-50">Try adjusting your search criteria.</p></div>';
+                return;
+            }
+
+            internshipsToShow.forEach(internship => {
+                const jobCard = document.createElement('div');
+                jobCard.className = 'job-card';
+                jobCard.innerHTML = `
+                    <div class="d-flex align-items-start">
+                        <div class="company-logo">
+                            ${internship.logo}
+                        </div>
+                        <div class="flex-grow-1">
+                            <div class="d-flex justify-content-between align-items-start mb-2">
+                                <div>
+                                    <h5 class="text-white mb-1">${internship.position}</h5>
+                                    <h6 class="text-white-50 mb-2">${internship.company}</h6>
+                                </div>
+                                <div class="text-end">
+                                    <div class="match-score mb-2">${internship.matchScore}% Match</div>
+                                    <div class="salary">${internship.salary}</div>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <span class="location"><i class="fas fa-map-marker-alt"></i> ${internship.location}</span>
+                                <span class="text-white-50 ms-3"><i class="fas fa-clock"></i> ${internship.duration}</span>
+                                <span class="text-white-50 ms-3"><i class="fas fa-globe"></i> ${internship.type}</span>
+                                <span class="deadline ms-3"><i class="fas fa-calendar"></i> Deadline: ${formatDate(internship.deadline)}</span>
+                            </div>
+                            
+                            <p class="text-white-50 mb-3">${internship.description}</p>
+                            
+                            <div class="mb-3">
+                                ${internship.requirements.split(',').map(req => `<span class="badge">${req.trim()}</span>`).join('')}
+                            </div>
+                            
+                            <div class="d-flex gap-2">
+                                <button class="btn btn-success" onclick="applyToInternship(${internship.id})">
+                                    <i class="fas fa-paper-plane"></i> Apply Now
+                                </button>
+                                <button class="btn btn-warning" onclick="bookmarkInternship(${internship.id})">
+                                    <i class="fas fa-bookmark"></i> Bookmark
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                resultsArea.appendChild(jobCard);
+            });
+        }
+
+        // Apply to internship
+        function applyToInternship(internshipId) {
+            const internship = internships.find(i => i.id === internshipId);
+            if (internship) {
+                internship.status = 'Applied';
+                appliedInternships.push({
+                    id: Date.now(),
+                    internshipId: internshipId,
+                    company: internship.company,
+                    position: internship.position,
+                    appliedDate: new Date().toLocaleDateString(),
+                    status: 'Applied'
+                });
+                
+                updateApplicationStats();
+                displayApplications();
+                showNotification(`Applied to ${internship.position} at ${internship.company}!`);
+            }
+        }
+
+        // Bookmark internship
+        function bookmarkInternship(internshipId) {
+            const internship = internships.find(i => i.id === internshipId);
+            if (internship && !bookmarkedInternships.find(b => b.id === internshipId)) {
+                bookmarkedInternships.push(internship);
+                displayBookmarks();
+                showNotification(`Bookmarked ${internship.position} at ${internship.company}!`);
+            }
+        }
+
+        // Update profile
+        function updateProfile() {
+            userProfile.name = document.getElementById('profileName').value;
+            userProfile.email = document.getElementById('profileEmail').value;
+            userProfile.skills = document.getElementById('profileSkills').value;
+            userProfile.education = document.getElementById('profileEducation').value;
+            userProfile.location = document.getElementById('profileLocation').value;
+            userProfile.field = document.getElementById('profileField').value;
+            userProfile.experience = document.getElementById('profileExperience').value;
+            
+            showNotification('Profile updated successfully!');
+        }
+
+        // Update application statistics
+        function updateApplicationStats() {
+            const total = appliedInternships.length;
+            const pending = appliedInternships.filter(app => app.status === 'Applied').length;
+            const accepted = appliedInternships.filter(app => app.status === 'Accepted').length;
+            const rejected = appliedInternships.filter(app => app.status === 'Rejected').length;
+            
+            document.getElementById('totalApplications').textContent = total;
+            document.getElementById('pendingApplications').textContent = pending;
+            document.getElementById('acceptedApplications').textContent = accepted;
+            document.getElementById('rejectedApplications').textContent = rejected;
+        }
+
+        // Display applications
+        function displayApplications() {
+            const applicationsList = document.getElementById('applicationsList');
+            
+            if (appliedInternships.length === 0) {
+                applicationsList.innerHTML = '<p class="text-white-50">No applications yet. Start applying to internships!</p>';
+                return;
+            }
+            
+            applicationsList.innerHTML = appliedInternships.map(app => {
+                const internship = internships.find(i => i.id === app.internshipId);
+                const statusClass = `status-${app.status.toLowerCase()}`;
+                return `
+                    <div class="d-flex justify-content-between align-items-center mb-2 p-2" style="background: rgba(255,255,255,0.1); border-radius: 10px;">
+                        <div>
+                            <strong class="text-white">${app.position}</strong><br>
+                            <small class="text-white-50">${app.company}</small>
+                        </div>
+                        <div class="text-end">
+                            <small class="text-white-50">${app.appliedDate}</small><br>
+                            <span class="badge ${statusClass}">${app.status}</span>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Display bookmarks
+        function displayBookmarks() {
+            const bookmarksList = document.getElementById('bookmarksList');
+            
+            if (bookmarkedInternships.length === 0) {
+                bookmarksList.innerHTML = '<p class="text-white-50">No bookmarked internships yet. Start searching and bookmark interesting opportunities!</p>';
+                return;
+            }
+            
+            bookmarksList.innerHTML = bookmarkedInternships.map(internship => `
+                <div class="d-flex justify-content-between align-items-center mb-2 p-2" style="background: rgba(255,255,255,0.1); border-radius: 10px;">
+                    <div>
+                        <strong class="text-white">${internship.position}</strong><br>
+                        <small class="text-white-50">${internship.company} • ${internship.location}</small>
+                    </div>
+                    <div class="text-end">
+                        <span class="salary">${internship.salary}</span><br>
+                        <button class="btn btn-sm btn-success" onclick="applyToInternship(${internship.id})">
+                            <i class="fas fa-paper-plane"></i> Apply
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Add new internship (admin function)
+        function addInternship() {
+            const newInternship = {
+                id: internships.length + 1,
+                company: document.getElementById('adminCompany').value,
+                position: document.getElementById('adminPosition').value,
+                location: document.getElementById('adminLocation').value,
+                type: "On-site",
+                duration: "12 months",
+                salary: document.getElementById('adminSalary').value,
+                deadline: document.getElementById('adminDeadline').value,
+                description: document.getElementById('adminDescription').value,
+                requirements: document.getElementById('adminRequirements').value,
+                matchScore: 85,
+                logo: "🏢",
+                status: null
+            };
+            
+            internships.push(newInternship);
+            showNotification(`Added new internship: ${newInternship.position} at ${newInternship.company}`);
+            
+            // Clear form
+            document.getElementById('adminCompany').value = '';
+            document.getElementById('adminPosition').value = '';
+            document.getElementById('adminLocation').value = '';
+            document.getElementById('adminSalary').value = '';
+            document.getElementById('adminDescription').value = '';
+            document.getElementById('adminRequirements').value = '';
+            document.getElementById('adminDeadline').value = '';
+        }
+
+        // Show notification
+        function showNotification(message) {
+            const notification = document.createElement('div');
+            notification.className = 'notification';
+            notification.innerHTML = `
+                <i class="fas fa-bell"></i> ${message}
+                <button type="button" class="btn-close btn-close-white float-end" onclick="this.parentElement.remove()"></button>
+            `;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                if (notification.parentElement) {
+                    notification.remove();
+                }
+            }, 5000);
+        }
+
+        // Display notifications
+        function displayNotifications() {
+            const today = new Date();
+            const deadlineAlerts = internships.filter(internship => {
+                const deadline = new Date(internship.deadline);
+                const daysUntilDeadline = Math.ceil((deadline - today) / (1000 * 60 * 60 * 24));
+                return daysUntilDeadline <= 7 && daysUntilDeadline > 0;
+            });
+            
+            if (deadlineAlerts.length > 0) {
+                deadlineAlerts.forEach(internship => {
+                    const daysUntilDeadline = Math.ceil((new Date(internship.deadline) - today) / (1000 * 60 * 60 * 24));
+                    showNotification(`⚠️ Deadline Alert: ${internship.position} at ${internship.company} closes in ${daysUntilDeadline} days!`);
+                });
+            }
+        }
+
+        // Format date
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString();
+        }
+
+        // Handle resume upload
+        document.getElementById('resumeUpload').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                showNotification(`Resume uploaded: ${file.name}`);
+            }
+        });
+
+        // Initialize when page loads
+        window.onload = init;
+    </script>
+</body>
+</html> 

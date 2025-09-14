@@ -1,254 +1,365 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
+import { FaGithub, FaLinkedin, FaEnvelope, FaCode, FaDatabase, FaCloud, FaServer, FaDocker, FaAws, FaPython, FaNodeJs } from 'react-icons/fa';
+import { SiDjango, SiFlask, SiPostgresql, SiMongodb, SiRedis, SiExpress } from 'react-icons/si';
 import './App.css';
-import Dashboard from './components/Dashboard';
-import StockSearch from './components/StockSearch';
-import Portfolio from './components/Portfolio';
-import Watchlist from './components/Watchlist';
-import StockChart from './components/StockChart';
-import Settings from './components/Settings';
-
-const NAV_ITEMS = [
-  { id: 'dashboard', label: 'Dashboard', icon: '📊' },
-  { id: 'search', label: 'Search', icon: '🔍' },
-  { id: 'portfolio', label: 'Portfolio', icon: '💼' },
-  { id: 'watchlist', label: 'Watchlist', icon: '👀' },
-  { id: 'chart', label: 'Charts', icon: '📈' },
-  { id: 'settings', label: 'Settings', icon: '⚙️' }
-];
 
 function App() {
-  const [activeTab, setActiveTab] = useState('dashboard');
-  const [selectedStock, setSelectedStock] = useState('AAPL');
-  const [portfolio, setPortfolio] = useState([
-    {
-      symbol: 'AAPL',
-      shares: 10,
-      avgPrice: 150.25,
-      currentPrice: 175.50,
-      change: 25.25,
-      changePercent: 16.81
-    },
-    {
-      symbol: 'GOOGL',
-      shares: 5,
-      avgPrice: 2800.00,
-      currentPrice: 2950.75,
-      change: 150.75,
-      changePercent: 5.38
-    },
-    {
-      symbol: 'TSLA',
-      shares: 20,
-      avgPrice: 800.00,
-      currentPrice: 750.25,
-      change: -49.75,
-      changePercent: -6.22
-    }
-  ]);
+  const [activeSection, setActiveSection] = useState('about');
 
-  const [watchlist, setWatchlist] = useState([
-    { symbol: 'MSFT', name: 'Microsoft Corporation', price: 320.45, change: 5.20, changePercent: 1.65 },
-    { symbol: 'AMZN', name: 'Amazon.com Inc', price: 145.80, change: -2.30, changePercent: -1.55 },
-    { symbol: 'NVDA', name: 'NVIDIA Corporation', price: 450.75, change: 12.50, changePercent: 2.85 },
-    { symbol: 'META', name: 'Meta Platforms Inc', price: 280.90, change: 8.75, changePercent: 3.22 }
-  ]);
-
-  const [searchResults, setSearchResults] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
-
-  // Mock market data
-  const [marketData, setMarketData] = useState({
-    totalValue: 0,
-    totalGain: 0,
-    totalGainPercent: 0,
-    dayGain: 0,
-    dayGainPercent: 0
-  });
-
-  useEffect(() => {
-    // Calculate portfolio totals
-    const totalValue = portfolio.reduce((sum, stock) => sum + (stock.shares * stock.currentPrice), 0);
-    const totalCost = portfolio.reduce((sum, stock) => sum + (stock.shares * stock.avgPrice), 0);
-    const totalGain = totalValue - totalCost;
-    const totalGainPercent = totalCost > 0 ? (totalGain / totalCost) * 100 : 0;
-    const dayGain = portfolio.reduce((sum, stock) => sum + (stock.shares * stock.change), 0);
-    const dayGainPercent = totalValue > 0 ? (dayGain / totalValue) * 100 : 0;
-
-    setMarketData({
-      totalValue,
-      totalGain,
-      totalGainPercent,
-      dayGain,
-      dayGainPercent
-    });
-  }, [portfolio]);
-
-  const handleSearch = async (query) => {
-    if (!query.trim()) {
-      setSearchResults([]);
-      return;
-    }
-
-    setIsLoading(true);
-    
-    // Mock search results
-    setTimeout(() => {
-      const mockResults = [
-        { symbol: 'AAPL', name: 'Apple Inc.', price: 175.50, change: 2.30, changePercent: 1.33 },
-        { symbol: 'MSFT', name: 'Microsoft Corporation', price: 320.45, change: 5.20, changePercent: 1.65 },
-        { symbol: 'GOOGL', name: 'Alphabet Inc.', price: 2950.75, change: 150.75, changePercent: 5.38 },
-        { symbol: 'AMZN', name: 'Amazon.com Inc.', price: 145.80, change: -2.30, changePercent: -1.55 },
-        { symbol: 'TSLA', name: 'Tesla Inc.', price: 750.25, change: -49.75, changePercent: -6.22 }
-      ].filter(stock => 
-        stock.symbol.toLowerCase().includes(query.toLowerCase()) ||
-        stock.name.toLowerCase().includes(query.toLowerCase())
-      );
-      
-      setSearchResults(mockResults);
-      setIsLoading(false);
-    }, 500);
-  };
-
-  const addToWatchlist = (stock) => {
-    if (!watchlist.find(item => item.symbol === stock.symbol)) {
-      setWatchlist(prev => [...prev, stock]);
-    }
-  };
-
-  const removeFromWatchlist = (symbol) => {
-    setWatchlist(prev => prev.filter(item => item.symbol !== symbol));
-  };
-
-  const buyStock = (stock, shares, price) => {
-    const existingStock = portfolio.find(item => item.symbol === stock.symbol);
-    
-    if (existingStock) {
-      // Update existing position
-      const totalShares = existingStock.shares + shares;
-      const totalCost = (existingStock.shares * existingStock.avgPrice) + (shares * price);
-      const newAvgPrice = totalCost / totalShares;
-      
-      setPortfolio(prev => prev.map(item => 
-        item.symbol === stock.symbol 
-          ? { ...item, shares: totalShares, avgPrice: newAvgPrice }
-          : item
-      ));
-    } else {
-      // Add new position
-      setPortfolio(prev => [...prev, {
-        symbol: stock.symbol,
-        shares: shares,
-        avgPrice: price,
-        currentPrice: price,
-        change: 0,
-        changePercent: 0
-      }]);
-    }
-  };
-
-  const sellStock = (symbol, shares) => {
-    setPortfolio(prev => {
-      const stock = prev.find(item => item.symbol === symbol);
-      if (!stock) return prev;
-      
-      if (stock.shares <= shares) {
-        // Sell all shares
-        return prev.filter(item => item.symbol !== symbol);
-      } else {
-        // Sell partial shares
-        return prev.map(item => 
-          item.symbol === symbol 
-            ? { ...item, shares: item.shares - shares }
-            : item
-        );
-      }
-    });
-  };
-
-  const renderContent = () => {
-    switch (activeTab) {
-      case 'dashboard':
-        return <Dashboard marketData={marketData} portfolio={portfolio} watchlist={watchlist} />;
-      case 'search':
-        return (
-          <StockSearch 
-            onSearch={handleSearch}
-            searchResults={searchResults}
-            isLoading={isLoading}
-            onAddToWatchlist={addToWatchlist}
-            onBuyStock={buyStock}
-          />
-        );
-      case 'portfolio':
-        return (
-          <Portfolio 
-            portfolio={portfolio}
-            onSellStock={sellStock}
-            onBuyMore={buyStock}
-          />
-        );
-      case 'watchlist':
-        return (
-          <Watchlist 
-            watchlist={watchlist}
-            onRemoveFromWatchlist={removeFromWatchlist}
-            onBuyStock={buyStock}
-          />
-        );
-      case 'chart':
-        return <StockChart symbol={selectedStock} />;
-      case 'settings':
-        return <Settings />;
-      default:
-        return <Dashboard marketData={marketData} portfolio={portfolio} watchlist={watchlist} />;
+  const scrollToSection = (sectionId) => {
+    setActiveSection(sectionId);
+    const element = document.getElementById(sectionId);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
     }
   };
 
   return (
-    <div className="app">
-      <header className="app-header">
-        <div className="header-content">
-          <h1 className="app-title">📈 Stock Trader Pro</h1>
-          <div className="market-status">
-            <span className="status-indicator open"></span>
-            <span className="status-text">Market Open</span>
-            <span className="current-time">
-              {new Date().toLocaleTimeString('en-US', {
-                hour: '2-digit',
-                minute: '2-digit',
-                hour12: false,
-                timeZone: 'America/New_York'
-              })}
-            </span>
+    <div className="App">
+      {/* Navigation */}
+      <nav className="navbar">
+        <div className="nav-container">
+          <div className="nav-logo">
+            <h2>Segni Mekonnen</h2>
           </div>
-        </div>
-      </header>
-
-      <nav className="app-nav">
-        <div className="nav-content">
-          {NAV_ITEMS.map(item => (
-            <button
-              key={item.id}
-              className={`nav-item ${activeTab === item.id ? 'active' : ''}`}
-              onClick={() => setActiveTab(item.id)}
-            >
-              <span className="nav-icon">{item.icon}</span>
-              <span className="nav-label">{item.label}</span>
-            </button>
-          ))}
+          <ul className="nav-menu">
+            <li><a href="#about" onClick={() => scrollToSection('about')} className={activeSection === 'about' ? 'active' : ''}>About</a></li>
+            <li><a href="#projects" onClick={() => scrollToSection('projects')} className={activeSection === 'projects' ? 'active' : ''}>Projects</a></li>
+            <li><a href="#skills" onClick={() => scrollToSection('skills')} className={activeSection === 'skills' ? 'active' : ''}>Skills</a></li>
+            <li><a href="#education" onClick={() => scrollToSection('education')} className={activeSection === 'education' ? 'active' : ''}>Education</a></li>
+            <li><a href="#contact" onClick={() => scrollToSection('contact')} className={activeSection === 'contact' ? 'active' : ''}>Contact</a></li>
+          </ul>
         </div>
       </nav>
 
-      <main className="app-main">
-        <div className="main-content">
-          {renderContent()}
+      {/* Hero Section */}
+      <section id="about" className="hero">
+        <div className="hero-container">
+          <div className="hero-content">
+            <h1>Segni Mekonnen</h1>
+            <h2>Backend Software Engineer</h2>
+            <p className="hero-description">
+              Aspiring Backend Developer with expertise in Python, Node.js, and database design. 
+              Built scalable APIs handling thousands of requests and real-time systems supporting 50+ concurrent users.
+            </p>
+            <div className="hero-stats">
+              <div className="stat">
+                <span className="stat-number">50+</span>
+                <span className="stat-label">Concurrent Users</span>
+              </div>
+              <div className="stat">
+                <span className="stat-number">20%</span>
+                <span className="stat-label">Performance Boost</span>
+              </div>
+              <div className="stat">
+                <span className="stat-number">1000+</span>
+                <span className="stat-label">API Requests/Day</span>
+              </div>
+            </div>
+            <div className="hero-buttons">
+              <a href="#projects" className="btn btn-primary" onClick={() => scrollToSection('projects')}>View Projects</a>
+              <a href="#contact" className="btn btn-secondary" onClick={() => scrollToSection('contact')}>Get In Touch</a>
+            </div>
+          </div>
+          <div className="hero-image">
+            <div className="tech-icons">
+              <FaPython className="tech-icon" />
+              <FaNodeJs className="tech-icon" />
+              <SiDjango className="tech-icon" />
+              <SiPostgresql className="tech-icon" />
+              <FaDocker className="tech-icon" />
+              <FaAws className="tech-icon" />
+            </div>
+          </div>
         </div>
-      </main>
+      </section>
 
-      <footer className="app-footer">
-        <div className="footer-content">
-          <p>&copy; 2024 Stock Trader Pro. This is a demo application for educational purposes.</p>
-          <p>Stock data is simulated and not real-time.</p>
+      {/* Projects Section */}
+      <section id="projects" className="projects">
+        <div className="container">
+          <h2 className="section-title">Featured Projects</h2>
+          <div className="projects-grid">
+            <div className="project-card">
+              <div className="project-header">
+                <h3>Job Board API</h3>
+                <div className="project-tech">
+                  <span className="tech-tag">Python</span>
+                  <span className="tech-tag">Django</span>
+                  <span className="tech-tag">PostgreSQL</span>
+                  <span className="tech-tag">Redis</span>
+                </div>
+              </div>
+              <p className="project-description">
+                Scalable job board backend with JWT authentication, REST APIs, and Redis caching. 
+                Handles 1000+ job listings with 20% faster search performance.
+              </p>
+              <div className="project-features">
+                <span className="feature">JWT Authentication</span>
+                <span className="feature">REST APIs</span>
+                <span className="feature">Redis Caching</span>
+                <span className="feature">Docker Deployment</span>
+              </div>
+              <div className="project-links">
+                <a href="#" className="project-link"><FaGithub /> GitHub</a>
+                <a href="#" className="project-link"><FaServer /> Live Demo</a>
+              </div>
+            </div>
+
+            <div className="project-card">
+              <div className="project-header">
+                <h3>Real-time Collaboration Platform</h3>
+                <div className="project-tech">
+                  <span className="tech-tag">Node.js</span>
+                  <span className="tech-tag">Socket.io</span>
+                  <span className="tech-tag">MongoDB</span>
+                  <span className="tech-tag">Redis</span>
+                </div>
+              </div>
+              <p className="project-description">
+                Real-time collaboration platform with WebSocket connections, live chat, and shared code editing. 
+                Supports 50+ concurrent users with sub-300ms response times.
+              </p>
+              <div className="project-features">
+                <span className="feature">WebSocket Connections</span>
+                <span className="feature">Live Chat</span>
+                <span className="feature">Shared Editing</span>
+                <span className="feature">User Sessions</span>
+              </div>
+              <div className="project-links">
+                <a href="#" className="project-link"><FaGithub /> GitHub</a>
+                <a href="#" className="project-link"><FaServer /> Live Demo</a>
+              </div>
+            </div>
+
+            <div className="project-card">
+              <div className="project-header">
+                <h3>Sentiment Analysis API</h3>
+                <div className="project-tech">
+                  <span className="tech-tag">Flask</span>
+                  <span className="tech-tag">ML</span>
+                  <span className="tech-tag">AWS</span>
+                  <span className="tech-tag">Docker</span>
+                </div>
+              </div>
+              <p className="project-description">
+                Production-ready sentiment analysis API with 97.6% accuracy. 
+                Deployed on AWS with rate limiting, monitoring, and processes 500+ requests/day.
+              </p>
+              <div className="project-features">
+                <span className="feature">97.6% Accuracy</span>
+                <span className="feature">Rate Limiting</span>
+                <span className="feature">Health Monitoring</span>
+                <span className="feature">Auto-scaling</span>
+              </div>
+              <div className="project-links">
+                <a href="#" className="project-link"><FaGithub /> GitHub</a>
+                <a href="#" className="project-link"><FaServer /> Live Demo</a>
+              </div>
+            </div>
+
+            <div className="project-card">
+              <div className="project-header">
+                <h3>E-commerce Backend</h3>
+                <div className="project-tech">
+                  <span className="tech-tag">Django REST</span>
+                  <span className="tech-tag">PostgreSQL</span>
+                  <span className="tech-tag">Stripe</span>
+                  <span className="tech-tag">Docker</span>
+                </div>
+              </div>
+              <p className="project-description">
+                Complete e-commerce backend with product management, order processing, and Stripe payment integration. 
+                Complex database schema with secure transaction handling.
+              </p>
+              <div className="project-features">
+                <span className="feature">Payment Integration</span>
+                <span className="feature">Inventory Management</span>
+                <span className="feature">Order Processing</span>
+                <span className="feature">Security</span>
+              </div>
+              <div className="project-links">
+                <a href="#" className="project-link"><FaGithub /> GitHub</a>
+                <a href="#" className="project-link"><FaServer /> Live Demo</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Skills Section */}
+      <section id="skills" className="skills">
+        <div className="container">
+          <h2 className="section-title">Technical Skills</h2>
+          <div className="skills-grid">
+            <div className="skill-category">
+              <h3><FaCode /> Programming Languages</h3>
+              <div className="skill-items">
+                <div className="skill-item">
+                  <FaPython className="skill-icon" />
+                  <span>Python (Advanced)</span>
+                </div>
+                <div className="skill-item">
+                  <FaNodeJs className="skill-icon" />
+                  <span>JavaScript (Intermediate)</span>
+                </div>
+                <div className="skill-item">
+                  <FaDatabase className="skill-icon" />
+                  <span>SQL (Advanced)</span>
+                </div>
+              </div>
+            </div>
+
+            <div className="skill-category">
+              <h3><FaServer /> Backend Frameworks</h3>
+              <div className="skill-items">
+                <div className="skill-item">
+                  <SiDjango className="skill-icon" />
+                  <span>Django & Django REST</span>
+                </div>
+                <div className="skill-item">
+                  <SiFlask className="skill-icon" />
+                  <span>Flask</span>
+                </div>
+                <div className="skill-item">
+                  <SiExpress className="skill-icon" />
+                  <span>Express.js</span>
+                </div>
+                <div className="skill-item">
+                  <FaCode className="skill-icon" />
+                  <span>Socket.io</span>
+                </div>
+              </div>
+            </div>
+
+            <div className="skill-category">
+              <h3><FaDatabase /> Databases & Storage</h3>
+              <div className="skill-items">
+                <div className="skill-item">
+                  <SiPostgresql className="skill-icon" />
+                  <span>PostgreSQL</span>
+                </div>
+                <div className="skill-item">
+                  <SiMongodb className="skill-icon" />
+                  <span>MongoDB</span>
+                </div>
+                <div className="skill-item">
+                  <SiRedis className="skill-icon" />
+                  <span>Redis</span>
+                </div>
+              </div>
+            </div>
+
+            <div className="skill-category">
+              <h3><FaCloud /> DevOps & Deployment</h3>
+              <div className="skill-items">
+                <div className="skill-item">
+                  <FaDocker className="skill-icon" />
+                  <span>Docker</span>
+                </div>
+                <div className="skill-item">
+                  <FaAws className="skill-icon" />
+                  <span>AWS</span>
+                </div>
+                <div className="skill-item">
+                  <FaCode className="skill-icon" />
+                  <span>CI/CD</span>
+                </div>
+                <div className="skill-item">
+                  <FaCode className="skill-icon" />
+                  <span>Git</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Education Section */}
+      <section id="education" className="education">
+        <div className="container">
+          <h2 className="section-title">Education & Certifications</h2>
+          <div className="education-grid">
+            <div className="education-card">
+              <h3>B.S. Computer Information Technology</h3>
+              <p className="education-school">Minnesota State University, Mankato</p>
+              <p className="education-year">Expected 2026</p>
+              <div className="education-details">
+                <h4>Relevant Coursework:</h4>
+                <ul>
+                  <li>Database Systems</li>
+                  <li>Web Development</li>
+                  <li>Software Engineering</li>
+                  <li>Data Structures</li>
+                </ul>
+              </div>
+            </div>
+
+            <div className="education-card">
+              <h3>Professional Certifications</h3>
+              <div className="certifications">
+                <div className="cert-item">
+                  <FaAws className="cert-icon" />
+                  <span>AWS Cloud Practitioner</span>
+                </div>
+                <div className="cert-item">
+                  <FaDocker className="cert-icon" />
+                  <span>Docker Certified Associate</span>
+                </div>
+                <div className="cert-item">
+                  <FaCode className="cert-icon" />
+                  <span>Meta Back-End Developer (Coursera)</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Contact Section */}
+      <section id="contact" className="contact">
+        <div className="container">
+          <h2 className="section-title">Get In Touch</h2>
+          <div className="contact-content">
+            <div className="contact-info">
+              <h3>Let's Connect!</h3>
+              <p>I'm always interested in new opportunities and exciting projects. Feel free to reach out!</p>
+              <div className="contact-links">
+                <a href="mailto:your.email@example.com" className="contact-link">
+                  <FaEnvelope />
+                  <span>your.email@example.com</span>
+                </a>
+                <a href="https://github.com/segnimekonnen7" className="contact-link">
+                  <FaGithub />
+                  <span>GitHub</span>
+                </a>
+                <a href="https://linkedin.com/in/segnimekonnen" className="contact-link">
+                  <FaLinkedin />
+                  <span>LinkedIn</span>
+                </a>
+              </div>
+            </div>
+            <div className="contact-form">
+              <form>
+                <div className="form-group">
+                  <input type="text" placeholder="Your Name" required />
+                </div>
+                <div className="form-group">
+                  <input type="email" placeholder="Your Email" required />
+                </div>
+                <div className="form-group">
+                  <textarea placeholder="Your Message" rows="5" required></textarea>
+                </div>
+                <button type="submit" className="btn btn-primary">Send Message</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="footer">
+        <div className="container">
+          <p>&copy; 2024 Segni Mekonnen. All rights reserved.</p>
         </div>
       </footer>
     </div>

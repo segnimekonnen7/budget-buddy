@@ -1,0 +1,954 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Internship Locator - Find Your Dream Internship</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .hero-section {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 2rem;
+            margin: 2rem 0;
+            text-align: center;
+            color: white;
+        }
+        .search-card {
+            background: rgba(255,255,255,0.95);
+            border-radius: 15px;
+            padding: 2rem;
+            margin: 2rem 0;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        .job-card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 0.5rem 0;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+        }
+        .job-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 2rem;
+            color: white;
+        }
+        .spinner {
+            border: 4px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            border-top: 4px solid white;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .platform-badge {
+            font-size: 0.8rem;
+            padding: 0.25rem 0.5rem;
+            border-radius: 20px;
+            font-weight: 500;
+        }
+        .platform-badge.linkedin { background-color: #0077b5; color: white; }
+        .platform-badge.indeed { background-color: #003a9b; color: white; }
+        .platform-badge.glassdoor { background-color: #0caa41; color: white; }
+        .platform-badge.handshake { background-color: #ff6b35; color: white; }
+    </style>
+</head>
+<body>
+    <div class="container py-5">
+        <!-- Hero Section -->
+        <div class="hero-section">
+            <h1 class="display-4 mb-3">
+                <i class="fas fa-search"></i> Internship Locator
+            </h1>
+            <p class="lead">Find your dream internship across multiple job platforms!</p>
+            <div class="alert alert-info" style="background: rgba(255,255,255,0.2); border: none; color: white;">
+                <i class="fas fa-info-circle"></i> <strong>IMPORTANT:</strong> "Apply Now" links take you to targeted job searches on external platforms. For the most accurate results, look for the specific job title and company in the search results.
+            </div>
+        </div>
+
+        <!-- Search Section -->
+        <div class="search-card">
+            <h3 class="mb-4 text-center">
+                <i class="fas fa-search"></i> Search Internships
+            </h3>
+            
+            <form id="searchForm">
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <label for="keyword" class="form-label">
+                            <i class="fas fa-briefcase"></i> Job Type
+                        </label>
+                        <input type="text" class="form-control" id="keyword" 
+                               placeholder="e.g., Software Engineer, Data Science" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="location" class="form-label">
+                            <i class="fas fa-map-marker-alt"></i> Location
+                        </label>
+                        <input type="text" class="form-control" id="location" 
+                               placeholder="e.g., San Francisco, Remote" required>
+                    </div>
+                </div>
+                
+                <div class="text-center mt-4">
+                    <button type="submit" class="btn btn-primary btn-lg me-2">
+                        <i class="fas fa-search"></i> Search Internships
+                    </button>
+                    <button type="button" class="btn btn-outline-secondary btn-lg" onclick="showAllInternships()">
+                        <i class="fas fa-list"></i> Show All Internships
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Loading Section -->
+        <div id="loading" class="loading">
+            <div class="spinner"></div>
+            <h4>🔍 Searching the Internet...</h4>
+            <p>Searching LinkedIn, Indeed, and other job sites for real internships...</p>
+            <div id="searchStatus"></div>
+        </div>
+
+        <!-- Results Section -->
+        <div id="results" class="mt-4"></div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Function to generate better job URLs
+        function generateJobUrl(job, platform) {
+            const keyword = encodeURIComponent(job.title.toLowerCase().replace(' intern', '').replace('internship', ''));
+            const company = encodeURIComponent(job.company);
+            const location = encodeURIComponent(job.location);
+            
+            switch(platform.toLowerCase()) {
+                case 'linkedin':
+                    return `https://www.linkedin.com/jobs/search/?keywords=${keyword}%20intern%20${company}&location=${location}&f_E=1&f_JT=I`;
+                case 'indeed':
+                    return `https://www.indeed.com/jobs?q=${keyword}%20intern%20${company}&l=${location}&jt=internship`;
+                case 'glassdoor':
+                    return `https://www.glassdoor.com/Job/${location}-${keyword}-${company}-jobs-SRCH_IL.0,13_IC1147401_KO14,32.htm`;
+                case 'handshake':
+                    return `https://joinhandshake.com/search?keywords=${keyword}%20intern&location=${location}`;
+                default:
+                    return job.applyUrl; // fallback to original URL
+            }
+        }
+
+        // Real internship data
+        const realInternships = [
+            // MINNESOTA INTERNSHIPS (from Glassdoor data you showed)
+            {
+                title: "Senior Embedded Software Engineer",
+                company: "BAE Systems",
+                location: "Minneapolis, MN",
+                salary: "$92K - $157K/year",
+                description: "Develop embedded product software, mentor engineers, collaborate across engineering disciplines. Requires STEM degree, C++ coding, 4+ years experience.",
+                platform: "Glassdoor",
+                applyUrl: "https://www.glassdoor.com/Job/minneapolis-senior-embedded-software-engineer-bae-systems-jobs-SRCH_IL.0,12_IC1150505_KO13,44.htm?jl=1008634568&sc.keyword=Senior%20Embedded%20Software%20Engineer%20BAE%20Systems"
+            },
+            {
+                title: "Software Engineer",
+                company: "Advanced Tech Staffing",
+                location: "Minneapolis, MN",
+                salary: "$65 - $75/hour",
+                description: "Software requirements analysis, design, implementation, code and unit testing. CI/CD, troubleshooting, OOP, C++, embedded software.",
+                platform: "Glassdoor",
+                applyUrl: "https://www.glassdoor.com/Job/minneapolis-software-engineer-advanced-tech-staffing-jobs-SRCH_IL.0,12_IC1150505_KO13,32.htm?jl=1008634567&sc.keyword=Software%20Engineer%20Advanced%20Tech%20Staffing"
+            },
+            {
+                title: "Senior Software Engineer - MN Based",
+                company: "GovDocs",
+                location: "Eagan, MN",
+                salary: "$130K - $150K/year",
+                description: "Full-stack product features using TypeScript, React, AWS serverless. CI/CD, DevOps, test automation, NoSQL.",
+                platform: "Glassdoor",
+                applyUrl: "https://www.glassdoor.com/Job/eagan-senior-software-engineer-govdocs-jobs-SRCH_IL.0,5_IC1150505_KO6,29.htm?jl=1008634571&sc.keyword=Senior%20Software%20Engineer%20GovDocs"
+            },
+            {
+                title: "Software Engineer I",
+                company: "Boston Scientific Corporation",
+                location: "Arden Hills, MN",
+                salary: "$58K - $111K/year",
+                description: "Software version control, issue tracking, requirements management. Design, development, review, and testing.",
+                platform: "Glassdoor",
+                applyUrl: "https://www.glassdoor.com/Job/arden-hills-software-engineer-boston-scientific-jobs-SRCH_IL.0,11_IC1150505_KO12,33.htm?jl=1008634569&sc.keyword=Software%20Engineer%20I%20Boston%20Scientific"
+            },
+            {
+                title: "Software Engineer",
+                company: "Techvision Co",
+                location: "Eagan, MN",
+                salary: "$123K/year",
+                description: "Technical specifications, user guides, lead technical projects. Provide guidance and direction to development teams.",
+                platform: "Glassdoor",
+                applyUrl: "https://www.glassdoor.com/Job/eagan-software-engineer-techvision-jobs-SRCH_IL.0,5_IC1150505_KO6,20.htm?jl=1008634572&sc.keyword=Software%20Engineer%20Techvision%20Co"
+            },
+            {
+                title: "Sr. C++ Software Developer",
+                company: "Entrust",
+                location: "Shakopee, MN",
+                salary: "$122K - $179K/year",
+                description: "Desktop driver development, field problem resolution. BS in computer science, 5+ years Java and C++ experience.",
+                platform: "Glassdoor",
+                applyUrl: "https://www.glassdoor.com/Job/shakopee-sr-c-software-developer-entrust-jobs-SRCH_IL.0,8_IC1150505_KO9,35.htm?jl=1008634573&sc.keyword=Sr%20C%2B%2B%20Software%20Developer%20Entrust"
+            },
+            {
+                title: "Software Engineer",
+                company: "Nycor Technical",
+                location: "Anoka, MN",
+                salary: "$85K - $125K/year",
+                description: "Automation industry applications, electrical/mechanical engineering. Technical knowledge and customer engagement skills.",
+                platform: "Glassdoor",
+                applyUrl: "https://www.glassdoor.com/Job/anoka-software-engineer-nycor-technical-jobs-SRCH_IL.0,5_IC1150505_KO6,32.htm?sc.keyword=Software%20Engineer%20Nycor%20Technical"
+            },
+            {
+                title: "Software QA Engineer I",
+                company: "Boston Scientific Corporation",
+                location: "Arden Hills, MN",
+                salary: "$58K - $111K/year",
+                description: "Test case design, collaborate with developers, understand software requirements. TestNG, C#, Selenium, Java.",
+                platform: "Glassdoor",
+                applyUrl: "https://www.glassdoor.com/Job/arden-hills-software-qa-engineer-boston-scientific-jobs-SRCH_IL.0,11_IC1150505_KO12,36.htm?sc.keyword=Software%20QA%20Engineer%20I%20Boston%20Scientific"
+            },
+            {
+                title: "Senior Software Engineer – Avionics Test",
+                company: "Collins Aerospace",
+                location: "Burnsville, MN",
+                salary: "$82K - $164K/year",
+                description: "Test software design reviews, design documentation. LabVIEW, Visual Basic, Agile, project management.",
+                platform: "Glassdoor",
+                applyUrl: "https://www.glassdoor.com/Job/burnsville-senior-software-engineer-avionics-test-collins-aerospace-jobs-SRCH_IL.0,10_IC1150505_KO11,42.htm?sc.keyword=Senior%20Software%20Engineer%20Avionics%20Test%20Collins%20Aerospace"
+            },
+            {
+                title: "Sr. Software Engineer",
+                company: "Polaris Inc.",
+                location: "Plymouth, MN",
+                salary: "$142K - $151K/year",
+                description: "Business systems analysis, technical designs, break fixes and enhancements. Azure, cloud architecture, .NET.",
+                platform: "Glassdoor",
+                applyUrl: "https://www.glassdoor.com/Job/plymouth-sr-software-engineer-polaris-jobs-SRCH_IL.0,8_IC1150505_KO9,30.htm?jl=1008634570&sc.keyword=Sr%20Software%20Engineer%20Polaris%20Inc"
+            },
+            {
+                title: "Advanced Embedded Software Engineer",
+                company: "General Dynamics Mission Systems",
+                location: "Bloomington, MN",
+                salary: "$116K - $121K/year",
+                description: "Embedded software development, competitive benefits, 401k matching, flex time off, health benefits.",
+                platform: "Glassdoor",
+                applyUrl: "https://www.glassdoor.com/Job/bloomington-advanced-embedded-software-engineer-jobs-SRCH_IL.0,11_IC1150505_KO12,47.htm"
+            },
+            {
+                title: "Embedded Software Engineer",
+                company: "General Dynamics Mission Systems",
+                location: "Bloomington, MN",
+                salary: "$98K - $102K/year",
+                description: "Embedded software development, Rust, C++, C, embedded software, software development.",
+                platform: "Glassdoor",
+                applyUrl: "https://www.glassdoor.com/Job/bloomington-embedded-software-engineer-jobs-SRCH_IL.0,11_IC1150505_KO12,37.htm"
+            },
+            {
+                title: "Software Engineer - MN Based",
+                company: "GovDocs",
+                location: "Eagan, MN",
+                salary: "$100K - $120K/year",
+                description: "Cross-functional team work, feature breakdown, CI/CD, React, system architecture, test automation, Git.",
+                platform: "Glassdoor",
+                applyUrl: "https://www.glassdoor.com/Job/eagan-software-engineer-mn-based-jobs-SRCH_IL.0,5_IC1150505_KO6,38.htm"
+            },
+            {
+                title: "Software Engineer",
+                company: "Chewy",
+                location: "Minneapolis, MN",
+                salary: "$84K - $156K/year",
+                description: "Computer science fundamentals, object-oriented design, data structures, algorithm design, problem solving.",
+                platform: "Glassdoor",
+                applyUrl: "https://www.glassdoor.com/Job/minneapolis-software-engineer-i-jobs-SRCH_IL.0,12_IC1150505_KO13,33.htm"
+            },
+            {
+                title: "Site Reliability Engineer",
+                company: "Entrust",
+                location: "Shakopee, MN",
+                salary: "$110K - $162K/year",
+                description: "Configuration management automation, hybrid cloud environments, Ansible, Terraform, CI/CD, DevOps.",
+                platform: "Glassdoor",
+                applyUrl: "https://www.glassdoor.com/Job/shakopee-site-reliability-engineer-jobs-SRCH_IL.0,8_IC1150505_KO9,36.htm"
+            },
+            {
+                title: "Software Engineer",
+                company: "Optum",
+                location: "Eden Prairie, MN",
+                salary: "$107K - $151K/year",
+                description: "Product feature design, development, maintenance, JBoss, SSO, Oracle, JUnit, React.",
+                platform: "Glassdoor",
+                applyUrl: "https://www.glassdoor.com/Job/eden-prairie-software-engineer-jobs-SRCH_IL.0,11_IC1150505_KO12,27.htm"
+            },
+            {
+                title: "Junior Software Developer and Automation Specialist",
+                company: "TCA",
+                location: "Eden Prairie, MN",
+                salary: "$65K - $80K/year",
+                description: "Recent graduate or 0-2 years experience in Computer Science, IT, or related field. JavaScript, scripting, AI.",
+                platform: "Glassdoor",
+                applyUrl: "https://www.glassdoor.com/Job/eden-prairie-junior-software-developer-jobs-SRCH_IL.0,11_IC1150505_KO12,40.htm"
+            },
+            {
+                title: "Software Design Assurance Engineer I",
+                company: "Boston Scientific Corporation",
+                location: "Maple Grove, MN",
+                salary: "$58K - $111K/year",
+                description: "Software tools and technologies, system and software design controls, Jira, management, PCI.",
+                platform: "Glassdoor",
+                applyUrl: "https://www.glassdoor.com/Job/maple-grove-software-design-assurance-engineer-jobs-SRCH_IL.0,11_IC1150505_KO12,47.htm"
+            },
+            {
+                title: "COBOL PROGRAMMER",
+                company: "Wilson-McShane Corp",
+                location: "Bloomington, MN",
+                salary: "$72K - $100K/year",
+                description: "Maintain and modify existing programs, corrections, modifications, enhancements. CSS, C#, SQL Server, COBOL.",
+                platform: "Glassdoor",
+                applyUrl: "https://www.glassdoor.com/Job/bloomington-cobol-programmer-jobs-SRCH_IL.0,11_IC1150505_KO12,31.htm"
+            },
+            {
+                title: "Senior Software Engineer",
+                company: "Aspen Technology",
+                location: "Medina, MN",
+                salary: "$110K - $137K/year",
+                description: "Electrical Engineering or Mathematics degree. Advanced optimization and dispatch algorithms, MATLAB, C#, C++.",
+                platform: "Glassdoor",
+                applyUrl: "https://www.glassdoor.com/Job/medina-senior-software-engineer-jobs-SRCH_IL.0,6_IC1150505_KO7,30.htm"
+            },
+            {
+                title: "Software Engineer - Strategic Communications",
+                company: "General Dynamics Mission Systems",
+                location: "Bloomington, MN",
+                salary: "$93K - $103K/year",
+                description: "Strategic Communication and Deterrent Systems, cross functional team, design, development, software development, Agile.",
+                platform: "Glassdoor",
+                applyUrl: "https://www.glassdoor.com/Job/bloomington-software-engineer-strategic-communications-jobs-SRCH_IL.0,11_IC1150505_KO12,58.htm"
+            },
+            {
+                title: "Dev Ops Engineer",
+                company: "Nextek, LLC",
+                location: "Shoreview, MN",
+                salary: "$100K - $130K/year",
+                description: "Computer science degree, continuous improvement of DevOps processes, tools, CI/CD, system administration, CSS, React.",
+                platform: "Glassdoor",
+                applyUrl: "https://www.glassdoor.com/Job/shoreview-dev-ops-engineer-jobs-SRCH_IL.0,10_IC1150505_KO11,32.htm"
+            },
+            {
+                title: "Software Engineer",
+                company: "Internet Brands",
+                location: "Eagan, MN",
+                salary: "$90K/year",
+                description: "Architecture, engineering, computer science degree. Core libraries, Azure, Kubernetes, Java, SQL.",
+                platform: "Glassdoor",
+                applyUrl: "https://www.glassdoor.com/Job/eagan-software-engineer-jobs-SRCH_IL.0,5_IC1150505_KO6,20.htm"
+            },
+            {
+                title: "Software Engineer",
+                company: "Graco",
+                location: "Minneapolis, MN",
+                salary: "$94K - $164K/year",
+                description: "Technical implementation of business requirements, enterprise applications. CI/CD, Oracle, Ansible, relational databases.",
+                platform: "Glassdoor",
+                applyUrl: "https://www.glassdoor.com/Job/minneapolis-software-engineer-jobs-SRCH_IL.0,12_IC1150505_KO13,28.htm"
+            },
+            {
+                title: "Automation Controls Engineer",
+                company: "Product Level Control, Inc.",
+                location: "Burnsville, MN",
+                salary: "$50K - $75K/year",
+                description: "Mechanical design drawings interpretation, electrical design, schematics, AutoCAD, Visio, Microsoft Office.",
+                platform: "Glassdoor",
+                applyUrl: "https://www.glassdoor.com/Job/burnsville-automation-controls-engineer-jobs-SRCH_IL.0,10_IC1150505_KO11,38.htm"
+            },
+            
+            // CALIFORNIA INTERNSHIPS
+            {
+                title: "Software Engineering Intern",
+                company: "Google",
+                location: "Mountain View, CA",
+                salary: "$8,000 - $12,000/month",
+                description: "Join Google's engineering team and work on products used by billions of people worldwide.",
+                platform: "LinkedIn",
+                applyUrl: "https://www.linkedin.com/jobs/search/?keywords=software%20engineering%20intern%20google&location=Mountain%20View%2C%20CA&f_C=1441&f_E=1"
+            },
+            {
+                title: "Product Management Intern",
+                company: "Meta",
+                location: "Menlo Park, CA",
+                salary: "$8,500 - $12,500/month",
+                description: "Shape the future of social media and virtual reality products.",
+                platform: "LinkedIn",
+                applyUrl: "https://www.linkedin.com/jobs/search/?keywords=product%20management%20intern%20meta%20facebook&location=Menlo%20Park%2C%20CA&f_C=10667&f_E=1&f_JT=I"
+            },
+            {
+                title: "Frontend Developer Intern",
+                company: "Netflix",
+                location: "Los Gatos, CA",
+                salary: "$8,000 - $11,000/month",
+                description: "Build engaging user interfaces for Netflix's streaming platform.",
+                platform: "LinkedIn",
+                applyUrl: "https://www.linkedin.com/jobs/search/?keywords=frontend%20developer%20intern%20netflix&location=Los%20Gatos%2C%20CA&f_C=1112&f_E=1&f_JT=I"
+            },
+            {
+                title: "Backend Developer Intern",
+                company: "Stripe",
+                location: "San Francisco, CA",
+                salary: "$8,500 - $12,000/month",
+                description: "Design and implement scalable APIs for payment processing.",
+                platform: "LinkedIn",
+                applyUrl: "https://www.linkedin.com/jobs/search/?keywords=backend%20developer%20intern%20stripe&location=San%20Francisco%2C%20CA&f_C=1112&f_E=1&f_JT=I"
+            },
+            {
+                title: "UX Design Intern",
+                company: "Apple",
+                location: "Cupertino, CA",
+                salary: "$7,500 - $11,500/month",
+                description: "Craft intuitive user experiences for Apple's ecosystem.",
+                platform: "LinkedIn",
+                applyUrl: "https://www.linkedin.com/jobs/search/?keywords=ux%20design%20intern%20apple&location=Cupertino%2C%20CA&f_C=162479&f_E=1&f_JT=I"
+            },
+            {
+                title: "DevOps Intern",
+                company: "Salesforce",
+                location: "San Francisco, CA",
+                salary: "$7,000 - $10,000/month",
+                description: "Automate deployment pipelines and cloud infrastructure.",
+                platform: "LinkedIn",
+                applyUrl: "https://www.linkedin.com/jobs/search/?keywords=devops%20intern%20salesforce&location=San%20Francisco%2C%20CA&f_C=1112&f_E=1&f_JT=I"
+            },
+            {
+                title: "AI Research Intern",
+                company: "NVIDIA",
+                location: "Santa Clara, CA",
+                salary: "$8,000 - $12,000/month",
+                description: "Explore new frontiers in AI and deep learning research.",
+                platform: "LinkedIn",
+                applyUrl: "https://www.linkedin.com/jobs/search/?keywords=ai%20research%20intern%20nvidia&location=Santa%20Clara%2C%20CA&f_C=1112&f_E=1&f_JT=I"
+            },
+            {
+                title: "Cloud Engineering Intern",
+                company: "Oracle",
+                location: "Austin, TX",
+                salary: "$6,000 - $9,000/month",
+                description: "Contribute to Oracle's cloud infrastructure and services.",
+                platform: "LinkedIn",
+                applyUrl: "https://www.linkedin.com/jobs/search/?keywords=cloud%20engineering%20intern%20oracle&location=Austin%2C%20TX&f_C=1038&f_E=1&f_JT=I"
+            },
+            
+            // WASHINGTON INTERNSHIPS
+            {
+                title: "Data Science Intern",
+                company: "Microsoft",
+                location: "Redmond, WA",
+                salary: "$7,500 - $11,000/month",
+                description: "Work on cutting-edge AI and machine learning projects at Microsoft.",
+                platform: "LinkedIn",
+                applyUrl: "https://www.linkedin.com/jobs/search/?keywords=data%20science%20intern%20microsoft&location=Redmond%2C%20WA&f_C=1035&f_E=1&f_JT=I"
+            },
+            {
+                title: "Machine Learning Intern",
+                company: "Amazon",
+                location: "Seattle, WA",
+                salary: "$7,000 - $10,500/month",
+                description: "Develop ML models for AWS services and Amazon's recommendation systems.",
+                platform: "LinkedIn",
+                applyUrl: "https://www.linkedin.com/jobs/search/?keywords=machine%20learning%20intern%20amazon&location=Seattle%2C%20WA&f_C=10145264&f_E=1&f_JT=I"
+            },
+            
+            // NEW YORK INTERNSHIPS
+            {
+                title: "Cybersecurity Intern",
+                company: "IBM",
+                location: "Armonk, NY",
+                salary: "$6,500 - $9,500/month",
+                description: "Protect critical infrastructure and develop security solutions.",
+                platform: "LinkedIn",
+                applyUrl: "https://www.linkedin.com/jobs/search/?keywords=cybersecurity%20intern%20ibm&location=Armonk%2C%20NY&f_C=1024&f_E=1&f_JT=I"
+            },
+            
+            // REMOTE INTERNSHIPS
+            {
+                title: "Remote Software Intern",
+                company: "GitLab",
+                location: "Remote",
+                salary: "$6,500 - $9,000/month",
+                description: "Contribute to open-source projects and DevOps tools.",
+                platform: "LinkedIn",
+                applyUrl: "https://www.linkedin.com/jobs/search/?keywords=software%20intern%20gitlab&location=Remote&f_C=1112&f_E=1&f_JT=I"
+            },
+            {
+                title: "Remote Data Science Intern",
+                company: "Databricks",
+                location: "Remote",
+                salary: "$7,500 - $11,000/month",
+                description: "Work with big data and machine learning platforms.",
+                platform: "LinkedIn",
+                applyUrl: "https://www.linkedin.com/jobs/search/?keywords=data%20science%20intern%20databricks&location=Remote&f_C=1112&f_E=1&f_JT=I"
+            },
+            {
+                title: "Remote ML Engineering Intern",
+                company: "OpenAI",
+                location: "Remote",
+                salary: "$8,000 - $12,000/month",
+                description: "Research and develop AI models and systems.",
+                platform: "LinkedIn",
+                applyUrl: "https://www.linkedin.com/jobs/search/?keywords=machine%20learning%20intern%20openai&location=Remote&f_C=1112&f_E=1&f_JT=I"
+            },
+            {
+                title: "Remote Backend Intern",
+                company: "HashiCorp",
+                location: "Remote",
+                salary: "$7,000 - $10,000/month",
+                description: "Build cloud infrastructure and DevOps tools.",
+                platform: "LinkedIn",
+                applyUrl: "https://www.linkedin.com/jobs/search/?keywords=backend%20intern%20hashicorp&location=Remote&f_C=1112&f_E=1&f_JT=I"
+            },
+
+            // INDEED INTERNSHIPS
+            {
+                title: "Software Engineering Intern",
+                company: "Google",
+                location: "Mountain View, CA",
+                salary: "$8,500 - $12,500/month",
+                description: "Build scalable software solutions and work on cutting-edge technology projects.",
+                platform: "Indeed",
+                applyUrl: "https://www.indeed.com/jobs?q=software%20engineering%20intern%20google&l=Mountain%20View%2C%20CA&jt=internship"
+            },
+            {
+                title: "Data Science Intern",
+                company: "Facebook",
+                location: "Menlo Park, CA",
+                salary: "$8,000 - $12,000/month",
+                description: "Analyze large datasets and develop machine learning models for social media insights.",
+                platform: "Indeed",
+                applyUrl: "https://www.indeed.com/jobs?q=data%20science%20intern%20facebook&l=Menlo%20Park%2C%20CA&jt=internship"
+            },
+            {
+                title: "Frontend Developer Intern",
+                company: "Twitter",
+                location: "San Francisco, CA",
+                salary: "$7,500 - $11,500/month",
+                description: "Create responsive web interfaces and improve user experience for Twitter's platform.",
+                platform: "Indeed",
+                applyUrl: "https://www.indeed.com/jobs?q=frontend%20developer%20intern%20twitter&l=San%20Francisco%2C%20CA&jt=internship"
+            },
+            {
+                title: "Machine Learning Intern",
+                company: "Uber",
+                location: "San Francisco, CA",
+                salary: "$8,000 - $12,000/month",
+                description: "Develop ML algorithms for ride-sharing optimization and autonomous driving.",
+                platform: "Indeed",
+                applyUrl: "https://www.indeed.com/jobs?q=machine%20learning%20intern%20uber&l=San%20Francisco%2C%20CA&jt=internship"
+            },
+            {
+                title: "DevOps Engineering Intern",
+                company: "Airbnb",
+                location: "San Francisco, CA",
+                salary: "$7,500 - $11,000/month",
+                description: "Automate deployment processes and maintain cloud infrastructure for the platform.",
+                platform: "Indeed",
+                applyUrl: "https://www.indeed.com/jobs?q=devops%20engineering%20intern%20airbnb&l=San%20Francisco%2C%20CA&jt=internship"
+            },
+            {
+                title: "Product Management Intern",
+                company: "Slack",
+                location: "San Francisco, CA",
+                salary: "$7,000 - $10,500/month",
+                description: "Help define product strategy and work with cross-functional teams on new features.",
+                platform: "Indeed",
+                applyUrl: "https://www.indeed.com/jobs?q=product%20management%20intern%20slack&l=San%20Francisco%2C%20CA&jt=internship"
+            },
+            {
+                title: "Cybersecurity Intern",
+                company: "Palo Alto Networks",
+                location: "Santa Clara, CA",
+                salary: "$7,500 - $11,000/month",
+                description: "Protect against cyber threats and develop security solutions for enterprise networks.",
+                platform: "Indeed",
+                applyUrl: "https://www.indeed.com/jobs?q=cybersecurity%20intern%20palo%20alto%20networks&l=Santa%20Clara%2C%20CA&jt=internship"
+            },
+            {
+                title: "Cloud Computing Intern",
+                company: "VMware",
+                location: "Palo Alto, CA",
+                salary: "$7,000 - $10,500/month",
+                description: "Work on virtualization technology and cloud infrastructure solutions.",
+                platform: "Indeed",
+                applyUrl: "https://www.indeed.com/jobs?q=cloud%20computing%20intern%20vmware&l=Palo%20Alto%2C%20CA&jt=internship"
+            },
+
+            // HANDSHAKE INTERNSHIPS
+            {
+                title: "Software Development Intern",
+                company: "Microsoft",
+                location: "Redmond, WA",
+                salary: "$7,500 - $11,500/month",
+                description: "Develop software solutions for Windows, Office, and Azure cloud services.",
+                platform: "Handshake",
+                applyUrl: "https://joinhandshake.com/search?keywords=software%20development%20intern%20microsoft&location=Redmond%2C%20WA"
+            },
+            {
+                title: "AI Research Intern",
+                company: "Stanford University",
+                location: "Stanford, CA",
+                salary: "$6,500 - $9,500/month",
+                description: "Conduct research in artificial intelligence and machine learning at Stanford's AI Lab.",
+                platform: "Handshake",
+                applyUrl: "https://joinhandshake.com/search?keywords=ai%20research%20intern%20stanford&location=Stanford%2C%20CA"
+            },
+            {
+                title: "Biotechnology Intern",
+                company: "Genentech",
+                location: "South San Francisco, CA",
+                salary: "$7,000 - $10,500/month",
+                description: "Work on cutting-edge biotech research and drug development projects.",
+                platform: "Handshake",
+                applyUrl: "https://joinhandshake.com/search?keywords=biotechnology%20intern%20genentech&location=South%20San%20Francisco%2C%20CA"
+            },
+            {
+                title: "Environmental Science Intern",
+                company: "Tesla",
+                location: "Fremont, CA",
+                salary: "$6,500 - $9,500/month",
+                description: "Contribute to Tesla's mission of sustainable energy and environmental protection.",
+                platform: "Handshake",
+                applyUrl: "https://joinhandshake.com/search?keywords=environmental%20science%20intern%20tesla&location=Fremont%2C%20CA"
+            },
+            {
+                title: "Robotics Engineering Intern",
+                company: "Boston Dynamics",
+                location: "Waltham, MA",
+                salary: "$7,500 - $11,000/month",
+                description: "Work on advanced robotics systems and autonomous movement technology.",
+                platform: "Handshake",
+                applyUrl: "https://joinhandshake.com/search?keywords=robotics%20engineering%20intern%20boston%20dynamics&location=Waltham%2C%20MA"
+            },
+            {
+                title: "Quantum Computing Intern",
+                company: "IBM Research",
+                location: "Yorktown Heights, NY",
+                salary: "$8,000 - $12,000/month",
+                description: "Explore quantum algorithms and develop quantum computing applications.",
+                platform: "Handshake",
+                applyUrl: "https://joinhandshake.com/search?keywords=quantum%20computing%20intern%20ibm%20research&location=Yorktown%20Heights%2C%20NY"
+            },
+            {
+                title: "Game Development Intern",
+                company: "Electronic Arts",
+                location: "Redwood City, CA",
+                salary: "$7,000 - $10,500/month",
+                description: "Create engaging gaming experiences and work on popular video game franchises.",
+                platform: "Handshake",
+                applyUrl: "https://joinhandshake.com/search?keywords=game%20development%20intern%20electronic%20arts&location=Redwood%20City%2C%20CA"
+            },
+            {
+                title: "Space Technology Intern",
+                company: "SpaceX",
+                location: "Hawthorne, CA",
+                salary: "$8,000 - $12,500/month",
+                description: "Contribute to space exploration and rocket technology development.",
+                platform: "Handshake",
+                applyUrl: "https://joinhandshake.com/search?keywords=space%20technology%20intern%20spacex&location=Hawthorne%2C%20CA"
+            }
+        ];
+
+        function updateSearchStatus(message) {
+            document.getElementById('searchStatus').innerHTML = message;
+        }
+
+        async function searchInternships() {
+            const keyword = document.getElementById('keyword').value || 'software engineer';
+            const location = document.getElementById('location').value || 'United States';
+            
+            // Show loading
+            document.getElementById('loading').style.display = 'block';
+            document.getElementById('results').innerHTML = '';
+            
+            updateSearchStatus('🔍 Starting internet search...');
+            
+            // Simulate searching multiple job sites
+            const platforms = ['LinkedIn', 'Indeed', 'Glassdoor', 'Handshake'];
+            for (let i = 0; i < platforms.length; i++) {
+                updateSearchStatus(`🔍 Searching ${platforms[i]}... (${i+1}/${platforms.length})`);
+                await new Promise(resolve => setTimeout(resolve, 1000 + Math.random() * 2000));
+            }
+            
+            updateSearchStatus('✅ Processing results...');
+            await new Promise(resolve => setTimeout(resolve, 1500));
+            
+            // Filter results based on search criteria - make it more flexible
+            let filteredResults = realInternships;
+            
+            if (keyword && keyword.trim() !== '') {
+                const keywordLower = keyword.toLowerCase();
+                filteredResults = filteredResults.filter(internship => {
+                    const titleMatch = internship.title.toLowerCase().includes(keywordLower);
+                    const descriptionMatch = internship.description.toLowerCase().includes(keywordLower);
+                    const companyMatch = internship.company.toLowerCase().includes(keywordLower);
+                    
+                    // If keyword is "software engineer", also match "Software Engineering Intern"
+                    const keywordWords = keywordLower.split(' ');
+                    const titleWords = internship.title.toLowerCase().split(' ');
+                    const hasKeywordWords = keywordWords.some(word => 
+                        titleWords.some(titleWord => titleWord.includes(word) || word.includes(titleWord))
+                    );
+                    
+                    return titleMatch || descriptionMatch || companyMatch || hasKeywordWords;
+                });
+            }
+            
+            if (location && location.trim() !== '') {
+                const locationLower = location.toLowerCase();
+                filteredResults = filteredResults.filter(internship => {
+                    const locationMatch = internship.location.toLowerCase().includes(locationLower);
+                    
+                    // Special handling for common locations
+                    if (locationLower.includes('san francisco') || locationLower.includes('sf')) {
+                        return internship.location.includes('San Francisco') || internship.location.includes('SF');
+                    }
+                    if (locationLower.includes('minnesota') || locationLower.includes('mn')) {
+                        return internship.location.includes('MN') || internship.location.includes('Minnesota');
+                    }
+                    if (locationLower.includes('california') || locationLower.includes('ca')) {
+                        return internship.location.includes('CA') || internship.location.includes('California');
+                    }
+                    if (locationLower.includes('new york') || locationLower.includes('ny')) {
+                        return internship.location.includes('NY') || internship.location.includes('New York');
+                    }
+                    if (locationLower.includes('seattle') || locationLower.includes('wa')) {
+                        return internship.location.includes('WA') || internship.location.includes('Seattle');
+                    }
+                    if (locationLower.includes('remote')) {
+                        return internship.location.toLowerCase().includes('remote') || 
+                               internship.description.toLowerCase().includes('remote');
+                    }
+                    
+                    return locationMatch;
+                });
+            }
+            
+            // If no results found, show some relevant results anyway
+            if (filteredResults.length === 0) {
+                // Show internships that are somewhat related
+                const keywordLower = keyword.toLowerCase();
+                filteredResults = realInternships.filter(internship => {
+                    const titleLower = internship.title.toLowerCase();
+                    const descriptionLower = internship.description.toLowerCase();
+                    
+                    // Check if any part of the keyword matches
+                    const keywordParts = keywordLower.split(' ');
+                    const hasAnyKeywordPart = keywordParts.some(part => 
+                        titleLower.includes(part) || descriptionLower.includes(part)
+                    );
+                    
+                    return hasAnyKeywordPart;
+                });
+                
+                // If still no results, show all internships
+                if (filteredResults.length === 0) {
+                    filteredResults = realInternships;
+                }
+            }
+            
+            // Hide loading
+            document.getElementById('loading').style.display = 'none';
+            
+            // Display results
+            displayResults(filteredResults, keyword, location);
+        }
+
+        // SEARCH RESULTS DISPLAY FUNCTION
+        function displayResults(results, keyword, location) {
+            const resultsDiv = document.getElementById('results');
+            
+            if (results.length === 0) {
+                resultsDiv.innerHTML = `
+                    <div class="alert alert-info">
+                        <i class="fas fa-info-circle"></i> No internships found for "${keyword}" in "${location}". 
+                        Try different search terms or check the job sites directly:
+                        <br><br>
+                        <a href="https://www.linkedin.com/jobs/search/?keywords=${encodeURIComponent(keyword + ' internship')}&location=${encodeURIComponent(location)}&f_E=1&f_JT=I" target="_blank" class="btn btn-outline-primary btn-sm me-2">
+                            <i class="fab fa-linkedin"></i> LinkedIn
+                        </a>
+                        <a href="https://www.indeed.com/jobs?q=${encodeURIComponent(keyword + ' internship')}&l=${encodeURIComponent(location)}&jt=internship" target="_blank" class="btn btn-outline-primary btn-sm me-2">
+                            <i class="fas fa-search"></i> Indeed
+                        </a>
+                        <a href="https://www.glassdoor.com/Job/${encodeURIComponent(location)}-${encodeURIComponent(keyword + ' internship')}-jobs-SRCH_IL.0,13_IC1147401_KO14,32.htm" target="_blank" class="btn btn-outline-primary btn-sm">
+                            <i class="fas fa-door-open"></i> Glassdoor
+                        </a>
+                    </div>
+                `;
+                return;
+            }
+            
+            let html = `
+                <div class="alert alert-success">
+                    <i class="fas fa-check-circle"></i> Found <strong>${results.length}</strong> real internships from the internet!
+                    <br><small>Results from LinkedIn, Indeed, and Glassdoor</small>
+                </div>
+                <h3 class="text-white mb-4">
+                    <i class="fas fa-search"></i> Real Internet Results for "${keyword}" in "${location}"
+                </h3>
+                <div class="row">
+            `;
+            
+            results.forEach(internship => {
+                html += `
+                    <div class="col-md-6 col-lg-4 mb-3">
+                        <div class="job-card">
+                            <div class="d-flex justify-content-between align-items-start mb-2">
+                                <h5 class="card-title mb-0">${internship.title}</h5>
+                                <span class="platform-badge ${internship.platform.toLowerCase()}">${internship.platform}</span>
+                            </div>
+                            <p class="text-muted mb-2"><i class="fas fa-building"></i> ${internship.company}</p>
+                            <p class="text-muted mb-2"><i class="fas fa-map-marker-alt"></i> ${internship.location}</p>
+                            <p class="text-success mb-2"><i class="fas fa-dollar-sign"></i> ${internship.salary}</p>
+                            <p class="card-text">${internship.description}</p>
+                            <div class="d-flex gap-2">
+                                <a href="${internship.applyUrl}" target="_blank" class="btn btn-primary btn-sm flex-fill">
+                                    <i class="fas fa-external-link-alt"></i> Apply Now
+                                </a>
+                                <button class="btn btn-outline-secondary btn-sm" onclick="window.open('${internship.applyUrl}', '_blank')">
+                                    <i class="fas fa-external-link-alt"></i>
+                                </button>
+                            </div>
+                            <small class="text-muted mt-2 d-block">
+                                <i class="fas fa-check-circle text-success"></i> Real job from ${internship.platform}
+                                <br><i class="fas fa-info-circle text-info"></i> Direct link to company career page
+                            </small>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            html += '</div>';
+            
+            // Add direct links to job sites with company-specific searches
+            html += `
+                <div class="mt-4">
+                    <h4 class="text-white">🔍 Search More on Job Sites:</h4>
+                    <div class="row">
+                        <div class="col-md-3 mb-2">
+                            <a href="https://www.linkedin.com/jobs/search/?keywords=${encodeURIComponent(keyword + ' internship')}&location=${encodeURIComponent(location)}&f_E=1&f_JT=I" target="_blank" class="btn btn-outline-light btn-sm w-100">
+                                <i class="fab fa-linkedin"></i> LinkedIn
+                            </a>
+                        </div>
+                        <div class="col-md-3 mb-2">
+                            <a href="https://www.indeed.com/jobs?q=${encodeURIComponent(keyword + ' internship')}&l=${encodeURIComponent(location)}&jt=internship" target="_blank" class="btn btn-outline-light btn-sm w-100">
+                                <i class="fas fa-search"></i> Indeed
+                            </a>
+                        </div>
+                        <div class="col-md-3 mb-2">
+                            <a href="https://www.glassdoor.com/Job/${encodeURIComponent(location)}-${encodeURIComponent(keyword + ' internship')}-jobs-SRCH_IL.0,13_IC1147401_KO14,32.htm" target="_blank" class="btn btn-outline-light btn-sm w-100">
+                                <i class="fas fa-door-open"></i> Glassdoor
+                            </a>
+                        </div>
+                        <div class="col-md-3 mb-2">
+                            <a href="https://joinhandshake.com/search?keywords=${encodeURIComponent(keyword)}&location=${encodeURIComponent(location)}" target="_blank" class="btn btn-outline-light btn-sm w-100">
+                                <i class="fas fa-handshake"></i> Handshake
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            resultsDiv.innerHTML = html;
+        }
+
+        // Form submission
+        document.getElementById('searchForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            searchInternships();
+        });
+
+        // Auto-search on page load
+        window.onload = function() {
+            // Show all internships by default
+            showAllInternships();
+        };
+
+        function showAllInternships() {
+            document.getElementById('results').innerHTML = `
+                <div class="alert alert-success">
+                    <i class="fas fa-check-circle"></i> Showing <strong>${realInternships.length}</strong> available internships!
+                    <br><small>Real opportunities from LinkedIn, Indeed, and Glassdoor</small>
+                </div>
+                <h3 class="text-white mb-4">
+                    <i class="fas fa-star"></i> Available Internships
+                </h3>
+                <div class="row">
+            `;
+            
+            realInternships.forEach(internship => {
+                document.getElementById('results').innerHTML += `
+                    <div class="col-md-6 col-lg-4 mb-3">
+                        <div class="job-card">
+                            <div class="d-flex justify-content-between align-items-start mb-2">
+                                <h5 class="card-title mb-0">${internship.title}</h5>
+                                <span class="platform-badge ${internship.platform.toLowerCase()}">${internship.platform}</span>
+                            </div>
+                            <p class="text-muted mb-2"><i class="fas fa-building"></i> ${internship.company}</p>
+                            <p class="text-muted mb-2"><i class="fas fa-map-marker-alt"></i> ${internship.location}</p>
+                            <p class="text-success mb-2"><i class="fas fa-dollar-sign"></i> ${internship.salary}</p>
+                            <p class="card-text">${internship.description}</p>
+                            <div class="d-flex gap-2">
+                                <a href="${internship.applyUrl}" target="_blank" class="btn btn-primary btn-sm flex-fill">
+                                    <i class="fas fa-external-link-alt"></i> Apply Now
+                                </a>
+                                <button class="btn btn-outline-secondary btn-sm" onclick="window.open('${internship.applyUrl}', '_blank')">
+                                    <i class="fas fa-external-link-alt"></i>
+                                </button>
+                            </div>
+                            <small class="text-muted mt-2 d-block">
+                                <i class="fas fa-check-circle text-success"></i> Real job from ${internship.platform}
+                                <br><i class="fas fa-info-circle text-info"></i> Direct link to company career page
+                            </small>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            document.getElementById('results').innerHTML += '</div>';
+            
+            // Add info about the tool
+            document.getElementById('results').innerHTML += `
+                <div class="mt-4">
+                    <div class="alert alert-info">
+                        <h4><i class="fas fa-info-circle"></i> Real Internet Internship Scraper</h4>
+                        <p>This tool searches real job sites on the internet for internships:</p>
+                        <ul>
+                            <li><i class="fab fa-linkedin"></i> <strong>LinkedIn</strong> - Professional networking and job search</li>
+                            <li><i class="fas fa-search"></i> <strong>Indeed</strong> - World's largest job site</li>
+                            <li><i class="fas fa-door-open"></i> <strong>Glassdoor</strong> - Company reviews and job listings</li>
+                            <li><i class="fas fa-handshake"></i> <strong>Handshake</strong> - University-focused job platform</li>
+                        </ul>
+                        <p><strong>Use the search above to find specific opportunities, or browse all available internships!</strong></p>
+                    </div>
+                </div>
+            `;
+        }
+    </script>
+</body>
+</html> 

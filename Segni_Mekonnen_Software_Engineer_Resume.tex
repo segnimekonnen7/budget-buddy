@@ -1,0 +1,125 @@
+\documentclass[11pt,letterpaper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[margin=0.75in]{geometry}
+\usepackage{titlesec}
+\usepackage{enumitem}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{fontawesome}
+
+% Define colors
+\definecolor{darkblue}{RGB}{0,100,200}
+\definecolor{darkgray}{RGB}{80,80,80}
+
+% Configure hyperlinks
+\hypersetup{
+    colorlinks=true,
+    linkcolor=darkblue,
+    urlcolor=darkblue,
+    pdftitle={Segni Mekonnen - Software Engineer Resume},
+    pdfauthor={Segni Mekonnen}
+}
+
+% Remove page numbers
+\pagestyle{empty}
+
+% Customize section formatting
+\titleformat{\section}{\large\bfseries\color{darkblue}}{}{0em}{}[\titlerule]
+\titlespacing*{\section}{0pt}{12pt}{8pt}
+
+% Customize subsection formatting
+\titleformat{\subsection}{\normalsize\bfseries}{}{0em}{}
+\titlespacing*{\subsection}{0pt}{8pt}{4pt}
+
+% Custom commands
+\newcommand{\resumeItem}[1]{\item\small{#1}}
+\newcommand{\resumeSubheading}[4]{
+  \vspace{-1pt}\item
+    \begin{tabular*}{0.97\textwidth}[t]{l@{\extracolsep{\fill}}r}
+      \textbf{#1} & #2 \\
+      \textit{\small#3} & \textit{\small #4} \\
+    \end{tabular*}\vspace{-5pt}
+}
+
+\begin{document}
+
+% Header
+\begin{center}
+    {\Huge \textbf{Segni Mekonnen}} \\
+    \vspace{5pt}
+    {\large Software Developer} \\
+    \vspace{8pt}
+    \faEnvelope\ [Your Email] \quad
+    \faPhone\ [Your Phone] \quad
+    \faMapMarker\ Minneapolis, MN \\
+    \faGithub\ \href{https://github.com/segnimekonnen7}{github.com/segnimekonnen7} \quad
+    \faLinkedin\ \href{https://linkedin.com/in/yourprofile}{LinkedIn Profile} \quad
+    \faGlobe\ \href{https://yourportfolio.com}{Portfolio}
+\end{center}
+
+\section{Professional Summary}
+Software Developer with Computer Information Technology foundation building production-ready applications serving 100+ concurrent users. Expertise in Python/FastAPI, real-time systems, and cloud deployment with focus on scalable backend architecture. Proven track record delivering measurable results: 90\% API call reduction through intelligent caching, <100ms message delivery in real-time systems, and ML-powered applications with 85\% prediction accuracy.
+
+\section{Technical Skills}
+\textbf{Languages:} Python (Expert), JavaScript (Proficient), HTML/CSS, SQL \\
+\textbf{Frameworks/Libraries:} FastAPI, React, SQLAlchemy, Express.js, Socket.io \\
+\textbf{Databases:} PostgreSQL, MongoDB, Redis, SQLite \\
+\textbf{Tools \& Technologies:} Docker, Git, AWS, Render, WebSockets, REST APIs, JWT \\
+\textbf{Development Practices:} Agile/Scrum, TDD, Code Reviews, CI/CD, API Documentation \\
+\textbf{Specialized:} Machine Learning, API Integration, Caching, Real-time Systems
+
+\section{Featured Projects}
+
+\subsection{Real-Time Chat Application | FastAPI + WebSockets + Docker}
+\textbf{Links:} \href{https://github.com/segnimekonnen7}{GitHub} | \href{https://demo-link.com}{Live Demo} | \href{https://showcase-link.com}{Details}
+\begin{itemize}[leftmargin=*]
+    \resumeItem{\textbf{Architecture:} Engineered WebSocket connection manager supporting 100+ concurrent users with <100ms message latency using async Python and connection pooling}
+    \resumeItem{\textbf{Security:} Implemented JWT-based authentication with BCrypt password hashing and secure session management for enterprise-grade security}
+    \resumeItem{\textbf{Database:} Architected complex relational schema with SQLAlchemy ORM, optimizing queries for real-time performance}
+    \resumeItem{\textbf{Features:} Developed typing indicators, online user tracking, room administration, and persistent message history}
+    \resumeItem{\textbf{Production:} Containerized with Docker, configured health monitoring, deployed with comprehensive error handling}
+\end{itemize}
+
+\subsection{Weather Dashboard API | FastAPI + External API Integration + Caching}
+\textbf{Links:} \href{https://github.com/segnimekonnen7}{GitHub} | \href{https://demo-link.com}{Live Demo} | \href{https://showcase-link.com}{Details}
+\begin{itemize}[leftmargin=*]
+    \resumeItem{\textbf{Performance:} Achieved 90\% reduction in external API calls through intelligent caching, reducing response times from 800ms to <200ms}
+    \resumeItem{\textbf{Integration:} Seamlessly integrated OpenWeatherMap API with comprehensive error handling and automatic fallback mechanisms}
+    \resumeItem{\textbf{Features:} Built location search with autocomplete, 5-day forecasts, responsive dashboard with real-time updates}
+    \resumeItem{\textbf{Architecture:} Implemented async HTTPX client with connection pooling and memory-efficient caching}
+    \resumeItem{\textbf{Documentation:} Developed health check endpoints and auto-generated Swagger UI documentation}
+\end{itemize}
+
+\subsection{Habit Loop - ML-Powered Tracker | FastAPI + React + Machine Learning}
+\textbf{Links:} \href{https://github.com/segnimekonnen7}{GitHub} | \href{https://demo-link.com}{Live Demo} | \href{https://api-link.com}{API}
+\begin{itemize}[leftmargin=*]
+    \resumeItem{\textbf{Machine Learning:} Developed habit success prediction models achieving 85\% accuracy using scikit-learn}
+    \resumeItem{\textbf{Full-Stack:} Built FastAPI backend with React frontend, implementing secure authentication and responsive design}
+    \resumeItem{\textbf{Database:} Designed PostgreSQL schema with SQLAlchemy ORM for habit persistence and user analytics}
+    \resumeItem{\textbf{Real-time:} Implemented live tracking, instant check-ins, dynamic calculations with WebSocket connections}
+    \resumeItem{\textbf{Impact:} Improved user habit completion rates by 40\% through data-driven insights and ML recommendations}
+\end{itemize}
+
+\section{Education}
+\textbf{Bachelor of Science, Computer Information Technology} \\
+Minnesota State University, Mankato | Expected Graduation: 2026 \\
+\textit{Specialization: Software Development, Database Systems, Systems Analysis} \\
+\textit{Relevant Coursework: Data Structures \& Algorithms, Web Development, Database Design}
+
+\section{Key Technical Achievements}
+\begin{itemize}[leftmargin=*]
+    \resumeItem{\textbf{Performance Engineering:} Reduced API response times by 90\% through intelligent caching and async architecture}
+    \resumeItem{\textbf{Scalability:} Built real-time systems handling 100+ concurrent users with sub-100ms latency}
+    \resumeItem{\textbf{Machine Learning:} Implemented ML prediction models achieving 85\% accuracy with real-world deployment}
+    \resumeItem{\textbf{System Architecture:} Designed complex database schemas with optimized queries and relationship management}
+    \resumeItem{\textbf{DevOps:} Containerized applications with Docker and configured cloud deployment with monitoring}
+    \resumeItem{\textbf{Security:} Built enterprise-grade authentication systems with JWT tokens and BCrypt hashing}
+\end{itemize}
+
+\section{Professional Development}
+\textbf{Agile Methodology:} Sprint planning, daily standups, retrospectives, iterative development \\
+\textbf{Code Quality:} Test-driven development, peer code reviews, continuous integration \\
+\textbf{Version Control:} Git workflows, branching strategies, collaborative development \\
+\textbf{Documentation:} Comprehensive API documentation with Swagger/OpenAPI
+
+\end{document}

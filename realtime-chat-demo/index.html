@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Real-Time Chat Demo</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+            width: 90%;
+            max-width: 800px;
+            height: 600px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .header {
+            padding: 20px;
+            background: #495057;
+            color: white;
+            text-align: center;
+        }
+
+        .header h1 {
+            margin-bottom: 10px;
+        }
+
+        .demo-info {
+            background: #e3f2fd;
+            padding: 20px;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .demo-info h3 {
+            color: #1976d2;
+            margin-bottom: 10px;
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .feature {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #1976d2;
+        }
+
+        .feature h4 {
+            color: #1976d2;
+            margin-bottom: 5px;
+        }
+
+        .feature p {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .tech-stack {
+            background: #f8f9fa;
+            padding: 20px;
+            flex: 1;
+        }
+
+        .tech-stack h3 {
+            color: #495057;
+            margin-bottom: 15px;
+        }
+
+        .tech-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 10px;
+        }
+
+        .tech-item {
+            background: white;
+            padding: 10px;
+            border-radius: 6px;
+            text-align: center;
+            border: 1px solid #e9ecef;
+        }
+
+        .tech-item strong {
+            color: #495057;
+        }
+
+        .links {
+            padding: 20px;
+            background: #495057;
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+        }
+
+        .link-btn {
+            padding: 12px 24px;
+            background: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: bold;
+            transition: background-color 0.2s;
+        }
+
+        .link-btn:hover {
+            background: #0056b3;
+        }
+
+        .link-btn.secondary {
+            background: #6c757d;
+        }
+
+        .link-btn.secondary:hover {
+            background: #545b62;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                width: 100%;
+                height: 100vh;
+                border-radius: 0;
+            }
+            
+            .links {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>💬 Real-Time Chat Application</h1>
+            <p>Full-Stack WebSocket Chat System</p>
+        </div>
+
+        <div class="demo-info">
+            <h3>🚀 Live Demo Features</h3>
+            <p>This is a fully functional real-time chat application built with modern web technologies. The demo showcases both frontend and backend capabilities.</p>
+            
+            <div class="features">
+                <div class="feature">
+                    <h4>🔐 Authentication</h4>
+                    <p>JWT-based user authentication with secure password hashing using BCrypt</p>
+                </div>
+                <div class="feature">
+                    <h4>⚡ Real-Time Messaging</h4>
+                    <p>WebSocket connections for instant message delivery and typing indicators</p>
+                </div>
+                <div class="feature">
+                    <h4>🏠 Room Management</h4>
+                    <p>Create and join chat rooms with member management and message history</p>
+                </div>
+                <div class="feature">
+                    <h4>👥 Online Users</h4>
+                    <p>Live user presence tracking and online status indicators</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="tech-stack">
+            <h3>🛠️ Technology Stack</h3>
+            <div class="tech-grid">
+                <div class="tech-item">
+                    <strong>Backend</strong><br>
+                    Python FastAPI
+                </div>
+                <div class="tech-item">
+                    <strong>Database</strong><br>
+                    SQLAlchemy ORM
+                </div>
+                <div class="tech-item">
+                    <strong>Real-Time</strong><br>
+                    WebSockets
+                </div>
+                <div class="tech-item">
+                    <strong>Auth</strong><br>
+                    JWT + BCrypt
+                </div>
+                <div class="tech-item">
+                    <strong>Frontend</strong><br>
+                    Vanilla JavaScript
+                </div>
+                <div class="tech-item">
+                    <strong>Deployment</strong><br>
+                    Docker + Cloud
+                </div>
+            </div>
+        </div>
+
+        <div class="links">
+            <a href="https://github.com/segnimekonnen7/budget-buddy/tree/master/realtime-chat" class="link-btn" target="_blank">
+                📁 View Source Code
+            </a>
+            <a href="realtime-chat/index.html" class="link-btn secondary" target="_blank">
+                🎮 Interactive Demo
+            </a>
+        </div>
+    </div>
+
+    <script>
+        // Add some interactive elements
+        document.addEventListener('DOMContentLoaded', function() {
+            const features = document.querySelectorAll('.feature');
+            
+            features.forEach((feature, index) => {
+                feature.style.animationDelay = `${index * 0.1}s`;
+                feature.style.animation = 'fadeInUp 0.6s ease-out forwards';
+                feature.style.opacity = '0';
+                feature.style.transform = 'translateY(20px)';
+            });
+        });
+
+        // Add CSS animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes fadeInUp {
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>

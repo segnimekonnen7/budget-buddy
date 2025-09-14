@@ -1,0 +1,1003 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI-Powered Internship Tracker</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            color: white;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .dashboard {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+        }
+
+        .card h3 {
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .stat-item {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e1e5e9;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+        }
+
+        .btn-success {
+            background: #28a745;
+        }
+
+        .btn-danger {
+            background: #dc3545;
+        }
+
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .table th,
+        .table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #e1e5e9;
+        }
+
+        .table th {
+            background: #f8f9fa;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .table tr:hover {
+            background: #f8f9fa;
+        }
+
+        .status-badge {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .status-applied {
+            background: #e3f2fd;
+            color: #1976d2;
+        }
+
+        .status-interview {
+            background: #fff3e0;
+            color: #f57c00;
+        }
+
+        .status-accepted {
+            background: #e8f5e8;
+            color: #2e7d32;
+        }
+
+        .status-rejected {
+            background: #ffebee;
+            color: #c62828;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+        }
+
+        .modal-content {
+            background: white;
+            margin: 5% auto;
+            padding: 30px;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 600px;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .close:hover {
+            color: #000;
+        }
+
+        .tabs {
+            display: flex;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #e1e5e9;
+        }
+
+        .tab {
+            padding: 12px 24px;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .tab.active {
+            border-bottom-color: #667eea;
+            color: #667eea;
+            font-weight: 600;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+        }
+
+        .error {
+            background: #ffebee;
+            color: #c62828;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+        }
+
+        .success {
+            background: #e8f5e8;
+            color: #2e7d32;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .dashboard {
+                grid-template-columns: 1fr;
+            }
+            
+            .stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎯 AI-Powered Internship Tracker</h1>
+            <p>Track your applications with AI insights, company research, and interview prep</p>
+        </div>
+
+        <!-- Dashboard Stats -->
+        <div class="stats" id="stats">
+            <div class="stat-item">
+                <div class="stat-number" id="total-applications">0</div>
+                <div class="stat-label">Total Applications</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number" id="pending-followups">0</div>
+                <div class="stat-label">Pending Follow-ups</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number" id="interviews-scheduled">0</div>
+                <div class="stat-label">Interviews</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number" id="success-rate">0%</div>
+                <div class="stat-label">Success Rate</div>
+            </div>
+        </div>
+
+        <!-- Main Dashboard -->
+        <div class="dashboard">
+            <!-- Application Tracker -->
+            <div class="card">
+                <h3>📋 Application Tracker</h3>
+                <div class="tabs">
+                    <div class="tab active" onclick="showTab('applications')">Applications</div>
+                    <div class="tab" onclick="showTab('add-application')">Add New</div>
+                </div>
+                
+                <div id="applications" class="tab-content active">
+                    <div id="applications-list">
+                        <div class="loading">Loading applications...</div>
+                    </div>
+                </div>
+                
+                <div id="add-application" class="tab-content">
+                    <form id="application-form">
+                        <div class="form-group">
+                            <label for="company-name">Company Name *</label>
+                            <input type="text" id="company-name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="position-title">Position Title *</label>
+                            <input type="text" id="position-title" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="job-url">Job URL</label>
+                            <input type="url" id="job-url">
+                        </div>
+                        <div class="form-group">
+                            <label for="location">Location</label>
+                            <input type="text" id="location" placeholder="Minneapolis, MN">
+                        </div>
+                        <div class="form-group">
+                            <label for="salary-range">Salary Range</label>
+                            <input type="text" id="salary-range" placeholder="$20-25/hour">
+                        </div>
+                        <div class="form-group">
+                            <label for="requirements">Requirements</label>
+                            <textarea id="requirements" rows="3" placeholder="Key requirements from job posting..."></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="notes">Notes</label>
+                            <textarea id="notes" rows="2" placeholder="Any additional notes..."></textarea>
+                        </div>
+                        <button type="submit" class="btn">Add Application</button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- AI Company Research -->
+            <div class="card">
+                <h3>🤖 AI Company Research</h3>
+                <div class="form-group">
+                    <label for="research-company">Company Name</label>
+                    <input type="text" id="research-company" placeholder="Google, Microsoft, Amazon...">
+                </div>
+                <button class="btn" onclick="researchCompany()">Research Company</button>
+                <div id="company-research-results"></div>
+            </div>
+
+            <!-- Cover Letter Generator -->
+            <div class="card">
+                <h3>📝 Cover Letter Generator</h3>
+                <div class="form-group">
+                    <label for="cl-company">Company Name</label>
+                    <input type="text" id="cl-company">
+                </div>
+                <div class="form-group">
+                    <label for="cl-position">Position Title</label>
+                    <input type="text" id="cl-position">
+                </div>
+                <div class="form-group">
+                    <label for="cl-description">Job Description</label>
+                    <textarea id="cl-description" rows="3" placeholder="Paste job description here..."></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="cl-skills">Your Skills (comma-separated)</label>
+                    <input type="text" id="cl-skills" placeholder="Python, FastAPI, React, SQL">
+                </div>
+                <div class="form-group">
+                    <label for="cl-experience">Your Experience</label>
+                    <textarea id="cl-experience" rows="2" placeholder="Brief description of your relevant experience..."></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="cl-interest">Why Interested</label>
+                    <textarea id="cl-interest" rows="2" placeholder="Why are you interested in this company/role?"></textarea>
+                </div>
+                <button class="btn" onclick="generateCoverLetter()">Generate Cover Letter</button>
+                <div id="cover-letter-result"></div>
+            </div>
+
+            <!-- AI Insights & Analytics -->
+            <div class="card">
+                <h3>📊 AI Insights & Analytics</h3>
+                <button class="btn" onclick="loadAIInsights()">Get AI Insights</button>
+                <button class="btn btn-secondary" onclick="loadCompanyComparison()">Compare Companies</button>
+                <button class="btn btn-secondary" onclick="loadSuccessFactors()">Success Analysis</button>
+                <div id="ai-insights-results"></div>
+            </div>
+
+            <!-- Follow-up Reminders -->
+            <div class="card">
+                <h3>⏰ Follow-up Reminders</h3>
+                <div id="follow-ups">
+                    <div class="loading">Loading follow-ups...</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Application Details Modal -->
+    <div id="application-modal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2>Application Details</h2>
+            <div id="modal-content"></div>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE = 'http://localhost:8003';
+        let applications = [];
+        let jobPostings = [];
+
+        // Initialize the app
+        document.addEventListener('DOMContentLoaded', function() {
+            loadDashboard();
+            loadApplications();
+            loadFollowUps();
+        });
+
+        // Tab functionality
+        function showTab(tabName) {
+            // Hide all tab contents
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            // Remove active class from all tabs
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Show selected tab content
+            document.getElementById(tabName).classList.add('active');
+            
+            // Add active class to clicked tab
+            event.target.classList.add('active');
+        }
+
+        // Load dashboard data
+        async function loadDashboard() {
+            try {
+                const response = await fetch(`${API_BASE}/analytics/dashboard`);
+                const data = await response.json();
+                
+                document.getElementById('total-applications').textContent = data.total_applications;
+                
+                const statusCounts = data.applications_by_status;
+                const interviews = statusCounts['Interview'] || 0;
+                const accepted = statusCounts['Accepted'] || 0;
+                const total = data.total_applications;
+                
+                document.getElementById('interviews-scheduled').textContent = interviews;
+                
+                if (total > 0) {
+                    const successRate = Math.round((accepted / total) * 100);
+                    document.getElementById('success-rate').textContent = `${successRate}%`;
+                }
+            } catch (error) {
+                console.error('Error loading dashboard:', error);
+            }
+        }
+
+        // Load applications
+        async function loadApplications() {
+            try {
+                const response = await fetch(`${API_BASE}/applications/`);
+                applications = await response.json();
+                displayApplications();
+            } catch (error) {
+                console.error('Error loading applications:', error);
+                document.getElementById('applications-list').innerHTML = '<div class="error">Error loading applications</div>';
+            }
+        }
+
+        // Display applications
+        function displayApplications() {
+            const container = document.getElementById('applications-list');
+            
+            if (applications.length === 0) {
+                container.innerHTML = '<div class="loading">No applications yet. Add your first application!</div>';
+                return;
+            }
+
+            const html = `
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Company</th>
+                            <th>Position</th>
+                            <th>Status</th>
+                            <th>Date</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${applications.map(app => `
+                            <tr>
+                                <td>${app.company_name}</td>
+                                <td>${app.position_title}</td>
+                                <td><span class="status-badge status-${app.status.toLowerCase()}">${app.status}</span></td>
+                                <td>${new Date(app.application_date).toLocaleDateString()}</td>
+                                <td>
+                                    <button class="btn btn-secondary" onclick="viewApplication(${app.id})">View</button>
+                                    <button class="btn btn-danger" onclick="deleteApplication(${app.id})">Delete</button>
+                                </td>
+                            </tr>
+                        `).join('')}
+                    </tbody>
+                </table>
+            `;
+            
+            container.innerHTML = html;
+        }
+
+        // Add new application
+        document.getElementById('application-form').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const formData = {
+                company_name: document.getElementById('company-name').value,
+                position_title: document.getElementById('position-title').value,
+                job_url: document.getElementById('job-url').value,
+                location: document.getElementById('location').value,
+                salary_range: document.getElementById('salary-range').value,
+                requirements: document.getElementById('requirements').value,
+                notes: document.getElementById('notes').value
+            };
+
+            try {
+                const response = await fetch(`${API_BASE}/applications/`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(formData)
+                });
+
+                if (response.ok) {
+                    document.getElementById('application-form').reset();
+                    loadApplications();
+                    loadDashboard();
+                    showSuccess('Application added successfully!');
+                } else {
+                    showError('Error adding application');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                showError('Error adding application');
+            }
+        });
+
+        // Research company with AI
+        async function researchCompany() {
+            const companyName = document.getElementById('research-company').value;
+            
+            if (!companyName) {
+                showError('Please enter a company name');
+                return;
+            }
+            
+            const resultsContainer = document.getElementById('company-research-results');
+            resultsContainer.innerHTML = '<div class="loading">Researching company with AI...</div>';
+
+            try {
+                const response = await fetch(`${API_BASE}/research/company`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(companyName)
+                });
+                
+                const data = await response.json();
+                
+                const html = `
+                    <div style="margin-top: 20px;">
+                        <h4>🤖 AI Research Results for ${data.company_name}</h4>
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin: 15px 0;">
+                            <div style="background: #e3f2fd; padding: 15px; border-radius: 8px; text-align: center;">
+                                <div style="font-size: 1.5rem; font-weight: bold; color: #1976d2;">${data.company_rating}/5</div>
+                                <div style="font-size: 0.9rem; color: #666;">Company Rating</div>
+                            </div>
+                            <div style="background: #e8f5e8; padding: 15px; border-radius: 8px; text-align: center;">
+                                <div style="font-size: 1.5rem; font-weight: bold; color: #2e7d32;">${data.culture_fit_score}/5</div>
+                                <div style="font-size: 0.9rem; color: #666;">Culture Fit</div>
+                            </div>
+                            <div style="background: #fff3e0; padding: 15px; border-radius: 8px; text-align: center;">
+                                <div style="font-size: 1.5rem; font-weight: bold; color: #f57c00;">${data.growth_potential}/5</div>
+                                <div style="font-size: 0.9rem; color: #666;">Growth Potential</div>
+                            </div>
+                        </div>
+                        <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin: 15px 0;">
+                            <h5>📋 AI Insights:</h5>
+                            <div style="white-space: pre-wrap; font-size: 0.9rem; line-height: 1.4;">${data.ai_insights}</div>
+                        </div>
+                        <div style="background: #e3f2fd; padding: 20px; border-radius: 8px; margin: 15px 0;">
+                            <h5>💡 Interview Tips:</h5>
+                            <div style="white-space: pre-wrap; font-size: 0.9rem; line-height: 1.4;">${data.interview_tips}</div>
+                        </div>
+                        <div style="background: #e8f5e8; padding: 20px; border-radius: 8px; margin: 15px 0;">
+                            <h5>💰 Salary Insights:</h5>
+                            <div style="font-size: 0.9rem; line-height: 1.4;">${data.salary_insights}</div>
+                        </div>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin: 15px 0;">
+                            <div style="background: #e8f5e8; padding: 15px; border-radius: 8px;">
+                                <h6>✅ Strengths:</h6>
+                                <div style="font-size: 0.9rem;">${data.company_strengths}</div>
+                            </div>
+                            <div style="background: #ffebee; padding: 15px; border-radius: 8px;">
+                                <h6>⚠️ Considerations:</h6>
+                                <div style="font-size: 0.9rem;">${data.company_weaknesses}</div>
+                            </div>
+                        </div>
+                        ${data.cached ? '<div style="color: #666; font-size: 0.8rem; margin-top: 10px;">📁 Cached results</div>' : '<div style="color: #2e7d32; font-size: 0.8rem; margin-top: 10px;">🆕 Fresh AI research</div>'}
+                    </div>
+                `;
+                
+                resultsContainer.innerHTML = html;
+            } catch (error) {
+                console.error('Error researching company:', error);
+                resultsContainer.innerHTML = '<div class="error">Error researching company</div>';
+            }
+        }
+
+        // Add job to applications
+        function addJobToApplications(company, title, url, location) {
+            document.getElementById('company-name').value = company;
+            document.getElementById('position-title').value = title;
+            document.getElementById('job-url').value = url;
+            document.getElementById('location').value = location;
+            
+            showTab('add-application');
+            document.getElementById('add-application').classList.add('active');
+        }
+
+        // Generate cover letter
+        async function generateCoverLetter() {
+            const request = {
+                company_name: document.getElementById('cl-company').value,
+                position_title: document.getElementById('cl-position').value,
+                job_description: document.getElementById('cl-description').value,
+                your_skills: document.getElementById('cl-skills').value.split(',').map(s => s.trim()),
+                your_experience: document.getElementById('cl-experience').value,
+                why_interested: document.getElementById('cl-interest').value
+            };
+
+            if (!request.company_name || !request.position_title) {
+                showError('Please fill in company name and position title');
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_BASE}/cover-letter/generate`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(request)
+                });
+
+                const data = await response.json();
+                
+                const resultContainer = document.getElementById('cover-letter-result');
+                resultContainer.innerHTML = `
+                    <div style="margin-top: 20px;">
+                        <h4>Generated Cover Letter:</h4>
+                        <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; white-space: pre-wrap; font-family: monospace; font-size: 12px; max-height: 400px; overflow-y: auto;">${data.cover_letter}</div>
+                        <button class="btn" onclick="copyToClipboard('${data.cover_letter.replace(/'/g, "\\'")}')" style="margin-top: 10px;">Copy to Clipboard</button>
+                    </div>
+                `;
+            } catch (error) {
+                console.error('Error generating cover letter:', error);
+                showError('Error generating cover letter');
+            }
+        }
+
+        // Copy to clipboard
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                showSuccess('Cover letter copied to clipboard!');
+            });
+        }
+
+        // Load follow-ups
+        async function loadFollowUps() {
+            try {
+                const response = await fetch(`${API_BASE}/analytics/follow-ups`);
+                const data = await response.json();
+                
+                const container = document.getElementById('follow-ups');
+                
+                if (data.follow_ups.length === 0) {
+                    container.innerHTML = '<div class="loading">No follow-ups needed</div>';
+                    return;
+                }
+
+                const html = data.follow_ups.map(followUp => `
+                    <div style="border: 1px solid #e1e5e9; padding: 15px; margin: 10px 0; border-radius: 8px;">
+                        <h5>${followUp.company_name}</h5>
+                        <p>${followUp.position_title}</p>
+                        <p><strong>Follow-up due:</strong> ${new Date(followUp.follow_up_date).toLocaleDateString()}</p>
+                        <span class="status-badge status-${followUp.status.toLowerCase()}">${followUp.status}</span>
+                    </div>
+                `).join('');
+                
+                container.innerHTML = html;
+            } catch (error) {
+                console.error('Error loading follow-ups:', error);
+                document.getElementById('follow-ups').innerHTML = '<div class="error">Error loading follow-ups</div>';
+            }
+        }
+
+        // View application details
+        function viewApplication(id) {
+            const app = applications.find(a => a.id === id);
+            if (!app) return;
+
+            const modalContent = document.getElementById('modal-content');
+            modalContent.innerHTML = `
+                <div class="form-group">
+                    <label>Company:</label>
+                    <input type="text" value="${app.company_name}" id="modal-company">
+                </div>
+                <div class="form-group">
+                    <label>Position:</label>
+                    <input type="text" value="${app.position_title}" id="modal-position">
+                </div>
+                <div class="form-group">
+                    <label>Status:</label>
+                    <select id="modal-status">
+                        <option value="Applied" ${app.status === 'Applied' ? 'selected' : ''}>Applied</option>
+                        <option value="Interview" ${app.status === 'Interview' ? 'selected' : ''}>Interview</option>
+                        <option value="Accepted" ${app.status === 'Accepted' ? 'selected' : ''}>Accepted</option>
+                        <option value="Rejected" ${app.status === 'Rejected' ? 'selected' : ''}>Rejected</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Notes:</label>
+                    <textarea id="modal-notes" rows="3">${app.notes || ''}</textarea>
+                </div>
+                <button class="btn" onclick="updateApplication(${app.id})">Update Application</button>
+            `;
+
+            document.getElementById('application-modal').style.display = 'block';
+        }
+
+        // Update application
+        async function updateApplication(id) {
+            const updateData = {
+                status: document.getElementById('modal-status').value,
+                notes: document.getElementById('modal-notes').value
+            };
+
+            try {
+                const response = await fetch(`${API_BASE}/applications/${id}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(updateData)
+                });
+
+                if (response.ok) {
+                    closeModal();
+                    loadApplications();
+                    loadDashboard();
+                    showSuccess('Application updated successfully!');
+                } else {
+                    showError('Error updating application');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                showError('Error updating application');
+            }
+        }
+
+        // Delete application
+        async function deleteApplication(id) {
+            if (!confirm('Are you sure you want to delete this application?')) return;
+
+            try {
+                const response = await fetch(`${API_BASE}/applications/${id}`, {
+                    method: 'DELETE'
+                });
+
+                if (response.ok) {
+                    loadApplications();
+                    loadDashboard();
+                    showSuccess('Application deleted successfully!');
+                } else {
+                    showError('Error deleting application');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                showError('Error deleting application');
+            }
+        }
+
+        // Close modal
+        function closeModal() {
+            document.getElementById('application-modal').style.display = 'none';
+        }
+
+        // Utility functions
+        function showSuccess(message) {
+            const div = document.createElement('div');
+            div.className = 'success';
+            div.textContent = message;
+            document.body.appendChild(div);
+            setTimeout(() => div.remove(), 3000);
+        }
+
+        function showError(message) {
+            const div = document.createElement('div');
+            div.className = 'error';
+            div.textContent = message;
+            document.body.appendChild(div);
+            setTimeout(() => div.remove(), 3000);
+        }
+
+        // AI Insights functions
+        async function loadAIInsights() {
+            const resultsContainer = document.getElementById('ai-insights-results');
+            resultsContainer.innerHTML = '<div class="loading">Generating AI insights...</div>';
+
+            try {
+                const response = await fetch(`${API_BASE}/analytics/insights`);
+                const data = await response.json();
+                
+                const html = `
+                    <div style="margin-top: 20px;">
+                        <h4>🤖 AI Application Insights</h4>
+                        <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin: 15px 0;">
+                            <div style="white-space: pre-wrap; font-size: 0.9rem; line-height: 1.4;">${data.insights}</div>
+                        </div>
+                    </div>
+                `;
+                
+                resultsContainer.innerHTML = html;
+            } catch (error) {
+                console.error('Error loading AI insights:', error);
+                resultsContainer.innerHTML = '<div class="error">Error loading AI insights</div>';
+            }
+        }
+
+        async function loadCompanyComparison() {
+            const resultsContainer = document.getElementById('ai-insights-results');
+            resultsContainer.innerHTML = '<div class="loading">Comparing companies...</div>';
+
+            try {
+                const response = await fetch(`${API_BASE}/analytics/company-comparison`);
+                const data = await response.json();
+                
+                const companies = data.company_comparison;
+                const html = `
+                    <div style="margin-top: 20px;">
+                        <h4>📊 Company Comparison</h4>
+                        <div style="max-height: 400px; overflow-y: auto;">
+                            ${Object.entries(companies).map(([company, stats]) => `
+                                <div style="border: 1px solid #e1e5e9; padding: 15px; margin: 10px 0; border-radius: 8px;">
+                                    <h5>${company}</h5>
+                                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 10px; margin: 10px 0;">
+                                        <div style="text-align: center;">
+                                            <div style="font-weight: bold; color: #667eea;">${stats.total_applications}</div>
+                                            <div style="font-size: 0.8rem; color: #666;">Applications</div>
+                                        </div>
+                                        <div style="text-align: center;">
+                                            <div style="font-weight: bold; color: #28a745;">${stats.avg_rating || 'N/A'}</div>
+                                            <div style="font-size: 0.8rem; color: #666;">Rating</div>
+                                        </div>
+                                        <div style="text-align: center;">
+                                            <div style="font-weight: bold; color: #f57c00;">${stats.avg_response_time ? stats.avg_response_time.toFixed(1) + ' days' : 'N/A'}</div>
+                                            <div style="font-size: 0.8rem; color: #666;">Response Time</div>
+                                        </div>
+                                    </div>
+                                    <div style="font-size: 0.9rem;">
+                                        <strong>Status Breakdown:</strong> ${Object.entries(stats.statuses).map(([status, count]) => `${status}: ${count}`).join(', ')}
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+                
+                resultsContainer.innerHTML = html;
+            } catch (error) {
+                console.error('Error loading company comparison:', error);
+                resultsContainer.innerHTML = '<div class="error">Error loading company comparison</div>';
+            }
+        }
+
+        async function loadSuccessFactors() {
+            const resultsContainer = document.getElementById('ai-insights-results');
+            resultsContainer.innerHTML = '<div class="loading">Analyzing success factors...</div>';
+
+            try {
+                const response = await fetch(`${API_BASE}/analytics/success-factors`);
+                const data = await response.json();
+                
+                const html = `
+                    <div style="margin-top: 20px;">
+                        <h4>🎯 Success Factor Analysis</h4>
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin: 15px 0;">
+                            <div style="background: #e8f5e8; padding: 15px; border-radius: 8px; text-align: center;">
+                                <div style="font-size: 1.5rem; font-weight: bold; color: #2e7d32;">${data.successful_applications}</div>
+                                <div style="font-size: 0.9rem; color: #666;">Successful</div>
+                            </div>
+                            <div style="background: #ffebee; padding: 15px; border-radius: 8px; text-align: center;">
+                                <div style="font-size: 1.5rem; font-weight: bold; color: #c62828;">${data.failed_applications}</div>
+                                <div style="font-size: 0.9rem; color: #666;">Failed</div>
+                            </div>
+                            <div style="background: #e3f2fd; padding: 15px; border-radius: 8px; text-align: center;">
+                                <div style="font-size: 1.5rem; font-weight: bold; color: #1976d2;">${data.success_rate.toFixed(1)}%</div>
+                                <div style="font-size: 0.9rem; color: #666;">Success Rate</div>
+                            </div>
+                        </div>
+                        <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin: 15px 0;">
+                            <h5>💡 Key Insights:</h5>
+                            <ul style="margin: 10px 0; padding-left: 20px;">
+                                ${data.insights.map(insight => `<li style="margin: 5px 0;">${insight}</li>`).join('')}
+                            </ul>
+                        </div>
+                        ${data.source_analysis && Object.keys(data.source_analysis).length > 0 ? `
+                            <div style="background: #e3f2fd; padding: 20px; border-radius: 8px; margin: 15px 0;">
+                                <h5>📈 Application Source Analysis:</h5>
+                                ${Object.entries(data.source_analysis).map(([source, stats]) => `
+                                    <div style="margin: 10px 0;">
+                                        <strong>${source}:</strong> ${stats.successful} successful, ${stats.failed} failed
+                                        <div style="width: 100%; background: #e0e0e0; border-radius: 4px; margin: 5px 0;">
+                                            <div style="width: ${(stats.successful / (stats.successful + stats.failed)) * 100}%; background: #28a745; height: 8px; border-radius: 4px;"></div>
+                                        </div>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        ` : ''}
+                    </div>
+                `;
+                
+                resultsContainer.innerHTML = html;
+            } catch (error) {
+                console.error('Error loading success factors:', error);
+                resultsContainer.innerHTML = '<div class="error">Error loading success factors</div>';
+            }
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('application-modal');
+            if (event.target === modal) {
+                closeModal();
+            }
+        }
+    </script>
+</body>
+</html>

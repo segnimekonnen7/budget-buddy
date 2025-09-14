@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Internship Locator - Find Your Dream Internship</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <i class="fas fa-search"></i> Internship Locator
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#search">Search</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#about">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#contact">Contact</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="container">
+            <div class="row align-items-center min-vh-100">
+                <div class="col-lg-6">
+                    <h1 class="display-4 fw-bold text-white mb-4">
+                        Find Your Dream Internship
+                    </h1>
+                    <p class="lead text-white mb-4">
+                        Search across LinkedIn, Indeed, Glassdoor, and Handshake to find the perfect internship opportunity. 
+                        Get real-time results with direct apply links.
+                    </p>
+                    <div class="d-flex gap-3">
+                        <a href="#search" class="btn btn-light btn-lg">
+                            <i class="fas fa-search"></i> Start Searching
+                        </a>
+                        <a href="#about" class="btn btn-outline-light btn-lg">
+                            <i class="fas fa-info-circle"></i> Learn More
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="hero-image">
+                        <i class="fas fa-laptop-code fa-10x text-white opacity-50"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Search Section -->
+    <section id="search" class="search-section py-5">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="search-card">
+                        <h2 class="text-center mb-4">
+                            <i class="fas fa-search"></i> Search Internships
+                        </h2>
+                        
+                        <!-- Search Form -->
+                        <form id="searchForm" class="mb-4">
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label for="keyword" class="form-label">
+                                        <i class="fas fa-briefcase"></i> Job Type
+                                    </label>
+                                    <input type="text" class="form-control" id="keyword" 
+                                           placeholder="e.g., Software Engineer, Data Science" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="location" class="form-label">
+                                        <i class="fas fa-map-marker-alt"></i> Location
+                                    </label>
+                                    <input type="text" class="form-control" id="location" 
+                                           placeholder="e.g., San Francisco, Remote" required>
+                                </div>
+                            </div>
+                            
+                            <div class="row g-3 mt-2">
+                                <div class="col-md-4">
+                                    <label for="remoteOnly" class="form-label">
+                                        <i class="fas fa-home"></i> Work Type
+                                    </label>
+                                    <select class="form-select" id="remoteOnly">
+                                        <option value="false">All Types</option>
+                                        <option value="true">Remote Only</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="paidOnly" class="form-label">
+                                        <i class="fas fa-dollar-sign"></i> Compensation
+                                    </label>
+                                    <select class="form-select" id="paidOnly">
+                                        <option value="false">All</option>
+                                        <option value="true">Paid Only</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="platforms" class="form-label">
+                                        <i class="fas fa-globe"></i> Platforms
+                                    </label>
+                                    <select class="form-select" id="platforms">
+                                        <option value="all">All Platforms</option>
+                                        <option value="linkedin">LinkedIn</option>
+                                        <option value="indeed">Indeed</option>
+                                        <option value="glassdoor">Glassdoor</option>
+                                        <option value="handshake">Handshake</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div class="text-center mt-4">
+                                <button type="submit" class="btn btn-primary btn-lg">
+                                    <i class="fas fa-search"></i> Search Internships
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Loading Section -->
+    <section id="loading" class="loading-section py-5" style="display: none;">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-6 text-center">
+                    <div class="loading-card">
+                        <div class="spinner-border text-primary mb-3" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                        <h3>Searching for Internships...</h3>
+                        <p class="text-muted">Searching across multiple job platforms</p>
+                        <div id="searchProgress" class="progress mb-3">
+                            <div class="progress-bar progress-bar-striped progress-bar-animated" 
+                                 role="progressbar" style="width: 0%"></div>
+                        </div>
+                        <div id="searchStatus" class="text-muted"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Results Section -->
+    <section id="results" class="results-section py-5" style="display: none;">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="results-header mb-4">
+                        <h2 id="resultsTitle" class="mb-2">
+                            <i class="fas fa-list"></i> Search Results
+                        </h2>
+                        <p id="resultsSubtitle" class="text-muted"></p>
+                    </div>
+                    
+                    <!-- Filters -->
+                    <div class="filters mb-4">
+                        <div class="row align-items-center">
+                            <div class="col-md-6">
+                                <div class="d-flex gap-2">
+                                    <button class="btn btn-outline-primary btn-sm" onclick="filterResults('all')">
+                                        All Results
+                                    </button>
+                                    <button class="btn btn-outline-success btn-sm" onclick="filterResults('remote')">
+                                        Remote Only
+                                    </button>
+                                    <button class="btn btn-outline-info btn-sm" onclick="filterResults('paid')">
+                                        Paid Only
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="col-md-6 text-end">
+                                <span id="resultCount" class="text-muted"></span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Results Grid -->
+                    <div id="resultsGrid" class="row g-4">
+                        <!-- Results will be populated here -->
+                    </div>
+                    
+                    <!-- No Results -->
+                    <div id="noResults" class="text-center py-5" style="display: none;">
+                        <i class="fas fa-search fa-3x text-muted mb-3"></i>
+                        <h3>No Internships Found</h3>
+                        <p class="text-muted">Try adjusting your search criteria or check the job sites directly.</p>
+                        <div class="mt-4">
+                            <a href="https://www.linkedin.com/jobs/search/" target="_blank" class="btn btn-outline-primary me-2">
+                                <i class="fab fa-linkedin"></i> LinkedIn
+                            </a>
+                            <a href="https://www.indeed.com/jobs" target="_blank" class="btn btn-outline-primary me-2">
+                                <i class="fas fa-search"></i> Indeed
+                            </a>
+                            <a href="https://www.glassdoor.com/Job/" target="_blank" class="btn btn-outline-primary me-2">
+                                <i class="fas fa-door-open"></i> Glassdoor
+                            </a>
+                            <a href="https://joinhandshake.com/search" target="_blank" class="btn btn-outline-primary">
+                                <i class="fas fa-handshake"></i> Handshake
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about-section py-5 bg-light">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 mx-auto text-center">
+                    <h2 class="mb-4">About Internship Locator</h2>
+                    <p class="lead mb-4">
+                        Internship Locator is a powerful tool that searches across multiple job platforms 
+                        to help you find the perfect internship opportunity.
+                    </p>
+                    
+                    <div class="row g-4 mt-4">
+                        <div class="col-md-6">
+                            <div class="feature-card">
+                                <i class="fas fa-search fa-2x text-primary mb-3"></i>
+                                <h4>Multi-Platform Search</h4>
+                                <p>Search LinkedIn, Indeed, Glassdoor, and Handshake simultaneously</p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="feature-card">
+                                <i class="fas fa-link fa-2x text-primary mb-3"></i>
+                                <h4>Direct Apply Links</h4>
+                                <p>Get direct links to apply for internships on company websites</p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="feature-card">
+                                <i class="fas fa-filter fa-2x text-primary mb-3"></i>
+                                <h4>Smart Filtering</h4>
+                                <p>Filter by location, remote work, and compensation type</p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="feature-card">
+                                <i class="fas fa-shield-alt fa-2x text-primary mb-3"></i>
+                                <h4>Safe & Respectful</h4>
+                                <p>Uses proper rate limiting and respects website terms of service</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact-section py-5">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-6 text-center">
+                    <h2 class="mb-4">Get in Touch</h2>
+                    <p class="text-muted mb-4">
+                        Have questions or suggestions? We'd love to hear from you!
+                    </p>
+                    <div class="d-flex justify-content-center gap-4">
+                        <a href="mailto:contact@internshiplocator.com" class="btn btn-outline-primary">
+                            <i class="fas fa-envelope"></i> Email Us
+                        </a>
+                        <a href="https://github.com/your-repo" target="_blank" class="btn btn-outline-dark">
+                            <i class="fab fa-github"></i> GitHub
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer bg-dark text-white py-4">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <p>&copy; 2024 Internship Locator. All rights reserved.</p>
+                </div>
+                <div class="col-md-6 text-end">
+                    <p>Built with ❤️ for students and job seekers</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html> 

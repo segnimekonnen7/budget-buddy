@@ -1,0 +1,45 @@
+name: Deploy Real-Time Chat API
+
+on:
+  push:
+    branches: [ master ]
+    paths: [ 'realtime-chat/**' ]
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.9'
+    
+    - name: Install dependencies
+      working-directory: ./realtime-chat
+      run: |
+        pip install -r requirements.txt
+    
+    - name: Deploy to Render
+      run: |
+        curl -X POST "https://api.render.com/v1/services" \
+          -H "Authorization: Bearer ${{ secrets.RENDER_API_KEY }}" \
+          -H "Content-Type: application/json" \
+          -d '{
+            "name": "realtime-chat-api",
+            "type": "web_service",
+            "repo": "https://github.com/segnimekonnen7/budget-buddy",
+            "branch": "master",
+            "rootDir": "realtime-chat",
+            "buildCommand": "pip install -r requirements.txt",
+            "startCommand": "python main.py",
+            "envVars": [
+              {
+                "key": "PORT",
+                "value": "8001"
+              }
+            ]
+          }'
