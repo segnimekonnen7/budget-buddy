@@ -24,6 +24,7 @@ import bcrypt
 from datetime import datetime, timedelta
 import uuid
 import asyncio
+import os
 
 # Database setup
 SQLALCHEMY_DATABASE_URL = "sqlite:///./chat.db"  # Using SQLite for demo
@@ -32,7 +33,7 @@ SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 Base = declarative_base()
 
 # JWT Configuration
-SECRET_KEY = "your-secret-key-change-in-production"
+SECRET_KEY = os.getenv("SECRET_KEY", "demo-secret-key-for-github-showcase")
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 30
 

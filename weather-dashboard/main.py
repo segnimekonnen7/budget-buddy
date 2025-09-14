@@ -16,7 +16,7 @@ from functools import lru_cache
 import hashlib
 
 # Configuration
-API_KEY = os.getenv("OPENWEATHER_API_KEY", "demo_key_get_real_one_from_openweathermap")
+API_KEY = os.getenv("OPENWEATHER_API_KEY", "demo-api-key-for-showcase-purposes")
 BASE_URL = "http://api.openweathermap.org/data/2.5"
 GEO_URL = "http://api.openweathermap.org/geo/1.0"
 
