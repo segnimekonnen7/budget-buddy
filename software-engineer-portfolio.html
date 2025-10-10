@@ -500,41 +500,7 @@
             font-weight: bold;
         }
 
-        .certifications {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-        }
 
-        .cert-item {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            padding: 1rem;
-            background: #f8f9fa;
-            border-radius: 8px;
-        }
-
-        .cert-icon {
-            font-size: 1.5rem;
-            color: #3498db;
-        }
-
-        .cert-details {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .cert-name {
-            font-weight: 600;
-            color: #2c3e50;
-        }
-
-        .cert-usage {
-            font-size: 0.9rem;
-            color: #666;
-            font-style: italic;
-        }
 
         /* Project Impact */
         .project-impact {
@@ -813,17 +779,18 @@
                         </div>
                     </div>
                     <p class="project-description">
-                        Full-stack habit tracking application built with Python FastAPI backend and Next.js frontend. 
-                        Features user authentication, habit analytics, and PostgreSQL database optimization.
+                        Full-stack habit tracking application with ML-powered predictions built using Python FastAPI backend and React/TypeScript frontend. 
+                        Features scikit-learn RandomForestClassifier achieving 96% accuracy, user authentication, habit analytics, and PostgreSQL-ready design.
                     </p>
                     <div class="project-tech">
                         <span class="tech-tag">Python</span>
                         <span class="tech-tag">FastAPI</span>
-                        <span class="tech-tag">Next.js</span>
+                        <span class="tech-tag">React</span>
+                        <span class="tech-tag">scikit-learn</span>
                         <span class="tech-tag">PostgreSQL</span>
                     </div>
                     <div class="project-impact">
-                        <strong>Impact:</strong> Built data-driven recommendations and real-time analytics dashboard for habit tracking insights
+                        <strong>Impact:</strong> Built ML prediction model with 96% accuracy (verified 99% test) using feature engineering and cross-validation
                     </div>
                 </div>
 
@@ -876,7 +843,7 @@
                     </div>
                     <p class="project-description">
                         Production-ready weather API with OpenWeatherMap integration, intelligent caching, and responsive dashboard. 
-                        Features 90% API call reduction through caching, location search, and 5-day forecasts with beautiful UI.
+                        Features intelligent caching strategy to reduce API dependency, location search, and 5-day forecasts with beautiful UI.
                     </p>
                     <div class="project-tech">
                         <span class="tech-tag">FastAPI</span>
@@ -933,16 +900,20 @@
                             <span>scikit-learn</span>
                         </div>
                         <div class="skill-item">
+                            <i class="fas fa-table skill-icon"></i>
+                            <span>pandas</span>
+                        </div>
+                        <div class="skill-item">
+                            <i class="fas fa-calculator skill-icon"></i>
+                            <span>numpy</span>
+                        </div>
+                        <div class="skill-item">
                             <i class="fas fa-cogs skill-icon"></i>
                             <span>Feature Engineering</span>
                         </div>
                         <div class="skill-item">
                             <i class="fas fa-chart-line skill-icon"></i>
-                            <span>Model Serving</span>
-                        </div>
-                        <div class="skill-item">
-                            <i class="fas fa-analytics skill-icon"></i>
-                            <span>Predictive Analytics</span>
+                            <span>Model Training & Evaluation</span>
                         </div>
                     </div>
                 </div>
@@ -956,15 +927,15 @@
                         </div>
                         <div class="skill-item">
                             <i class="fas fa-database skill-icon"></i>
-                            <span>MongoDB</span>
-                        </div>
-                        <div class="skill-item">
-                            <i class="fas fa-memory skill-icon"></i>
-                            <span>Redis</span>
+                            <span>SQLite</span>
                         </div>
                         <div class="skill-item">
                             <i class="fas fa-search skill-icon"></i>
                             <span>Query Optimization</span>
+                        </div>
+                        <div class="skill-item">
+                            <i class="fas fa-table skill-icon"></i>
+                            <span>Database Design</span>
                         </div>
                         <div class="skill-item">
                             <i class="fas fa-tachometer-alt skill-icon"></i>
@@ -1078,7 +1049,7 @@
     <!-- Education Section -->
     <section id="education" class="education">
         <div class="container">
-            <h2 class="section-title">Education & Certifications</h2>
+            <h2 class="section-title">Education</h2>
             <div class="education-grid">
                 <div class="education-card">
                     <h3>B.S. Computer Information Technology</h3>
@@ -1105,25 +1076,6 @@
                     </div>
                 </div>
 
-                <div class="education-card">
-                    <h3>Professional Certifications</h3>
-                    <div class="certifications">
-                        <div class="cert-item">
-                            <i class="fab fa-aws cert-icon"></i>
-                            <div class="cert-details">
-                                <span class="cert-name">AWS Cloud Practitioner</span>
-                                <span class="cert-usage">Applied in Habit Loop deployment</span>
-                            </div>
-                        </div>
-                        <div class="cert-item">
-                            <i class="fas fa-code cert-icon"></i>
-                            <div class="cert-details">
-                                <span class="cert-name">Meta Back-End Developer</span>
-                                <span class="cert-usage">Coursera specialization</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
     </section>

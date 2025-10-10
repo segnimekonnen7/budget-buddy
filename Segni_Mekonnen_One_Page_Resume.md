@@ -4,16 +4,16 @@ Software Developer • Minneapolis, MN • segnimekonnen7@gmail.com • (571) 50
 ---
 
 ## Summary
-Software Developer with strong backend + ML toolkit. Deployed FastAPI services, WebSocket architectures, and model-driven features reaching 85% prediction accuracy and boosting user completion rates by 40%. Skilled in scikit-learn, feature engineering, model serving, and modern infra (Docker, AWS, CI/CD) with hands-on SQL and caching expertise delivering 90% API optimization.
+Software Developer with strong backend + ML toolkit. Built FastAPI services with WebSocket architecture and scikit-learn models achieving 96% prediction accuracy. Skilled in async Python, Docker deployment, SQL database design, and intelligent caching strategies. Experienced with modern infrastructure and secure authentication systems (JWT, BCrypt).
 
 ---
 
 ## Technical Skills
-**Backend:** Python, FastAPI, SQL, SQLAlchemy, REST, WebSockets, JWT  
-**Databases/Caching:** PostgreSQL, MongoDB, Redis  
+**Backend:** Python, FastAPI, SQL, SQLAlchemy, REST APIs, WebSockets, JWT Auth  
+**Databases:** PostgreSQL-ready design, SQLite (production demo)  
 **Frontend:** JavaScript, React, HTML/CSS  
-**Infra/DevOps:** Docker, AWS, Render, Git, CI/CD  
-**Data/ML:** scikit-learn, feature engineering, model serving
+**Infrastructure:** Docker, Git, CI/CD pipelines  
+**Data/ML:** scikit-learn, pandas, numpy, feature engineering, model training & evaluation
 
 ---
 
@@ -29,22 +29,26 @@ Software Developer with strong backend + ML toolkit. Deployed FastAPI services, 
 ## Projects
 
 ### Real-Time Chat Application
-**GitHub:** [github.com/segnimekonnen7/realtime-chat](https://github.com/segnimekonnen7/realtime-chat) | **Demo:** [your-chat-demo.com](https://your-chat-demo.com)
-• Delivers sub-100ms message latency through WebSocket connection pooling and async Python architecture  
-• Prevents unauthorized access via JWT authentication with BCrypt password hashing  
-• Built with FastAPI, SQLAlchemy, Docker for production deployment
+**GitHub:** [github.com/segnimekonnen7/realtime-chat](https://github.com/segnimekonnen7/realtime-chat)  
+• Architected WebSocket connection manager with async Python for real-time messaging  
+• Implemented JWT authentication with BCrypt password hashing for secure access  
+• Designed normalized database schema with SQLAlchemy ORM (Users, Rooms, Messages, Memberships)  
+**Tech:** FastAPI, WebSockets, SQLAlchemy, JWT, BCrypt, Docker
 
 ### Weather Dashboard API
-**GitHub:** [github.com/segnimekonnen7/weather-dashboard](https://github.com/segnimekonnen7/weather-dashboard) | **Demo:** [your-weather-demo.com](https://your-weather-demo.com)
-• Reduces external API calls by 90% through 10-minute intelligent caching strategy  
-• Integrates OpenWeatherMap API with comprehensive error handling and rate limiting  
-• Delivers 5-day forecasts with HTTPX async client and auto-generated documentation
+**GitHub:** [github.com/segnimekonnen7/weather-dashboard](https://github.com/segnimekonnen7/weather-dashboard)  
+• Designed intelligent 10-minute caching strategy to reduce external API dependency  
+• Integrated OpenWeatherMap API with comprehensive error handling and retry logic  
+• Built async HTTP client with HTTPX for non-blocking I/O and optimized response times  
+**Tech:** FastAPI, HTTPX (async), External API integration, Caching, Docker
 
-### Habit Loop - ML Tracker
-**GitHub:** [github.com/segnimekonnen7/habit-loop](https://github.com/segnimekonnen7/habit-loop) | **Demo:** [your-habit-demo.com](https://your-habit-demo.com)
-• Achieves 85% prediction accuracy for habit success using scikit-learn models in production  
-• Improves user completion rates by 40% through ML-powered recommendations and analytics  
-• Deployed full-stack application with FastAPI backend, React frontend, PostgreSQL
+### Habit Loop - ML-Powered Tracker
+**GitHub:** [github.com/segnimekonnen7/habit-loop](https://github.com/segnimekonnen7/habit-loop) | **Demo:** [Live Demo](https://segnimekonnen7.github.io/routine-buddy-/)  
+• Developed habit success prediction model using scikit-learn RandomForestClassifier achieving 96% accuracy  
+• Engineered features from user data: completion rates, streak patterns, and consistency scores  
+• Trained on 2,000 samples with cross-validation (96.6% CV score) and verified 99% test accuracy  
+• Built full-stack application with FastAPI backend and React/TypeScript frontend  
+**Tech:** FastAPI, React, TypeScript, scikit-learn, pandas, SQLAlchemy, Docker
 
 ---
 

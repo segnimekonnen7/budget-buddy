@@ -5,17 +5,17 @@
 ---
 
 ## Professional Summary
-Software Developer with Computer Information Technology foundation building production-ready applications serving 100+ concurrent users. Expertise in Python/FastAPI, real-time systems, and cloud deployment with focus on scalable backend architecture. Proven track record delivering measurable results: 90% API call reduction through intelligent caching, <100ms message delivery in real-time systems, and ML-powered applications with 85% prediction accuracy. Strong systems thinking approach bridging technical implementation with business requirements.
+Software Developer with Computer Information Technology foundation building production-ready applications with scalable backend architecture. Expertise in Python/FastAPI, real-time systems, and cloud deployment. Built WebSocket-based systems with sub-second message delivery, ML models achieving 96% prediction accuracy, and intelligent caching strategies. Strong systems thinking approach bridging technical implementation with business requirements.
 
 ---
 
 ## Technical Skills
 **Languages:** Python (Expert), JavaScript (Proficient), HTML/CSS, SQL  
 **Frameworks/Libraries:** FastAPI, React, SQLAlchemy, Express.js, Socket.io  
-**Databases:** PostgreSQL, MongoDB, Redis, SQLite  
+**Databases:** PostgreSQL-ready design, SQLite (production demo)  
 **Tools & Technologies:** Docker, Git, AWS, Render, WebSockets, REST APIs, JWT Authentication  
 **Development Practices:** Agile/Scrum, Test-Driven Development, Code Reviews, CI/CD Pipelines, API Documentation  
-**Specialized:** Machine Learning (Scikit-learn), External API Integration, Caching Strategies, Real-time Systems
+**Specialized:** Machine Learning (scikit-learn, pandas, numpy), External API Integration, Caching Strategies, Real-time Systems
 
 ---
 
@@ -23,7 +23,7 @@ Software Developer with Computer Information Technology foundation building prod
 
 ### Real-Time Chat Application | FastAPI + WebSockets + Docker
 **GitHub:** [Repository Link] | **Live Demo:** [Demo Link] | **Details:** [Showcase Link]
-- **Architecture:** Engineered WebSocket connection manager supporting 100+ concurrent users with <100ms message latency using async Python and connection pooling optimization
+- **Architecture:** Architected WebSocket connection manager with async Python and connection pooling for real-time messaging
 - **Security & Authentication:** Implemented JWT-based authentication system with BCrypt password hashing and secure session management for enterprise-grade security
 - **Database Design:** Architected complex relational schema with Users, Rooms, Messages, and Memberships using SQLAlchemy ORM, optimizing queries for real-time performance
 - **Advanced Features:** Developed typing indicators, online user tracking, room administration, and persistent message history with automatic reconnection handling
@@ -32,7 +32,7 @@ Software Developer with Computer Information Technology foundation building prod
 
 ### Weather Dashboard API | FastAPI + External API Integration + Caching
 **GitHub:** [Repository Link] | **Live Demo:** [Demo Link] | **Details:** [Showcase Link]
-- **Performance Optimization:** Achieved 90% reduction in external API calls through intelligent 10-minute caching strategy, reducing response times from 800ms to <200ms
+- **Performance Optimization:** Designed intelligent 10-minute caching strategy to reduce external API dependency and optimize response times
 - **API Integration:** Seamlessly integrated OpenWeatherMap RESTful API with comprehensive error handling, rate limiting, and automatic fallback mechanisms
 - **Feature Development:** Built location search with autocomplete, 5-day weather forecasts, and responsive dashboard with real-time updates and mobile optimization
 - **System Architecture:** Implemented async HTTPX client with connection pooling, memory-efficient caching, and automatic cache expiration for optimal resource utilization
@@ -41,12 +41,12 @@ Software Developer with Computer Information Technology foundation building prod
 
 ### Habit Loop - ML-Powered Tracker | FastAPI + React + Machine Learning
 **GitHub:** [Repository Link] | **Live Demo:** [Demo Link] | **API:** [Backend Link]
-- **Machine Learning Integration:** Developed habit success prediction models achieving 85% accuracy using scikit-learn with feature engineering and data preprocessing
-- **Full-Stack Development:** Built FastAPI backend with React frontend, implementing secure user authentication and responsive design patterns
-- **Database Architecture:** Designed PostgreSQL schema with SQLAlchemy ORM for habit persistence, user analytics, and complex relationship management
-- **Real-time Features:** Implemented live habit tracking, instant check-ins, dynamic streak calculations, and progress analytics with WebSocket connections
+- **Machine Learning Integration:** Developed habit success prediction model using scikit-learn RandomForestClassifier achieving 96% accuracy with feature engineering, data preprocessing, and cross-validation (96.6% CV score, verified 99% test accuracy)
+- **Full-Stack Development:** Built FastAPI backend with React/TypeScript frontend, implementing secure user authentication and responsive design patterns
+- **Database Architecture:** Designed PostgreSQL-ready schema with SQLAlchemy ORM for habit persistence, user analytics, and complex relationship management
+- **Real-time Features:** Implemented live habit tracking, instant check-ins, dynamic streak calculations, and progress analytics
 - **Production Deployment:** Deployed on Render + GitHub Pages with CORS-enabled API, automated CI/CD pipelines, health monitoring, and fallback mechanisms
-- **Business Impact:** Improved user habit completion rates by 40% through data-driven insights, ML-powered recommendations, and optimized user experience design
+- **Technical Achievement:** Built production ML model with proper validation and verification achieving measurable accuracy through data-driven engineering
 
 ---
 
@@ -70,12 +70,12 @@ Minnesota State University, Mankato | Expected Graduation: 2026
 ---
 
 ## Key Technical Achievements
-🚀 **Performance Engineering:** Reduced API response times by 90% through intelligent caching and async architecture  
-📊 **Scalability:** Built real-time systems handling 100+ concurrent users with sub-100ms latency  
-🤖 **Machine Learning:** Implemented ML prediction models achieving 85% accuracy with real-world deployment  
+🚀 **Performance Engineering:** Designed intelligent caching strategies and async architecture for optimized API response times  
+📊 **Scalability:** Built real-time WebSocket systems with connection pooling architecture  
+🤖 **Machine Learning:** Implemented ML prediction model achieving 96-99% accuracy with proper validation and deployment  
 🏗️ **System Architecture:** Designed complex database schemas with optimized queries and relationship management  
 📦 **DevOps & Deployment:** Containerized applications with Docker and configured cloud deployment with monitoring  
-📈 **Measurable Impact:** Delivered 40% improvement in user engagement through data-driven feature development  
+📈 **Technical Excellence:** Delivered production ML models with measurable accuracy through data-driven engineering  
 🔐 **Security Implementation:** Built enterprise-grade authentication systems with JWT tokens and BCrypt hashing  
 ⚡ **Real-time Systems:** Architected WebSocket-based applications with connection management and message persistence
 
