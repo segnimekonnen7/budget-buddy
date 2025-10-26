@@ -6,7 +6,7 @@
     <title>Resume</title>
     <style>
         @page {
-            margin: 0.25in;
+            margin: 0.35in 0.4in;
             size: letter;
         }
         
@@ -18,61 +18,56 @@
 
         body {
             font-family: 'Arial', sans-serif;
-            line-height: 1.1;
+            line-height: 1.0;
             color: #333;
             background: white;
-            font-size: 8.5pt;
+            font-size: 7.5pt;
             max-width: 8.5in;
             margin: 0 auto;
-            padding: 8px;
+            padding: 4px;
         }
 
         .header {
             text-align: center;
-            margin-bottom: 8px;
-            padding-bottom: 4px;
+            margin-bottom: 4px;
+            padding-bottom: 2px;
             border-bottom: 1px solid #333;
         }
 
         .header h1 {
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             color: #333;
-            margin-bottom: 3px;
+            margin-bottom: 2px;
             font-weight: bold;
-            letter-spacing: 0.5px;
+            letter-spacing: 0.3px;
         }
 
         .contact-info {
-            font-size: 0.75rem;
+            font-size: 0.65rem;
             color: #555;
+            line-height: 1.1;
         }
 
         .section {
-            margin-bottom: 8px;
+            margin-bottom: 5px;
         }
 
         .section-header {
             background-color: #333;
             color: white;
-            padding: 3px 6px;
-            font-size: 0.75rem;
+            padding: 2px 4px;
+            font-size: 0.7rem;
             font-weight: bold;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-bottom: 6px;
+            letter-spacing: 0.3px;
+            margin-bottom: 3px;
         }
 
-        .summary-text {
-            font-size: 0.8rem;
-            line-height: 1.2;
-            text-align: justify;
-            margin-bottom: 4px;
-        }
 
         .skills-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 8px;
+            gap: 4px;
         }
 
         .skills-column ul {
@@ -81,10 +76,11 @@
         }
 
         .skills-column li {
-            margin-bottom: 3px;
-            font-size: 0.75rem;
+            margin-bottom: 1px;
+            font-size: 0.65rem;
             padding-left: 8px;
             position: relative;
+            line-height: 1.05;
         }
 
         .skills-column li:before {
@@ -93,11 +89,12 @@
             font-weight: bold;
             position: absolute;
             left: 0;
+            font-size: 0.6rem;
         }
 
         .work-item, .project-item {
-            margin-bottom: 8px;
-            padding-bottom: 4px;
+            margin-bottom: 4px;
+            padding-bottom: 2px;
             border-bottom: 1px dotted #ccc;
         }
 
@@ -107,23 +104,23 @@
 
         .date-range {
             color: #333;
-            font-size: 0.7rem;
+            font-size: 0.65rem;
             font-weight: 600;
-            margin-bottom: 1px;
+            margin-bottom: 0px;
         }
 
         .job-title {
-            font-size: 0.85rem;
+            font-size: 0.75rem;
             font-weight: bold;
             color: #333;
-            margin-bottom: 1px;
+            margin-bottom: 0px;
         }
 
         .company-name {
-            font-size: 0.75rem;
+            font-size: 0.65rem;
             font-style: italic;
             color: #555;
-            margin-bottom: 3px;
+            margin-bottom: 1px;
         }
 
         .job-description ul {
@@ -133,11 +130,11 @@
         }
 
         .job-description li {
-            margin-bottom: 1px;
-            font-size: 0.75rem;
+            margin-bottom: 0px;
+            font-size: 0.65rem;
             padding-left: 8px;
             position: relative;
-            line-height: 1.1;
+            line-height: 1.05;
         }
 
         .job-description li:before {
@@ -146,81 +143,90 @@
             font-weight: bold;
             position: absolute;
             left: 0;
+            font-size: 0.6rem;
         }
 
         .education-item {
-            margin-bottom: 4px;
+            margin-bottom: 2px;
         }
 
         .degree-title {
-            font-size: 0.85rem;
+            font-size: 0.75rem;
             font-weight: bold;
             color: #333;
-            margin-bottom: 1px;
+            margin-bottom: 0px;
         }
 
         .school-name {
-            font-size: 0.75rem;
+            font-size: 0.65rem;
             font-style: italic;
             color: #555;
-            margin-bottom: 1px;
+            margin-bottom: 0px;
         }
 
         .education-details {
-            font-size: 0.7rem;
+            font-size: 0.6rem;
             color: #666;
-            line-height: 1.0;
+            line-height: 1.05;
         }
 
         /* Print styles */
         @media print {
             @page {
-                margin: 0.2in;
+                margin: 0.35in 0.4in;
                 size: letter;
             }
             
             body {
-                font-size: 7.5pt;
-                padding: 3px;
-                line-height: 1.0;
+                font-size: 7pt;
+                padding: 2px;
+                line-height: 0.95;
             }
             
             .header {
-                margin-bottom: 6px;
-                padding-bottom: 3px;
+                margin-bottom: 3px;
+                padding-bottom: 2px;
             }
             
             .header h1 {
-                font-size: 1.1rem;
+                font-size: 1.05rem;
                 margin-bottom: 1px;
             }
             
             .section {
-                margin-bottom: 6px;
+                margin-bottom: 4px;
             }
             
             .section-header {
                 background-color: #333 !important;
                 -webkit-print-color-adjust: exact !important;
                 color-adjust: exact !important;
-                padding: 2px 4px;
-                margin-bottom: 4px;
+                padding: 1px 3px;
+                margin-bottom: 2px;
+                font-size: 0.65rem;
             }
             
             .work-item, .project-item {
                 break-inside: avoid;
                 page-break-inside: avoid;
-                margin-bottom: 6px;
-                padding-bottom: 3px;
+                margin-bottom: 3px;
+                padding-bottom: 1px;
             }
             
             .job-description li {
                 margin-bottom: 0px;
+                font-size: 0.6rem;
             }
             
             .skills-column li {
-                margin-bottom: 1px;
+                margin-bottom: 0px;
+                font-size: 0.6rem;
             }
+
+            .contact-info {
+                font-size: 0.6rem;
+            }
+
         }
     </style>
 </head>
@@ -233,10 +239,11 @@
         </div>
     </div>
 
+
     <div class="section">
         <div class="section-header">Education</div>
         <div class="education-item">
-            <div class="degree-title">Bachelor of Science: Computer Information Technology</div>
+            <div class="degree-title">Bachelor of Science: Computer Science</div>
             <div class="school-name">Minnesota State University, Mankato - Expected Graduation: January 2027</div>
             <div class="education-details">
                 <strong>Minor:</strong> Mathematics<br>
@@ -251,16 +258,16 @@
         <div class="skills-grid">
             <div class="skills-column">
                 <ul>
-                    <li><strong>Backend:</strong> Python, Java, FastAPI, SQLAlchemy, REST APIs, WebSockets, JWT Authentication</li>
+                    <li><strong>Backend:</strong> Python, FastAPI, Django, SQLAlchemy, REST APIs, WebSockets, JWT Authentication</li>
                     <li><strong>Data/ML:</strong> scikit-learn, pandas, numpy, Feature Engineering, Model Training & Evaluation, Predictive Analytics</li>
-                    <li><strong>Datastores:</strong> PostgreSQL-ready design, SQLite (production demo), Query Optimization, Caching Strategies</li>
+                    <li><strong>Datastores:</strong> PostgreSQL-ready design, SQLite (production demo), Caching Strategies</li>
                 </ul>
             </div>
             <div class="skills-column">
                 <ul>
-                    <li><strong>Infra/DevOps:</strong> Docker, AWS, Render, Git, CI/CD Pipelines, Cloud Deployment</li>
-                    <li><strong>Frontend:</strong> JavaScript, React, HTML5/CSS3, Responsive Design</li>
-                    <li><strong>Practices:</strong> Agile/Scrum, Test-Driven Development, Code Reviews</li>
+                    <li><strong>Infra/DevOps:</strong> Docker, Git, Cloud Deployment</li>
+                    <li><strong>Frontend:</strong> JavaScript, React</li>
+                    <li><strong>Practices:</strong> Agile/Scrum, Code Reviews</li>
                 </ul>
             </div>
         </div>
@@ -268,6 +275,21 @@
 
     <div class="section">
         <div class="section-header">Experience</div>
+        
+        <div class="work-item">
+            <div class="date-range">Oct 2025</div>
+            <div class="job-title">Open Source Contributor</div>
+            <div class="company-name">Django Software Foundation - Remote</div>
+            <div class="job-description">
+                <ul>
+                    <li><strong>MERGED CONTRIBUTION:</strong> Created comprehensive advanced ORM documentation (1,120+ lines) improving developer experience for complex database operations (PR #36657 - merged by core maintainer)</li>
+                    <li><strong>MERGED CONTRIBUTION:</strong> Enhanced database optimization documentation by replacing vague "tricky" language with specific examples of Django manager usage patterns (PR #19962 - merged by Django maintainer Jacob Walls)</li>
+                    <li>Analyzed Django template parsing system (used by Instagram, Pinterest, NASA) and proposed improvements to error handling behavior</li>
+                    <li>Developed full test suites demonstrating proficiency with large-scale codebase testing and enterprise Python development</li>
+                    <li>Gained hands-on experience navigating 500K+ line enterprise Python codebase and understanding framework architecture</li>
+                </ul>
+            </div>
+        </div>
         
         <div class="work-item">
             <div class="date-range">Jun–Aug 2024</div>
@@ -278,23 +300,6 @@
                     <li>Developed NLP pipeline, evaluation, and reporting for an AI-for-Good partner using Python, pandas, and NLTK</li>
                     <li>Improved text preprocessing pipeline through stemming, class weighting, and feature engineering, increasing model F1 score by 12%</li>
                     <li>Collaborated with 15+ data scientists using Git workflows, code reviews, and agile methodologies</li>
-                </ul>
-            </div>
-        </div>
-    </div>
-
-    <div class="section">
-        <div class="section-header">Leadership & Activities</div>
-        
-        <div class="work-item">
-            <div class="date-range">2017</div>
-            <div class="job-title">Scout Leader</div>
-            <div class="company-name">Boy Scouts of America - 2017 National Jamboree, West Virginia</div>
-            <div class="job-description">
-                <ul>
-                    <li>Led and mentored a team of scouts during the National Jamboree, developing strong leadership and communication skills</li>
-                    <li>Coordinated group activities and ensured safety protocols while fostering teamwork and outdoor skills development</li>
-                    <li>Gained valuable experience in project management, conflict resolution, and building collaborative relationships in challenging environments</li>
                 </ul>
             </div>
         </div>
@@ -313,7 +318,7 @@
                     <li>Prevented unauthorized access by implementing JWT authentication and BCrypt password hashing</li>
                     <li>Deployed scalable backend using FastAPI, SQLAlchemy ORM, and Docker containerization</li>
                 </ul>
-                <div style="margin-top: 8px; font-size: 0.7rem; color: #555;">
+                <div style="margin-top: 1px; font-size: 0.55rem; color: #555;">
                     <strong>Links:</strong> <a href="https://github.com/segnimekonnen7/budget-buddy/tree/master/realtime-chat" style="color: #333; text-decoration: none;">GitHub</a> • <a href="realtime-chat-demo/index.html" style="color: #333; text-decoration: none;">Live Demo</a>
                 </div>
             </div>
@@ -329,7 +334,7 @@
                     <li>Ensured reliability by integrating OpenWeatherMap API with comprehensive error handling, rate limiting, and fallback mechanisms</li>
                     <li>Delivered 5-day forecasts using responsive dashboard with HTTPX async client and auto-generated documentation</li>
                 </ul>
-                <div style="margin-top: 8px; font-size: 0.7rem; color: #555;">
+                <div style="margin-top: 1px; font-size: 0.55rem; color: #555;">
                     <strong>Links:</strong> <a href="https://github.com/segnimekonnen7/budget-buddy/tree/master/weather-dashboard" style="color: #333; text-decoration: none;">GitHub</a> • <a href="weather-dashboard-demo/index.html" style="color: #333; text-decoration: none;">Live Demo</a>
                 </div>
             </div>
@@ -345,9 +350,26 @@
                     <li>Engineered features from user data including completion rates, streak patterns, and consistency scores for predictive analytics</li>
                     <li>Deployed full-stack application using FastAPI backend, React/TypeScript frontend, and PostgreSQL-ready design on cloud infrastructure</li>
                 </ul>
-                <div style="margin-top: 8px; font-size: 0.7rem; color: #555;">
+                <div style="margin-top: 1px; font-size: 0.55rem; color: #555;">
                     <strong>Links:</strong> <a href="https://github.com/segnimekonnen7/budget-buddy/tree/master/habit-loop" style="color: #333; text-decoration: none;">GitHub</a> • <a href="habit-loop-demo/index.html" style="color: #333; text-decoration: none;">Live Demo</a>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="section">
+        <div class="section-header">Leadership & Activities</div>
+        
+        <div class="work-item">
+            <div class="date-range">2017</div>
+            <div class="job-title">Scout Leader</div>
+            <div class="company-name">Boy Scouts of America - 2017 National Jamboree, West Virginia</div>
+            <div class="job-description">
+                <ul>
+                    <li>Led and mentored a team of scouts during the National Jamboree, developing strong leadership and communication skills</li>
+                    <li>Coordinated group activities and ensured safety protocols while fostering teamwork and outdoor skills development</li>
+                    <li>Gained valuable experience in project management, conflict resolution, and building collaborative relationships in challenging environments</li>
+                </ul>
             </div>
         </div>
     </div>
