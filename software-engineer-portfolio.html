@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Segni Mekonnen - Backend Software Engineer</title>
+    <!-- Updated: Portfolio matches desktop resume exactly - Force refresh -->
+    <!-- Last updated: $(date) -->
     <meta name="description" content="Segni Mekonnen - Backend Software Engineer specializing in Python, FastAPI, and scalable web applications">
     <meta name="keywords" content="backend engineer, python developer, fastapi, postgresql, software engineering student">
     <meta property="og:title" content="Segni Mekonnen - Backend Software Engineer">
@@ -769,34 +771,6 @@
             <div class="projects-grid">
                 <div class="project-card featured-project">
                     <div class="project-header">
-                        <h3>Habit Loop Tracker</h3>
-                        <div class="project-links">
-                            <a href="https://github.com/segnimekonnen7/budget-buddy/tree/master/habit-loop" target="_blank">
-                                <i class="fab fa-github"></i> Code
-                            </a>
-                            <a href="habit-loop-demo/index.html" target="_blank">
-                                <i class="fas fa-external-link-alt"></i> Live Demo
-                            </a>
-                        </div>
-                    </div>
-                    <p class="project-description">
-                        Full-stack habit tracking application with ML-powered predictions built using Python FastAPI backend and React/TypeScript frontend. 
-                        Features scikit-learn RandomForestClassifier achieving 96% accuracy, user authentication, habit analytics, and PostgreSQL-ready design.
-                    </p>
-                    <div class="project-tech">
-                        <span class="tech-tag">Python</span>
-                        <span class="tech-tag">FastAPI</span>
-                        <span class="tech-tag">React</span>
-                        <span class="tech-tag">scikit-learn</span>
-                        <span class="tech-tag">PostgreSQL</span>
-                    </div>
-                    <div class="project-impact">
-                        <strong>Impact:</strong> Built ML prediction model with 96% accuracy (verified 99% test) using feature engineering and cross-validation
-                    </div>
-                </div>
-
-                <div class="project-card featured-project">
-                    <div class="project-header">
                         <h3>Real-Time Chat Application</h3>
                         <div class="project-links">
                             <a href="https://github.com/segnimekonnen7/budget-buddy/tree/master/realtime-chat" target="_blank">
@@ -805,14 +779,11 @@
                             <a href="realtime-chat-demo/index.html" target="_blank">
                                 <i class="fas fa-external-link-alt"></i> Live Demo
                             </a>
-                            <a href="realtime-chat-showcase.html" target="_blank">
-                                <i class="fas fa-info-circle"></i> Details
-                            </a>
                         </div>
                     </div>
                     <p class="project-description">
-                        Production-ready real-time chat system with WebSocket connections, JWT authentication, and message persistence. 
-                        Features typing indicators, online status tracking, and room management with scalable architecture.
+                        WebSocket-based messaging system with connection pooling and async Python for real-time communication. 
+                        Features JWT authentication, BCrypt password hashing, and scalable backend using FastAPI, SQLAlchemy ORM, and Docker containerization.
                     </p>
                     <div class="project-tech">
                         <span class="tech-tag">FastAPI</span>
@@ -837,14 +808,11 @@
                             <a href="weather-dashboard-demo/index.html" target="_blank">
                                 <i class="fas fa-external-link-alt"></i> Live Demo
                             </a>
-                            <a href="weather-dashboard-showcase.html" target="_blank">
-                                <i class="fas fa-info-circle"></i> Details
-                            </a>
                         </div>
                     </div>
                     <p class="project-description">
-                        Production-ready weather API with OpenWeatherMap integration, intelligent caching, and responsive dashboard. 
-                        Features intelligent caching strategy to reduce API dependency, location search, and 5-day forecasts with beautiful UI.
+                        Intelligent 10-minute caching strategy to reduce external API dependency and optimize performance. 
+                        Features OpenWeatherMap API integration with comprehensive error handling, rate limiting, and fallback mechanisms for 5-day forecasts.
                     </p>
                     <div class="project-tech">
                         <span class="tech-tag">FastAPI</span>
@@ -858,6 +826,34 @@
                         <strong>Impact:</strong> Showcases external API integration with performance optimization and production deployment
                     </div>
                 </div>
+
+                <div class="project-card featured-project">
+                    <div class="project-header">
+                        <h3>Habit Loop - ML-Powered Tracker</h3>
+                        <div class="project-links">
+                            <a href="https://github.com/segnimekonnen7/budget-buddy/tree/master/habit-loop" target="_blank">
+                                <i class="fab fa-github"></i> Code
+                            </a>
+                            <a href="habit-loop-demo/index.html" target="_blank">
+                                <i class="fas fa-external-link-alt"></i> Live Demo
+                            </a>
+                        </div>
+                    </div>
+                    <p class="project-description">
+                        Achieved 96% accuracy by developing ML prediction model using scikit-learn RandomForestClassifier with cross-validation (96.6% CV score, verified 99% test accuracy). 
+                        Engineered features from user data including completion rates, streak patterns, and consistency scores for predictive analytics.
+                    </p>
+                    <div class="project-tech">
+                        <span class="tech-tag">Python</span>
+                        <span class="tech-tag">FastAPI</span>
+                        <span class="tech-tag">React</span>
+                        <span class="tech-tag">scikit-learn</span>
+                        <span class="tech-tag">PostgreSQL</span>
+                    </div>
+                    <div class="project-impact">
+                        <strong>Impact:</strong> Built ML prediction model with 96% accuracy (verified 99% test) using feature engineering and cross-validation
+                    </div>
+                </div>
             </div>
         </div>
     </section>
@@ -868,33 +864,73 @@
             <h2 class="section-title">Technical Skills</h2>
             <div class="skills-grid">
                 <div class="skill-category can-own">
-                    <h3><i class="fas fa-crown"></i> Backend</h3>
+                    <h3><i class="fas fa-crown"></i> Languages</h3>
                     <div class="skill-items">
                         <div class="skill-item">
                             <i class="fab fa-python skill-icon"></i>
                             <span>Python</span>
                         </div>
                         <div class="skill-item">
-                            <i class="fas fa-code skill-icon"></i>
-                            <span>FastAPI</span>
+                            <i class="fab fa-js-square skill-icon"></i>
+                            <span>JavaScript</span>
                         </div>
                         <div class="skill-item">
-                            <i class="fas fa-code skill-icon"></i>
-                            <span>REST APIs</span>
-                        </div>
-                        <div class="skill-item">
-                            <i class="fas fa-bolt skill-icon"></i>
-                            <span>WebSockets</span>
-                        </div>
-                        <div class="skill-item">
-                            <i class="fas fa-key skill-icon"></i>
-                            <span>JWT Authentication</span>
+                            <i class="fas fa-database skill-icon"></i>
+                            <span>SQL (PostgreSQL)</span>
                         </div>
                     </div>
                 </div>
 
                 <div class="skill-category proficient">
-                    <h3><i class="fas fa-check-circle"></i> Data/ML</h3>
+                    <h3><i class="fas fa-check-circle"></i> Frameworks</h3>
+                    <div class="skill-items">
+                        <div class="skill-item">
+                            <i class="fas fa-code skill-icon"></i>
+                            <span>FastAPI</span>
+                        </div>
+                        <div class="skill-item">
+                            <i class="fab fa-react skill-icon"></i>
+                            <span>React</span>
+                        </div>
+                        <div class="skill-item">
+                            <i class="fas fa-code skill-icon"></i>
+                            <span>SQLAlchemy</span>
+                        </div>
+                        <div class="skill-item">
+                            <i class="fab fa-docker skill-icon"></i>
+                            <span>Docker</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="skill-category familiar">
+                    <h3><i class="fas fa-lightbulb"></i> Developer Tools</h3>
+                    <div class="skill-items">
+                        <div class="skill-item">
+                            <i class="fab fa-git-alt skill-icon"></i>
+                            <span>Git</span>
+                        </div>
+                        <div class="skill-item">
+                            <i class="fas fa-code skill-icon"></i>
+                            <span>VS Code</span>
+                        </div>
+                        <div class="skill-item">
+                            <i class="fas fa-code skill-icon"></i>
+                            <span>PyCharm</span>
+                        </div>
+                        <div class="skill-item">
+                            <i class="fas fa-cloud skill-icon"></i>
+                            <span>Render</span>
+                        </div>
+                        <div class="skill-item">
+                            <i class="fab fa-github skill-icon"></i>
+                            <span>GitHub Pages</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="skill-category proficient">
+                    <h3><i class="fas fa-check-circle"></i> Libraries</h3>
                     <div class="skill-items">
                         <div class="skill-item">
                             <i class="fas fa-brain skill-icon"></i>
@@ -906,114 +942,11 @@
                         </div>
                         <div class="skill-item">
                             <i class="fas fa-calculator skill-icon"></i>
-                            <span>numpy</span>
-                        </div>
-                        <div class="skill-item">
-                            <i class="fas fa-cogs skill-icon"></i>
-                            <span>Feature Engineering</span>
-                        </div>
-                        <div class="skill-item">
-                            <i class="fas fa-chart-line skill-icon"></i>
-                            <span>Model Training & Evaluation</span>
+                            <span>NumPy</span>
                         </div>
                     </div>
                 </div>
 
-                <div class="skill-category familiar">
-                    <h3><i class="fas fa-lightbulb"></i> Datastores</h3>
-                    <div class="skill-items">
-                        <div class="skill-item">
-                            <i class="fas fa-database skill-icon"></i>
-                            <span>PostgreSQL</span>
-                        </div>
-                        <div class="skill-item">
-                            <i class="fas fa-database skill-icon"></i>
-                            <span>SQLite</span>
-                        </div>
-                        <div class="skill-item">
-                            <i class="fas fa-search skill-icon"></i>
-                            <span>Query Optimization</span>
-                        </div>
-                        <div class="skill-item">
-                            <i class="fas fa-table skill-icon"></i>
-                            <span>Database Design</span>
-                        </div>
-                        <div class="skill-item">
-                            <i class="fas fa-tachometer-alt skill-icon"></i>
-                            <span>Caching Strategies</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="skill-category can-own">
-                    <h3><i class="fas fa-crown"></i> Infra/DevOps</h3>
-                    <div class="skill-items">
-                        <div class="skill-item">
-                            <i class="fab fa-docker skill-icon"></i>
-                            <span>Docker</span>
-                        </div>
-                        <div class="skill-item">
-                            <i class="fab fa-aws skill-icon"></i>
-                            <span>AWS</span>
-                        </div>
-                        <div class="skill-item">
-                            <i class="fas fa-cloud skill-icon"></i>
-                            <span>Render</span>
-                        </div>
-                        <div class="skill-item">
-                            <i class="fab fa-git-alt skill-icon"></i>
-                            <span>Git</span>
-                        </div>
-                        <div class="skill-item">
-                            <i class="fas fa-sync-alt skill-icon"></i>
-                            <span>CI/CD Pipelines</span>
-                        </div>
-                        <div class="skill-item">
-                            <i class="fas fa-cloud-upload-alt skill-icon"></i>
-                            <span>Cloud Deployment</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="skill-category proficient">
-                    <h3><i class="fas fa-check-circle"></i> Frontend</h3>
-                    <div class="skill-items">
-                        <div class="skill-item">
-                            <i class="fab fa-js skill-icon"></i>
-                            <span>JavaScript</span>
-                        </div>
-                        <div class="skill-item">
-                            <i class="fab fa-react skill-icon"></i>
-                            <span>React</span>
-                        </div>
-                        <div class="skill-item">
-                            <i class="fab fa-html5 skill-icon"></i>
-                            <span>HTML5/CSS3</span>
-                        </div>
-                        <div class="skill-item">
-                            <i class="fas fa-mobile-alt skill-icon"></i>
-                            <span>Responsive Design</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="skill-category familiar">
-                    <h3><i class="fas fa-lightbulb"></i> Practices</h3>
-                    <div class="skill-items">
-                        <div class="skill-item">
-                            <i class="fas fa-users skill-icon"></i>
-                            <span>Agile/Scrum</span>
-                        </div>
-                        <div class="skill-item">
-                            <i class="fas fa-vial skill-icon"></i>
-                            <span>Test-Driven Development</span>
-                        </div>
-                        <div class="skill-item">
-                            <i class="fas fa-code-review skill-icon"></i>
-                            <span>Code Reviews</span>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
     </section>
@@ -1025,54 +958,64 @@
             <div class="projects-grid">
                 <div class="project-card">
                     <div class="project-header">
-                        <h3>Open Source Contributor</h3>
-                        <span class="project-date">Oct 2025</span>
+                        <h3>Machine Learning Research Assistant</h3>
+                        <span class="project-date">Aug. 2025 – Present</span>
                     </div>
-                    <div class="project-company">Django Software Foundation - Remote</div>
+                    <div class="project-company">Minnesota State University, Mankato - Mankato, MN</div>
                     <div class="project-description">
-                        <p><strong>MERGED CONTRIBUTION:</strong> Created comprehensive advanced ORM documentation (1,120+ lines) improving developer experience for complex database operations (PR #36657 - merged by core maintainer)</p>
-                        <p><strong>MERGED CONTRIBUTION:</strong> Enhanced database optimization documentation by replacing vague "tricky" language with specific examples of Django manager usage patterns (PR #19962 - merged by Django maintainer Jacob Walls)</p>
-                        <p>Analyzed Django template parsing system (used by Instagram, Pinterest, NASA) and proposed improvements to error handling behavior</p>
-                        <p>Developed full test suites demonstrating proficiency with large-scale codebase testing and enterprise Python development</p>
-                        <p>Gained hands-on experience navigating 500K+ line enterprise Python codebase and understanding framework architecture</p>
+                        <p>Led a team of five researchers in developing an AutoML framework for insurance prediction models, comparing algorithms such as Random Forest, Decision Tree, KNN, Naive Bayes, and Logistic Regression.</p>
+                        <p>Automated feature importance and Variance Inflation Factor (VIF) analysis to identify multicollinearity and improve model interpretability.</p>
+                        <p>Built reproducible Jupyter pipelines to evaluate accuracy, precision, recall, and F1-score across datasets.</p>
+                        <p>Analyzed performance trends to refine algorithm selection and improve predictive accuracy.</p>
                     </div>
                     <div class="tech-stack">
                         <span class="tech-tag">Python</span>
-                        <span class="tech-tag">Django</span>
-                        <span class="tech-tag">Documentation</span>
-                        <span class="tech-tag">Open Source</span>
-                        <span class="tech-tag">Git</span>
-                        <span class="tech-tag">Code Review</span>
-                    </div>
-                    <div class="project-links">
-                        <a href="https://github.com/django/django/pull/36657" target="_blank" class="project-link">
-                            <i class="fas fa-external-link-alt"></i> PR #36657
-                        </a>
-                        <a href="https://github.com/django/django/pull/19962" target="_blank" class="project-link">
-                            <i class="fas fa-external-link-alt"></i> PR #19962
-                        </a>
+                        <span class="tech-tag">AutoML</span>
+                        <span class="tech-tag">scikit-learn</span>
+                        <span class="tech-tag">Jupyter</span>
+                        <span class="tech-tag">Research</span>
+                        <span class="tech-tag">Team Leadership</span>
                     </div>
                 </div>
 
                 <div class="project-card">
                     <div class="project-header">
-                        <h3>Software Engineer Intern</h3>
-                        <span class="project-date">Jan 2025 - May 2025</span>
+                        <h3>Open Source Software Developer</h3>
+                        <span class="project-date">Oct. 2025</span>
                     </div>
-                    <div class="project-company">C.H. Robinson - Eden Prairie, MN</div>
+                    <div class="project-company">Django Software Foundation - Remote</div>
                     <div class="project-description">
-                        <p>Developed and maintained enterprise-level logistics software using modern web technologies and cloud infrastructure</p>
-                        <p>Collaborated with cross-functional teams to deliver high-quality software solutions for supply chain management</p>
-                        <p>Implemented automated testing strategies and CI/CD pipelines to improve code quality and deployment efficiency</p>
-                        <p>Participated in agile development processes including sprint planning, code reviews, and technical documentation</p>
-                        <p>Gained experience with large-scale distributed systems and microservices architecture</p>
+                        <p>Improved ORM documentation (1,120+ lines) for complex database operations.</p>
+                        <p>Clarified database optimization techniques using Manager and query examples.</p>
+                        <p>Created test suites ensuring consistency across enterprise Python workflows.</p>
                     </div>
                     <div class="tech-stack">
                         <span class="tech-tag">Python</span>
-                        <span class="tech-tag">JavaScript</span>
-                        <span class="tech-tag">AWS</span>
-                        <span class="tech-tag">Docker</span>
-                        <span class="tech-tag">CI/CD</span>
+                        <span class="tech-tag">Django</span>
+                        <span class="tech-tag">ORM</span>
+                        <span class="tech-tag">Documentation</span>
+                        <span class="tech-tag">Open Source</span>
+                        <span class="tech-tag">Testing</span>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-header">
+                        <h3>Open Source Contributor</h3>
+                        <span class="project-date">Jun. 2024 – Aug. 2024</span>
+                    </div>
+                    <div class="project-company">Omdena - Remote</div>
+                    <div class="project-description">
+                        <p>Developed NLP pipeline and evaluation reports for AI-for-Good projects using Python, pandas, and NLTK.</p>
+                        <p>Enhanced preprocessing through stemming and feature engineering, improving F1-score by 12%.</p>
+                        <p>Collaborated with 15+ data scientists via Git-based workflows and agile sprints.</p>
+                    </div>
+                    <div class="tech-stack">
+                        <span class="tech-tag">Python</span>
+                        <span class="tech-tag">NLP</span>
+                        <span class="tech-tag">pandas</span>
+                        <span class="tech-tag">NLTK</span>
+                        <span class="tech-tag">Git</span>
                         <span class="tech-tag">Agile</span>
                     </div>
                 </div>
