@@ -326,10 +326,10 @@ class InternListMonitor:
         for internship in unique_internships:
             internship_id = internship['id']
             
-            # Check if we've seen this before
+            # Check if we've seen this before - only add if it's NEW
             if internship_id not in self.seen_internships:
                 new_internships.append(internship)
-                # Mark as seen
+                # Mark as seen so we don't send it again
                 self.seen_internships[internship_id] = {
                     'title': internship['title'],
                     'url': internship['url'],
@@ -337,20 +337,23 @@ class InternListMonitor:
                 }
 
         if new_internships:
-            print(f"Found {len(new_internships)} new Software Engineering internship(s)!")
+            print(f"✅ Found {len(new_internships)} NEW Software Engineering internship(s)!")
+            # Save the seen internships so we remember what we've already sent
             self.save_seen_internships()
         else:
-            print("No new Software Engineering internships found.")
+            print("ℹ️  No NEW internships found (all have been seen before).")
 
         return new_internships
 
     def send_email_notification(self, new_internships: List[Dict]):
-        """Send email notification with summary of new internships."""
+        """Send email notification with summary of NEW internships only."""
         if not self.email_config:
             print("Email not configured. Skipping notification.")
             return
 
+        # Only send if there are actually new internships
         if not new_internships:
+            print("No new internships to notify about. Skipping email.")
             return
 
         try:
@@ -451,8 +454,12 @@ New Postings:
     def run_once(self):
         """Run a single check for new internships."""
         new_internships = self.find_new_internships()
+        # Only send email if there are NEW internships (not ones we've already seen)
         if new_internships:
+            print(f"📧 Sending email notification for {len(new_internships)} new internship(s)...")
             self.send_email_notification(new_internships)
+        else:
+            print("ℹ️  No new internships found. No email sent.")
         return new_internships
 
     def run_continuous(self, interval_minutes: int = CHECK_INTERVAL_MINUTES):
