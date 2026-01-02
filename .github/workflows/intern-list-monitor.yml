@@ -41,7 +41,7 @@ jobs:
     
     - name: Upload seen internships data
       if: always()
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: intern-list-data
         path: intern_list_seen_internships.json
