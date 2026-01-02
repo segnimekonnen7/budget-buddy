@@ -1,0 +1,49 @@
+name: Intern-List.com Monitor
+
+on:
+  # Run every 30 minutes
+  schedule:
+    - cron: '*/30 * * * *'
+  # Allow manual triggering
+  workflow_dispatch:
+  # Run on push to test
+  push:
+    branches: [ master, main ]
+    paths:
+      - 'intern_list_monitor.py'
+      - '.github/workflows/intern-list-monitor.yml'
+
+jobs:
+  monitor:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+    
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+    
+    - name: Install dependencies
+      run: |
+        pip install --upgrade pip
+        pip install requests beautifulsoup4
+    
+    - name: Run Intern-List Monitor
+      env:
+        GMAIL_SENDER: ${{ secrets.GMAIL_SENDER }}
+        GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
+        GMAIL_RECIPIENT: ${{ secrets.GMAIL_RECIPIENT }}
+      run: |
+        python intern_list_monitor.py --once
+    
+    - name: Upload seen internships data
+      if: always()
+      uses: actions/upload-artifact@v3
+      with:
+        name: intern-list-data
+        path: intern_list_seen_internships.json
+        retention-days: 30
+

@@ -21,3 +21,8 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+# MITC credentials (sensitive)
+.mitc_credentials.json
+login_page_debug.png
+intern_list_email_config.json
