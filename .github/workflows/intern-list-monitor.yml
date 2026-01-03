@@ -16,6 +16,10 @@ on:
   repository_dispatch:
     types: [monitor-trigger]
 
+permissions:
+  contents: read
+  actions: write
+
 jobs:
   monitor:
     runs-on: ubuntu-latest
@@ -57,18 +61,16 @@ jobs:
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }}
         script: |
-          // Schedule next run in 30 minutes
-          const delay = 30 * 60 * 1000; // 30 minutes in milliseconds
-          const nextRun = new Date(Date.now() + delay);
-          
-          // Use repository_dispatch to trigger next run
-          await github.rest.actions.createWorkflowDispatch({
-            owner: context.repo.owner,
-            repo: context.repo.repo,
-            workflow_id: 'intern-list-monitor.yml',
-            ref: 'main',
-            inputs: {}
-          });
-          
-          console.log(`✅ Next run scheduled for ${nextRun.toISOString()}`);
+          // Trigger next run via repository_dispatch
+          try {
+            await github.rest.repos.createDispatchEvent({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              event_type: 'monitor-trigger'
+            });
+            console.log('✅ Next run triggered successfully');
+          } catch (error) {
+            console.log('⚠️ Could not trigger next run automatically, will rely on cron schedule');
+            console.log('This is normal - the cron schedule will still run every 30 minutes');
+          }
 
