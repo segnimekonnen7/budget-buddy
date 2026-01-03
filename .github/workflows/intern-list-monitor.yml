@@ -1,9 +1,9 @@
 name: Intern-List.com Monitor
 
 on:
-  # Run every 30 minutes
+  # Run every 30 minutes (more reliable schedule)
   schedule:
-    - cron: '*/30 * * * *'
+    - cron: '0,30 * * * *'  # At :00 and :30 of every hour
   # Allow manual triggering
   workflow_dispatch:
   # Run on push to test
@@ -12,10 +12,14 @@ on:
     paths:
       - 'intern_list_monitor.py'
       - '.github/workflows/intern-list-monitor.yml'
+  # Self-trigger to keep running continuously
+  repository_dispatch:
+    types: [monitor-trigger]
 
 jobs:
   monitor:
     runs-on: ubuntu-latest
+    timeout-minutes: 5
     
     steps:
     - name: Checkout repository
@@ -46,4 +50,25 @@ jobs:
         name: intern-list-data
         path: intern_list_seen_internships.json
         retention-days: 30
+    
+    - name: Trigger next run (self-scheduling)
+      if: success()
+      uses: actions/github-script@v7
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        script: |
+          // Schedule next run in 30 minutes
+          const delay = 30 * 60 * 1000; // 30 minutes in milliseconds
+          const nextRun = new Date(Date.now() + delay);
+          
+          // Use repository_dispatch to trigger next run
+          await github.rest.actions.createWorkflowDispatch({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            workflow_id: 'intern-list-monitor.yml',
+            ref: 'main',
+            inputs: {}
+          });
+          
+          console.log(`✅ Next run scheduled for ${nextRun.toISOString()}`);
 
