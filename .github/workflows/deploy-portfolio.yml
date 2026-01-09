@@ -2,7 +2,7 @@ name: Deploy Portfolio to GitHub Pages
 
 on:
   push:
-    branches: ["master", "main"]
+    branches: ["main"]
     paths:
       - 'software-engineer-portfolio.html'
       - 'index.html'
@@ -19,9 +19,6 @@ concurrency:
 
 jobs:
   deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -33,7 +30,6 @@ jobs:
       - name: Prepare Portfolio
         run: |
           cp software-engineer-portfolio.html index.html
-          # Ensure software-engineer-portfolio.html is also deployed
           echo "✅ Portfolio prepared for deployment"
           ls -la *.html
       
@@ -45,11 +41,3 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
-
-
-
-
-
-
-
-
