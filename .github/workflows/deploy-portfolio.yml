@@ -33,7 +33,9 @@ jobs:
       - name: Prepare Portfolio
         run: |
           cp software-engineer-portfolio.html index.html
+          # Ensure software-engineer-portfolio.html is also deployed
           echo "✅ Portfolio prepared for deployment"
+          ls -la *.html
       
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
